@@ -10,3 +10,9 @@ Scenario: 5 hours spend
     Given An "employee" has finished an activity
     When the "employee" logs that they have spend 5 hours
     Then it should be logged that 5 hours have been spend
+
+Scenario: more timed logged than possible
+    Given An "employee" has finished an activity with total time of 2 days
+    When the "employee" logs that they have spend 17 hours
+    Then no time should be logged
+    And "ProjectLeader" should be notified of incorrect time logged
