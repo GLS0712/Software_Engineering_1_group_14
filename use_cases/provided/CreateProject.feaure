@@ -1,0 +1,13 @@
+Feature: Create new project
+    Description: 
+
+Scenario: Create project
+    Given there is an employee
+    When employee with created name: "New project"
+    Then there is a project called "New project"
+
+Scenario: Create project with the same name
+    Given there is an employee
+    And there is a project called "New project"
+    When employee tries to create project called "New project"
+    Then the error code is: "Already a project with given name"
