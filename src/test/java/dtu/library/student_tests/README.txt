@@ -1,1 +1,0 @@
-This is a directory, where you can add your own tests and step definitions.
