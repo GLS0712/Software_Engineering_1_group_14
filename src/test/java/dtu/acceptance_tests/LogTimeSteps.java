@@ -26,7 +26,7 @@ public class LogTimeSteps {
         // Write code here that turns the phrase above into concrete actions
     }
 
-    @Then("{string} should be notified of incorrect time logged")
+    @Then("the {string} should be notified of incorrect time logged")
     public void should_be_notified_of_incorrect_time_logged(String s) {
         // Write code here that turns the phrase above into concrete actions
     }

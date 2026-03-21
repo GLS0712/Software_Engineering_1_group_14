@@ -15,4 +15,4 @@ Scenario: more timed logged than possible
     Given An "employee" has finished an activity with total time of 2 days
     When the "employee" logs that they have spend 17 hours
     Then no time should be logged
-    And "ProjectLeader" should be notified of incorrect time logged
+    And the "ProjectLeader" should be notified of incorrect time logged
