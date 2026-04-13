@@ -2,6 +2,6 @@ package dtu.app;
 
 import java.util.Calendar;
 
-public class InsertName1 {
+public class Company {
     
 }
