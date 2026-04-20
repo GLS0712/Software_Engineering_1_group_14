@@ -7,8 +7,8 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>dtu</groupId>
-	<artifactId>library01</artifactId>
-	<name>library01</name>
+	<artifactId>SoftwareHuset</artifactId>
+	<name>SoftwareHuset</name>
 	<version>SNAPSHOT 0.0.1</version>
 
 	<properties>
