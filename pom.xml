@@ -7,9 +7,9 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>dtu</groupId>
-	<artifactId>library01</artifactId>
-	<name>library01</name>
-	<version>SNAPSHOT 0.0.1</version>
+	<artifactId>softwareHuset</artifactId>
+	<name>softwareHuset</name>
+	<version> 0.0.1</version>
 
 	<properties>
 		<!--  Set the Java version used by the compiler. -->
@@ -27,6 +27,24 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.0</version>
 				<configuration>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.13.0</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>21</source>
+					<target>21</target>
+				</configuration>
+			</plugin>
+		    <plugin>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-maven-plugin</artifactId>
+				<version>0.0.8</version>
+				<configuration>
+					<mainClass>dtu.app.CompanyVievwer</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -72,6 +90,16 @@
 			<artifactId>mockito-core</artifactId>
 			<version>5.15.2</version>
 			<scope>test</scope>
+		</dependency>
+			<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-controls</artifactId>
+			<version>23-ea+3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-fxml</artifactId>
+			<version>23-ea+3</version>
 		</dependency>
 
 	</dependencies>
