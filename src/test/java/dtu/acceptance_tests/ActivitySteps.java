@@ -16,11 +16,14 @@ import io.cucumber.java.en.When;
 
 public class ActivitySteps {
 
-    Company company = new Company();
+    Company company;
     Project project;
     Employee employee;
-    ErrorMessageHandler errorMessageHandler = new ErrorMessageHandler();
-
+    ErrorMessageHandler errorMessageHandler;
+    public ActivitySteps(Company company, ErrorMessageHandler errorMessageHandler){
+        this.company = company;
+        this.errorMessageHandler = errorMessageHandler;
+    }
     @Given("there is a project")
     public void thereIsAProject() {
         company.createProject("name");

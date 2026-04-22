@@ -6,7 +6,7 @@ import java.util.Calendar;
 public class Company {
     private ArrayList<Employee> employeeList = new ArrayList<>();
     private ArrayList<Project> projectList = new ArrayList<>();
-
+    private Employee loggedIn = null;
     public void hireEmployee(Employee employee) {
         employeeList.add(employee);
     }
@@ -30,6 +30,51 @@ public class Company {
             }
         }
         return null;
+    }
+
+    public void setInitailsForEmployee(Employee employeeToSet, String initials) {
+        if(employeeList.indexOf(employeeToSet)== -1){
+            throw new IllegalAccessError("Employee not part of company");
+        }
+        ArrayList<String> initalsList = new ArrayList<String>();
+        for (Employee employee : employeeList) {
+            if (employee.getInitials() != null) {
+                initalsList.add(employee.getInitials());
+            }
+
+        }
+        for (Employee employee : employeeList) {
+            if (employeeToSet.getName().equals(employee.getName()) && initalsList.contains(employeeToSet.getInitials())) {
+                throw new IllegalAccessError("Initials already exists");
+            } else if (employeeToSet.getName().equals(employee.getName())) {
+                employeeList.get(employeeList.indexOf(employee)).setInitails(initials);
+            }
+        }
+       
+    }
+
+    public Employee getEmployeeFromName(String name) {
+        for (Employee employee : employeeList) {
+            if (employee.getName().equals(name)) {
+                return employee;
+            }
+        }
+        return null;
+    }
+
+    public void login(String initials) {
+        for (Employee employee : employeeList) {
+            if (employee.getInitials().equals(initials)) {
+                this.loggedIn = employee;
+            }
+        }
+        if(this.loggedIn == null || this.loggedIn.getInitials() != initials){
+            throw new IllegalAccessError("Employee not recognized");
+        }
+    }
+
+    public Employee getLoggedIn() {
+        return loggedIn;
     }
 
 }
