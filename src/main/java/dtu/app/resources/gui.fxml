@@ -2,14 +2,17 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -46,12 +49,41 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="tab">
                      <children>
-                        <Rectangle id="projectFlowPane" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="530.0" layoutX="60.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1060.0" />
+                        <Rectangle id="projectFlowPane" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="530.0" layoutX="60.0" layoutY="60.0" stroke="#e42727" strokeType="INSIDE" strokeWidth="0.0" width="1060.0" />
                         <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Projects" />
                         <FlowPane hgap="50.0" layoutX="60.0" layoutY="60.0" prefHeight="530.0" prefWidth="1060.0" rowValignment="TOP" vgap="50.0">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
+                           <children>
+                              <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
+                                 <graphic>
+                                    <Pane prefHeight="150.0" prefWidth="150.0" styleClass="projectPane">
+                                       <children>
+                                          <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="54.0" layoutY="96.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="151.0" />
+                                          <Label layoutX="2.0" layoutY="96.0" prefHeight="22.0" prefWidth="115.0" text="Project Name">
+                                             <font>
+                                                <Font name="SansSerif Bold" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="2.0" layoutY="129.0" text="Project ID">
+                                             <font>
+                                                <Font name="SansSerif Regular" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="93.0" layoutY="129.0" prefHeight="15.0" prefWidth="60.0" text="End date">
+                                             <font>
+                                                <Font name="SansSerif Regular" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </Pane>
+                                 </graphic>
+                                 <padding>
+                                    <Insets left="-1.0" />
+                                 </padding>
+                              </Button>
+                           </children>
                         </FlowPane>
                      </children>
                   </AnchorPane>
@@ -59,7 +91,19 @@
             </Tab>
             <Tab text="Activity">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project name" />
+                        <TitledPane animated="false" collapsible="false" expanded="false" layoutX="14.0" layoutY="59.0" prefHeight="529.0" prefWidth="405.0" text="Activities">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="395.0" prefWidth="271.0" styleClass="sideMenu">
+                                 <children>
+                                    <VBox prefHeight="510.0" prefWidth="403.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </TitledPane>
+                     </children></AnchorPane>
               </content>
             </Tab>
             <Tab text="Time Log">
@@ -106,7 +150,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="menuButton" text="Settings" textAlignment="CENTER" textFill="#e384ca" textOverrun="CLIP">
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="menuButton" text="Settings" textAlignment="CENTER" textFill="#e384ca" textOverrun="CLIP" visible="false">
                <graphic>
                   <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
                      <image>
