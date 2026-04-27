@@ -171,3 +171,11 @@
         -fx-background-color: -fx-background-middle;
 
 }
+.inputButtons{
+-fx-background-color: -fx-background-light;
+        -fx-background-radius: 5;
+        -fx-cursor: hand;
+}
+.inputButtons:hover{
+        -fx-background-color: -fx-background-middle;    
+}
