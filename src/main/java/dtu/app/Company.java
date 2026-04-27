@@ -32,4 +32,14 @@ public class Company {
         return null;
     }
 
+
+    public Employee getEmployee(String name) {
+        for (Employee employee : employeeList) {
+            if (employee.getName().equals(name)) {
+                return employee;
+            }
+        }
+        return null;
+    }
+
 }
