@@ -134,3 +134,40 @@
         -fx-background-color: -fx-company-Color-600;
         -fx-background-radius: 15;
 }
+.ActivitySelect{
+        -fx-background-color: -fx-background-light;
+        -fx-background-radius: 15;
+        -fx-cursor: hand;
+
+}
+.ActivitySelect:hover{
+        -fx-background-color: -fx-background-middle;
+
+}
+.seperator{
+        -fx-stroke: -fx-background-dark ;
+}
+.closeButton{
+        -fx-background-color: -fx-background-light;
+        -fx-background-radius: 15;
+        -fx-cursor: hand;
+}
+.closeButton:hover{
+        -fx-background-color: #ff9c9c;
+
+}
+#ViewAvail{
+        -fx-background-color: -fx-background-light;
+        -fx-background-radius: 15;
+        -fx-cursor: hand;
+}
+#ViewAvail{
+        -fx-background-color: -fx-background-light;
+        -fx-background-radius: 15;
+        -fx-cursor: hand;
+        
+}
+#ViewAvail:hover{
+        -fx-background-color: -fx-background-middle;
+
+}

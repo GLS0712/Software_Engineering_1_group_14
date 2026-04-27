@@ -3,8 +3,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
@@ -14,6 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -22,6 +26,99 @@
    <children>
       <TabPane accessibleRole="COMBO_BOX" focusTraversable="false" layoutX="102.0" layoutY="68.0" prefHeight="653.0" prefWidth="1178.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
+            <Tab text="Employee">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="18.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Employee name" />
+                        <Text layoutX="18.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Initials" />
+                        <TableView layoutX="71.0" layoutY="99.0" prefHeight="479.0" prefWidth="974.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="Monday" />
+                            <TableColumn prefWidth="196.8000030517578" text="Tuesday" />
+                              <TableColumn prefWidth="238.93331909179688" text="Thursday" />
+                              <TableColumn prefWidth="370.9333801269531" text="Friday" />
+                              <TableColumn prefWidth="238.93331909179688" text="Thursday" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Employees">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="31.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Employee availability" />
+                        <TextField layoutX="31.0" layoutY="86.0" promptText="Search..." />
+                        <TitledPane animated="false" collapsible="false" layoutX="30.0" layoutY="114.0" prefHeight="476.0" prefWidth="556.0" text="Activities">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="554.0">
+                                 <children>
+                                    <ScrollPane hbarPolicy="NEVER" prefHeight="454.0" prefWidth="546.0">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="691.0" prefWidth="542.0">
+                                             <children>
+                                                <VBox prefHeight="490.0" prefWidth="447.0">
+                                                   <children>
+                                                      <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
+                                                         <graphic>
+                                                            <Pane maxHeight="60.0" maxWidth="530.0" minHeight="60.0" minWidth="530.0" prefHeight="60.0" prefWidth="530.0" styleClass="ActivitySelect">
+                                                               <children>
+                                                                  <Label layoutX="15.0" layoutY="17.0" prefHeight="22.0" prefWidth="115.0" text="EmployeeName">
+                                                                     <font>
+                                                                        <Font name="SansSerif Bold" size="15.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <Label layoutX="15.0" layoutY="39.0" text="Inittials">
+                                                                     <font>
+                                                                        <Font name="SansSerif Regular" size="12.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <Label layoutX="444.0" layoutY="19.0" prefHeight="15.0" prefWidth="60.0" text="Status">
+                                                                     <font>
+                                                                        <Font name="SansSerif Regular" size="12.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <ImageView fitHeight="38.0" fitWidth="39.0" layoutX="485.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                                                                     <image>
+                                                                        <Image url="@img/home.png" />
+                                                                     </image>
+                                                                  </ImageView>
+                                                               </children>
+                                                            </Pane>
+                                                         </graphic>
+                                                         <padding>
+                                                            <Insets left="-1.0" />
+                                                         </padding>
+                                                      </Button>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </ScrollPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </TitledPane>
+                        <Pane layoutX="606.0" layoutY="13.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <Text layoutX="192.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Activity name" textAlignment="CENTER" />
+                              <Text layoutX="199.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Initials" textAlignment="CENTER" wrappingWidth="160.40008544921875" />
+                              <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="207.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@img/profile.png" />
+                                 </image>
+                              </ImageView>
+                              <Button id="ViewAvail" layoutX="206.0" layoutY="338.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="152.0" text="View availability" />
+                           </children>
+                        </Pane>
+                        <Button layoutX="510.0" layoutY="85.0" mnemonicParsing="false" text="Show me" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
             <Tab text="Login">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="tab">
@@ -38,11 +135,6 @@
                         <TextField layoutX="424.0" layoutY="238.0" prefHeight="23.0" prefWidth="200.0" promptText="Intials..." />
                      </children>
                   </AnchorPane>
-              </content>
-            </Tab>
-            <Tab text="Home">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
             </Tab>
             <Tab text="Projects">
@@ -94,15 +186,137 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project name" />
-                        <TitledPane animated="false" collapsible="false" expanded="false" layoutX="14.0" layoutY="59.0" prefHeight="529.0" prefWidth="405.0" text="Activities">
+                        <Text layoutX="14.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Project Id" wrappingWidth="76.19999999999999" />
+                        <TitledPane animated="false" collapsible="false" layoutX="15.0" layoutY="90.0" prefHeight="514.0" prefWidth="556.0" text="Activities">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="395.0" prefWidth="271.0" styleClass="sideMenu">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <VBox prefHeight="510.0" prefWidth="403.0" />
+                                    <ScrollPane hbarPolicy="NEVER" prefHeight="490.0" prefWidth="546.0">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="691.0" prefWidth="542.0">
+                                             <children>
+                                                <VBox prefHeight="490.0" prefWidth="548.0">
+                                                   <children>
+                                                      <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
+                                                         <graphic>
+                                                            <Pane maxHeight="60.0" maxWidth="530.0" minHeight="60.0" minWidth="530.0" prefHeight="60.0" prefWidth="530.0" styleClass="ActivitySelect">
+                                                               <children>
+                                                                  <Label layoutX="15.0" layoutY="17.0" prefHeight="22.0" prefWidth="115.0" text="ActivityName">
+                                                                     <font>
+                                                                        <Font name="SansSerif Bold" size="15.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <Label layoutX="15.0" layoutY="39.0" text="Start-End Date">
+                                                                     <font>
+                                                                        <Font name="SansSerif Regular" size="12.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <Label layoutX="444.0" layoutY="19.0" prefHeight="15.0" prefWidth="60.0" text="Status">
+                                                                     <font>
+                                                                        <Font name="SansSerif Regular" size="12.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="495.0" layoutY="18.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                                                               </children>
+                                                            </Pane>
+                                                         </graphic>
+                                                         <padding>
+                                                            <Insets left="-1.0" />
+                                                         </padding>
+                                                      </Button>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </ScrollPane>
                                  </children>
                               </AnchorPane>
                           </content>
                         </TitledPane>
+                        <Text layoutX="475.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date:" />
+                        <Text layoutX="478.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="538.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                        <Label layoutX="484.0" layoutY="22.0" prefHeight="15.0" prefWidth="45.0" text="Status">
+                           <font>
+                              <Font name="SansSerif Regular" size="12.0" />
+                           </font>
+                        </Label>
+                        <Line endX="-164.7333984375" endY="547.86669921875" layoutX="753.0" layoutY="61.0" startX="-164.7333984375" startY="-28.133296966552734" styleClass="seperator" />
+                        <Pane layoutX="595.0" layoutY="9.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <TitledPane animated="false" collapsible="false" layoutX="19.0" layoutY="135.0" prefHeight="462.0" prefWidth="547.0" text="Employees">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <ScrollPane hbarPolicy="NEVER" prefHeight="490.0" prefWidth="546.0">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="691.0" prefWidth="542.0">
+                                                   <children>
+                                                      <VBox prefHeight="490.0" prefWidth="548.0">
+                                                         <children>
+                                                            <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
+                                                               <graphic>
+                                                                  <Pane maxHeight="60.0" maxWidth="530.0" minHeight="60.0" minWidth="530.0" prefHeight="60.0" prefWidth="530.0" styleClass="ActivitySelect">
+                                                                     <children>
+                                                                        <Label layoutX="15.0" layoutY="17.0" prefHeight="22.0" prefWidth="115.0" text="EmployeeName">
+                                                                           <font>
+                                                                              <Font name="SansSerif Bold" size="15.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                        <Label layoutX="15.0" layoutY="39.0" text="Initials">
+                                                                           <font>
+                                                                              <Font name="SansSerif Regular" size="12.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                        <Label layoutX="399.0" layoutY="20.0" prefHeight="15.0" prefWidth="60.0" text="Status">
+                                                                           <font>
+                                                                              <Font name="SansSerif Regular" size="12.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="450.0" layoutY="19.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                                                                        <Button layoutX="480.0" layoutY="17.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="29.0" styleClass="closeButton">
+                                                                           <graphic>
+                                                                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                                                 <image>
+                                                                                    <Image url="@img/close.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                           </graphic>
+                                                                        </Button>
+                                                                     </children>
+                                                                  </Pane>
+                                                               </graphic>
+                                                               <padding>
+                                                                  <Insets left="-1.0" />
+                                                               </padding>
+                                                            </Button>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </AnchorPane>
+                                            </content>
+                                          </ScrollPane>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </TitledPane>
+                              <Text layoutX="473.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date:" />
+                              <Text layoutX="476.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="536.0" layoutY="3.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                              <Label layoutX="482.0" layoutY="5.0" prefHeight="15.0" prefWidth="45.0" text="Status">
+                                 <font>
+                                    <Font name="SansSerif Regular" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Text layoutX="18.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Activity name" />
+                              <Text layoutX="210.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Activity ID" wrappingWidth="76.19999999999999" />
+                              <Text layoutX="20.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Description" wrappingWidth="410.0" />
+                              <TextField layoutX="19.0" layoutY="107.0" prefHeight="23.0" prefWidth="383.0" promptText="Employee initals..." />
+                              <Button layoutX="445.0" layoutY="108.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="105.0" text="Add employee" />
+                           </children>
+                        </Pane>
+                        <Text layoutX="12.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project Leader: " />
                      </children></AnchorPane>
               </content>
             </Tab>
@@ -111,27 +325,10 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
             </Tab>
-            <Tab text="Settings">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
          </tabs>
       </TabPane>
       <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="51.0" styleClass="sideMenu">
          <children>
-            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="menuButton" text="Home" textAlignment="CENTER" textFill="#e384ca" textOverrun="CLIP">
-               <graphic>
-                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
-                     <image>
-                        <Image url="@img/home.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font name="SansSerif Regular" size="12.0" />
-               </font>
-            </Button>
             <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="menuButton" text="Projects" textAlignment="CENTER" textFill="#e384ca" textOverrun="CLIP">
                <graphic>
                   <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
@@ -146,6 +343,15 @@
                   <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
                      <image>
                         <Image url="@img/calender.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="menuButton" text="Employees" textAlignment="CENTER" textFill="#e384ca" textOverrun="CLIP">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
+                     <image>
+                        <Image url="@img/Employees.png" />
                      </image>
                   </ImageView>
                </graphic>
