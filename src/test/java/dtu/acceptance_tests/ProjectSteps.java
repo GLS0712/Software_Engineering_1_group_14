@@ -15,8 +15,12 @@ import io.cucumber.java.en.When;
 
 public class ProjectSteps {
 
-    Company company = new Company();
+    Company company;
     Employee employee;
+
+    public ProjectSteps(Company company){
+        this.company = company;
+    }
 
     @When("employee creates project with {string} and {string}")
     public void employeeCreatesProjectWithAnd(String string1, String string2) {

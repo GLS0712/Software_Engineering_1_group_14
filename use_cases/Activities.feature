@@ -20,3 +20,17 @@ Feature: activity
     And the projectLeader is not "John doe"
     When "John doe" creates activity with "name" and "description"
     Then the error message is "you are not projectLeader"
+
+  Scenario: get activity from name
+    Given there is a project
+    And an employee "John doe" is assigned to project
+    And there is an activity with name "chungus"
+    When an employee "John doe" searches for the activity "chungus"
+    Then the activity "chungus" is found
+
+  Scenario: get activity from name that doesn't exist
+    Given there is a project
+    And an employee "John doe" is assigned to project
+    And there is not an activity with name "chungus"
+    When an employee "John doe" searches for the activity "chungus"
+    Then the activity "chungus" is Not found
