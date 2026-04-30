@@ -1,9 +1,8 @@
 package dtu.app;
 import javafx.application.Application;
-import javafx.event.*;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -36,6 +35,19 @@ public class CompanyViewer extends Application{
         }
     }
     public void update() {
+    
+    }
+    public void menuSwitchToEmployees(TabPane pages){
+        pages.getSelectionModel().select(3);
+    }
+    public void menuSwitchToLogin(TabPane pages){
+        pages.getSelectionModel().select(0);
+    }
+    public void menuSwitchToProjects(TabPane pages){
+        pages.getSelectionModel().select(4);
+    }
+    public void menuSwitchToTimeLog(TabPane pages){
+        pages.getSelectionModel().select(1);
     }
 
     public static void main(String[] args) {

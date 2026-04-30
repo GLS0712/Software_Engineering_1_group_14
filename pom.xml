@@ -9,7 +9,7 @@
 	<groupId>dtu</groupId>
 	<artifactId>softwareHuset</artifactId>
 	<name>softwareHuset</name>
-	<version> 0.0.1</version>
+	<version>0.0.1</version>
 
 	<properties>
 		<!--  Set the Java version used by the compiler. -->
@@ -44,7 +44,7 @@
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>0.0.8</version>
 				<configuration>
-					<mainClass>dtu.app.CompanyVievwer</mainClass>
+					<mainClass>dtu.app.CompanyViewer</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -94,12 +94,12 @@
 			<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-controls</artifactId>
-			<version>23-ea+3</version>
+			<version>21.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-fxml</artifactId>
-			<version>23-ea+3</version>
+			<version>21.0.4</version>
 		</dependency>
 
 	</dependencies>
