@@ -7,13 +7,12 @@ public class Employee {
 
     public Employee(String name) {
         this.name = name;
-        makeInitial();
     }
-
-    private void makeInitial() {
-
+    public Employee(String name, String initials) {
+        this.name = name;
+        this.initials = initials;
     }
-
+  
     public String getName() {
         return this.name;
     }
@@ -24,6 +23,13 @@ public class Employee {
 
     public void setCalendar(Employee_Calendar calendar) {
         this.calendar = calendar;
+      
+    public String getInitials() {
+        return this.initials;
+    }
+
+    public void setInitails(String initials) {
+        this.initials = initials;
     }
 
 }
