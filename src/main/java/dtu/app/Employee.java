@@ -23,6 +23,7 @@ public class Employee {
 
     public void setCalendar(Employee_Calendar calendar) {
         this.calendar = calendar;
+    }
       
     public String getInitials() {
         return this.initials;

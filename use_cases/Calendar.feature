@@ -95,7 +95,6 @@ Feature: Employee calendar
     Then "John doe" has 4 total calendar entries from "2026-04-01" to "2026-04-05"
 
 
-
 #!SECTION edit or removal of existing entries
   Scenario: remove activity
     Given the company exists
@@ -183,3 +182,47 @@ Feature: Employee calendar
     And "John doe" registers activity "Design meeting" on "2026-05-10"
     When "John doe" changes activity "NonExistent" to "Stand-up meeting" on "2026-05-10"
     Then the first calendar entry for "John doe" on "2026-05-10" has description "Design meeting"
+
+
+#!SECTION multi-employee calendar access
+  Scenario: Employee can view another employee's calendar
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    And an employee "Jane smith" is hired
+    And "Jane smith" gets an personal calendar
+    And "John doe" registers activity "Design meeting" on "2026-05-10"
+    When "Jane smith" views the calendar of "John doe" on "2026-05-10"
+    Then "Jane smith" sees 1 calendar entries on the calendar of "John doe" on "2026-05-10"
+
+  Scenario: Employee cannot register activity on another employee's calendar
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    And an employee "Jane smith" is hired
+    And "Jane smith" gets an personal calendar
+    When "Jane smith" tries to register activity "Design meeting" on "2026-05-10" in the calendar of "John doe"
+    Then the message "You cannot modify another employee's calendar"
+    And "John doe" has 0 calendar entries on "2026-05-10"
+
+  Scenario: Employee cannot remove an activity from another employee's calendar
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    And an employee "Jane smith" is hired
+    And "Jane smith" gets an personal calendar
+    And "John doe" registers activity "Design meeting" on "2026-05-10"
+    When "Jane smith" tries to remove activity "Design meeting" on "2026-05-10" from the calendar of "John doe"
+    Then the message "You cannot modify another employee's calendar"
+    And "John doe" has 1 calendar entries on "2026-05-10"
+
+  Scenario: Employee cannot change an activity on another employee's calendar
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    And an employee "Jane smith" is hired
+    And "Jane smith" gets an personal calendar
+    And "John doe" registers activity "Design meeting" on "2026-05-10"
+    When "Jane smith" tries to change activity "Design meeting" to "Stand-up" on "2026-05-10" in the calendar of "John doe"
+    Then the message "You cannot modify another employee's calendar"
+    And the first calendar entry for "John doe" on "2026-05-10" has description "Design meeting"
