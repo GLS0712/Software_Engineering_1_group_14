@@ -21,10 +21,14 @@ public class CalendarSteps {
     private Employee employee;
     private Employee_Calendar calendar;
     private ErrorMessageHandler errorMessageHandler;
+    // Nullable: null = no decision yet, false = rejected, true = accepted
     Boolean accept;
+    // Held when registerActivity throws a "schedule full" exception so the
+    // scenario can decide whether to force-register or drop the activity
     private String pendingActivity;
     private LocalDate pendingDate;
 
+    // company and errorMessageHandler are injected by Cucumber's PicoContainer
     public CalendarSteps(Company company, ErrorMessageHandler errorMessageHandler) {
         this.company = company;
         this.errorMessageHandler = errorMessageHandler;
@@ -52,6 +56,8 @@ public class CalendarSteps {
         assertNotNull(company.getEmployee(string).getCalendar());
     }
 
+    // On schedule-full, stores the activity as pending so a later "accepts" step
+    // can decide whether to force-register it via forceRegisterActivity
     @When("{string} registers activity {string} on {string}")
     public void registersActivityOn(String employeeName, String activity, String date) {
         try {
@@ -141,6 +147,8 @@ public class CalendarSteps {
         assertEquals(message, errorMessageHandler.getErrorMessage());
     }
 
+    // Uses the stored pending state, not the step's own parameters, because the
+    // date may differ from what was passed to the original "registers activity" step
     @Then("then {string} registers activity {string} on {string}")
     public void then_registers_activity_on(String employeeName, String activity, String date) {
         if (Boolean.TRUE.equals(accept) && pendingActivity != null) {
@@ -150,6 +158,7 @@ public class CalendarSteps {
         }
     }
 
+    // Uses forceRegisterActivity so test setup is not blocked by the 10-entry limit
     @Given("{string} has {int} calendar entries on {string} already")
     public void has_activities_on(String employeeName, int count, String date) {
         for (int i = 0; i < count; i++) {
@@ -161,5 +170,35 @@ public class CalendarSteps {
     public void has_total_calendar_entries_from_to(String employeeName, int expectedCount, String startDate, String endDate) {
         List<Employee_Calendar.CalendarEntry> entries = calendar.getEntries(LocalDate.parse(startDate), LocalDate.parse(endDate));
         assertEquals(expectedCount, entries.size());
+    }
+
+    @When("{string} removes a calendar entry on {string}")
+    public void removes_a_calendar_entry_on(String employeeName, String date) {
+        calendar.removeActivity(date);
+    }
+
+    @When("{string} removes all calendar entries on {string}")
+    public void removes_all_calendar_entries_on(String employeeName, String date) {
+        calendar.removeAllActivities(date);
+    }
+
+    @When("{string} removes activity {string} on {string}")
+    public void removes_activity_on(String employeeName, String activity, String date) {
+        calendar.removeActivity(LocalDate.parse(date), activity);
+    }
+
+    @When("{string} removes activity {string} from {string} to {string}")
+    public void removes_activity_from_to(String employeeName, String activity, String startDate, String endDate) {
+        calendar.removeActivity(LocalDate.parse(startDate), LocalDate.parse(endDate), activity);
+    }
+
+    @When("{string} removes all activities from {string} to {string}")
+    public void removes_all_activities_from_to(String employeeName, String startDate, String endDate) {
+        calendar.removeAllActivities(LocalDate.parse(startDate), LocalDate.parse(endDate));
+    }
+
+    @When("{string} changes activity {string} to {string} on {string}")
+    public void changes_activity_to_on(String employeeName, String oldActivity, String newActivity, String date) {
+        calendar.changeActivity(LocalDate.parse(date), oldActivity, newActivity);
     }
 }

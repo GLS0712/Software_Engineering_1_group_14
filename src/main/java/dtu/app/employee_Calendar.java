@@ -9,10 +9,11 @@ public class Employee_Calendar {
     String id;
     Calendar earliest_Date_In_Calendar;
 
-    // Unified calendar: each date maps to a list of CalendarEntry (activity or time
-    // off)
+    // Unified calendar: each date maps to a list of CalendarEntry (activity or time off)
     private Map<LocalDate, List<CalendarEntry>> calendar = new HashMap<>();
 
+    // Pre-populates 90 days so getEntries() always returns an empty list (not null)
+    // for dates within that window, even before any activity is registered
     public Employee_Calendar(String Employee) {
         this.id = Employee;
         LocalDate today = LocalDate.now();
@@ -22,7 +23,8 @@ public class Employee_Calendar {
         }
     }
 
-    // Register an activity on a specific date
+    // Enforces a soft cap of 10 activities per day; throws so the caller can
+    // prompt the user for confirmation before calling forceRegisterActivity
     public void registerActivity(LocalDate date, String activity) {
         if (getEntries(date).size() > 9) {
             throw new IllegalArgumentException("are you sure this activity should be added, schedule is full");
@@ -38,7 +40,7 @@ public class Employee_Calendar {
                 .add(new CalendarEntry(CalendarEntryType.ACTIVITY, activity));
     }
 
-    // Register an activity over multible dates
+    // endDate is exclusive: a range of 2026-01-01 to 2026-01-03 covers only 01 and 02
     public void registerActivity(LocalDate startDate, LocalDate endDate, String activity) {
         int periode = (int) startDate.until(endDate, ChronoUnit.DAYS);
         for (int i = 0; i < periode; i++) {
@@ -65,6 +67,55 @@ public class Employee_Calendar {
             entries.addAll(calendar.getOrDefault(startDate.plusDays(i), Collections.emptyList()));
         }
         return entries;
+    }
+
+    // Removes the most-recently-added entry on that date (LIFO), not by name
+    public void removeActivity(String date) {
+        List<CalendarEntry> entries = calendar.get(LocalDate.parse(date));
+        if (entries != null) {
+            entries.removeLast();
+        }
+    }
+
+    public void removeAllActivities(String date) {
+        List<CalendarEntry> entries = calendar.get(LocalDate.parse(date));
+        if (entries != null) {
+            entries.clear();
+        }
+    }
+
+    public void removeActivity(LocalDate date, String activity) {
+        List<CalendarEntry> entries = calendar.get(date);
+        if (entries != null) {
+            entries.removeIf(e -> e.getDescription().equals(activity));
+        }
+    }
+
+    public void removeActivity(LocalDate startDate, LocalDate endDate, String activity) {
+        int periode = (int) startDate.until(endDate, ChronoUnit.DAYS);
+        for (int i = 0; i < periode; i++) {
+            removeActivity(startDate.plusDays(i), activity);
+        }
+    }
+
+    // Only replaces the first matching entry; silently does nothing if not found
+    public void changeActivity(LocalDate date, String oldActivity, String newActivity) {
+        List<CalendarEntry> entries = calendar.get(date);
+        if (entries != null) {
+            for (int i = 0; i < entries.size(); i++) {
+                if (entries.get(i).getDescription().equals(oldActivity)) {
+                    entries.set(i, new CalendarEntry(entries.get(i).getType(), newActivity));
+                    return;
+                }
+            }
+        }
+    }
+
+    public void removeAllActivities(LocalDate startDate, LocalDate endDate) {
+        int periode = (int) startDate.until(endDate, ChronoUnit.DAYS);
+        for (int i = 0; i < periode; i++) {
+            removeAllActivities(startDate.plusDays(i).toString());
+        }
     }
 
     // Helper class for calendar entries

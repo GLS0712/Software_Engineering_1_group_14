@@ -5,6 +5,8 @@ Feature: Employee calendar
     When an employee "John doe" is hired
     Then "John doe" gets an personal calendar
 
+
+#!SECTION registration of activities or time off
   Scenario: Register activity in employee calendar
     Given the company exists
     And an employee "John doe" is hired
@@ -91,3 +93,93 @@ Feature: Employee calendar
     And "John doe" gets an personal calendar
     When "John doe" registers activity "Vacation" from "2026-04-01" to "2026-04-05"
     Then "John doe" has 4 total calendar entries from "2026-04-01" to "2026-04-05"
+
+
+
+#!SECTION edit or removal of existing entries
+  Scenario: remove activity
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    And "John doe" has 1 calendar entries on "2026-05-10" already
+    When "John doe" removes a calendar entry on "2026-05-10"
+    Then "John doe" has 0 calendar entries on "2026-05-10"
+
+  Scenario: remove all activities
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    And "John doe" has 3 calendar entries on "2026-05-10" already
+    When "John doe" removes all calendar entries on "2026-05-10"
+    Then "John doe" has 0 calendar entries on "2026-05-10"
+
+  Scenario: remove specific activity
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    And "John doe" registers activity "Design meeting" on "2026-05-10"
+    And "John doe" registers activity "Fixing code" on "2026-05-10"
+    When "John doe" removes activity "Design meeting" on "2026-05-10"
+    Then "John doe" has 1 calendar entries on "2026-05-10"
+    And the first calendar entry for "John doe" on "2026-05-10" has description "Fixing code"
+
+  Scenario: remove activities over periode
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    And "John doe" registers activity "Fixing code" from "2026-05-10" to "2026-05-16"
+    When "John doe" removes activity "Fixing code" from "2026-05-10" to "2026-05-16"
+    Then "John doe" has 0 total calendar entries from "2026-05-10" to "2026-05-16"
+
+  Scenario: remove all activities over periode
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    And "John doe" registers activity "Fixing code" from "2026-05-10" to "2026-05-16"
+    And "John doe" registers activity "Design meeting" from "2026-05-10" to "2026-05-16"
+    When "John doe" removes all activities from "2026-05-10" to "2026-05-16"
+    Then "John doe" has 0 total calendar entries from "2026-05-10" to "2026-05-16"
+
+  Scenario: change specifik activity
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    And "John doe" registers activity "Design meeting" on "2026-05-10"
+    When "John doe" changes activity "Design meeting" to "Stand-up meeting" on "2026-05-10"
+    Then the first calendar entry for "John doe" on "2026-05-10" has description "Stand-up meeting"
+
+  Scenario: remove calendar entry on a date not in the calendar does nothing
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    When "John doe" removes a calendar entry on "2025-01-01"
+    Then "John doe" has 0 calendar entries on "2025-01-01"
+
+  Scenario: remove all calendar entries on a date not in the calendar does nothing
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    When "John doe" removes all calendar entries on "2025-01-01"
+    Then "John doe" has 0 calendar entries on "2025-01-01"
+
+  Scenario: remove specific activity on a date not in the calendar does nothing
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    When "John doe" removes activity "Design meeting" on "2025-01-01"
+    Then "John doe" has 0 calendar entries on "2025-01-01"
+
+  Scenario: change activity on a date not in the calendar does nothing
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    When "John doe" changes activity "Design meeting" to "Stand-up meeting" on "2025-01-01"
+    Then "John doe" has 0 calendar entries on "2025-01-01"
+
+  Scenario: change activity that does not exist on that date does nothing
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    And "John doe" registers activity "Design meeting" on "2026-05-10"
+    When "John doe" changes activity "NonExistent" to "Stand-up meeting" on "2026-05-10"
+    Then the first calendar entry for "John doe" on "2026-05-10" has description "Design meeting"
