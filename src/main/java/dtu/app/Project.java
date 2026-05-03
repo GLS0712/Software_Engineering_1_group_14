@@ -1,5 +1,7 @@
 package dtu.app;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class Project {
@@ -62,6 +64,32 @@ public class Project {
         }
 
         return null;
+    }
+
+    public void createActivity(Employee employee, String name, String description, LocalDate startDate, LocalDate endDate) throws IllegalAccessError {
+        if (projectLeader == null || this.projectLeader.getName().equals(employee.getName())) {
+            this.activityList.add(new Activity(name, description, startDate, endDate));
+        } else {
+            throw new IllegalAccessError("you are not projectLeader");
+        }
+    }
+
+    public void addEmployeeToActivity(Employee requester, Employee employeeToAdd, String activityName) {
+        if (projectLeader != null && !projectLeader.getName().equals(requester.getName())) {
+            throw new IllegalAccessError("you are not projectLeader");
+        }
+        Activity activity = getActivityFromName(activityName);
+        Employee_Calendar cal = employeeToAdd.getCalendar();
+        if (cal != null && activity.getStartDate() != null && activity.getEndDate() != null) {
+            int days = (int) activity.getStartDate().until(activity.getEndDate(), ChronoUnit.DAYS);
+            for (int i = 0; i < days; i++) {
+                LocalDate day = activity.getStartDate().plusDays(i);
+                if (cal.getEntries(day).size() >= 10) {
+                    throw new IllegalArgumentException("Employee is not available during the activity period");
+                }
+            }
+        }
+        activity.addEmployee(employeeToAdd);
     }
 
     public void setProjectLeader(Employee employee) {
