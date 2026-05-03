@@ -55,7 +55,7 @@ Feature: Employee calendar
     Given the company exists
     And an employee "John doe" is hired
     And "John doe" gets an personal calendar
-    And "John doe" has 10 calendar entries on "2026-05-08"
+    And "John doe" has 10 calendar entries on "2026-05-08" already
     When "John doe" registers activity "Fixing code" on "2026-05-08"
     Then the message "are you sure this activity should be added, schedule is full"
     When "John doe" accepts
@@ -65,8 +65,29 @@ Feature: Employee calendar
     Given the company exists
     And an employee "John doe" is hired
     And "John doe" gets an personal calendar
-    And "John doe" has 10 calendar entries on "2026-05-09"
+    And "John doe" has 10 calendar entries on "2026-05-09" already
     When "John doe" registers activity "Fixing code" on "2026-05-09"
     Then the message "are you sure this activity should be added, schedule is full"
     When "John doe" does not accept
     Then "John doe" does not register activity "Fixing code" on "2026-05-09"
+
+  Scenario: Get total entries over a date range
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    When "John doe" registers activity "Fixing code" from "2026-05-10" to "2026-05-16"
+    Then "John doe" has 6 total calendar entries from "2026-05-10" to "2026-05-16"
+
+  Scenario: Force register activity on a date outside the pre-initialised range
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    And "John doe" has 1 calendar entries on "2026-04-01" already
+    Then "John doe" has 1 calendar entries on "2026-04-01"
+
+  Scenario: Register activity over a date range outside the pre-initialised range
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    When "John doe" registers activity "Vacation" from "2026-04-01" to "2026-04-05"
+    Then "John doe" has 4 total calendar entries from "2026-04-01" to "2026-04-05"

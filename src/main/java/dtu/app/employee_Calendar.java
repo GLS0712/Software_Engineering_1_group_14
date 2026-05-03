@@ -2,9 +2,6 @@ package dtu.app;
 
 import java.util.*;
 
-import dtu.app.Employee_Calendar.CalendarEntry;
-import dtu.app.Employee_Calendar.CalendarEntryType;
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 

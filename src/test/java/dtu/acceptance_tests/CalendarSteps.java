@@ -150,10 +150,16 @@ public class CalendarSteps {
         }
     }
 
-    @Given("{string} has {int} activities on {string}")
+    @Given("{string} has {int} calendar entries on {string} already")
     public void has_activities_on(String employeeName, int count, String date) {
         for (int i = 0; i < count; i++) {
             calendar.forceRegisterActivity(LocalDate.parse(date), "activity");
         }
+    }
+
+    @Then("{string} has {int} total calendar entries from {string} to {string}")
+    public void has_total_calendar_entries_from_to(String employeeName, int expectedCount, String startDate, String endDate) {
+        List<Employee_Calendar.CalendarEntry> entries = calendar.getEntries(LocalDate.parse(startDate), LocalDate.parse(endDate));
+        assertEquals(expectedCount, entries.size());
     }
 }

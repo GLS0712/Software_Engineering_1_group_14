@@ -1,7 +1,5 @@
 package dtu.app;
 
-import java.util.Calendar;
-
 public class Employee {
     private String initials;
     private String name;

@@ -1,7 +1,6 @@
 package dtu.app;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class Company {
     private ArrayList<Employee> employeeList = new ArrayList<>();
