@@ -68,10 +68,28 @@ public class Project {
 
     public void createActivity(Employee employee, String name, String description, LocalDate startDate, LocalDate endDate) throws IllegalAccessError {
         if (projectLeader == null || this.projectLeader.getName().equals(employee.getName())) {
-            this.activityList.add(new Activity(name, description, startDate, endDate));
+            LocalDate effectiveEnd = capToProjectEndDate(endDate);
+            this.activityList.add(new Activity(name, description, startDate, effectiveEnd));
         } else {
             throw new IllegalAccessError("you are not projectLeader");
         }
+    }
+
+    public void changeActivityEndDate(Employee employee, String activityName, LocalDate newEndDate) throws IllegalAccessError {
+        if (projectLeader != null && !this.projectLeader.getName().equals(employee.getName())) {
+            throw new IllegalAccessError("you are not projectLeader");
+        }
+        getActivityFromName(activityName).setEndDate(capToProjectEndDate(newEndDate));
+    }
+
+    private LocalDate capToProjectEndDate(LocalDate date) {
+        if (this.endDate != null && !this.endDate.isEmpty()) {
+            LocalDate projectEnd = LocalDate.parse(this.endDate);
+            if (date.isAfter(projectEnd)) {
+                return projectEnd;
+            }
+        }
+        return date;
     }
 
     public void addEmployeeToActivity(Employee requester, Employee employeeToAdd, String activityName) {
@@ -94,5 +112,15 @@ public class Project {
 
     public void setProjectLeader(Employee employee) {
         this.projectLeader = employee;
+    }
+
+    public void setEndDate(String newEndDate) {
+        this.endDate = newEndDate;
+        LocalDate newEnd = LocalDate.parse(newEndDate);
+        for (Activity activity : activityList) {
+            if (activity.getEndDate() != null && activity.getEndDate().isAfter(newEnd)) {
+                activity.setEndDate(newEnd);
+            }
+        }
     }
 }

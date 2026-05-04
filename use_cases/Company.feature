@@ -18,3 +18,31 @@ Feature: Create project
         And "John doe" is assigned as projectLeader
         Then there is a project named "Make McDonalds ui" with an end date "2026-12-01"
         And the project named "Make McDonalds ui" has the projectLeader "John doe"
+
+
+#!SECTION updating all activities endDate in project when the project endDate is reduced
+  Scenario: Activity end date is capped when project end date is reduced below it
+    Given there is a project with end date "2026-12-01"
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And there is an activity "Design meeting" from "2026-06-01" to "2026-11-30"
+    When the project end date is reduced to "2026-10-01"
+    Then the activity "Design meeting" has end date "2026-10-01"
+
+  Scenario: Activity end date is unchanged when it is within the new project end date
+    Given there is a project with end date "2026-12-01"
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And there is an activity "Design meeting" from "2026-06-01" to "2026-08-01"
+    When the project end date is reduced to "2026-10-01"
+    Then the activity "Design meeting" has end date "2026-08-01"
+
+  Scenario: Only activities exceeding the new end date are capped
+    Given there is a project with end date "2026-12-01"
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And there is an activity "Early meeting" from "2026-06-01" to "2026-08-01"
+    And there is an activity "Late meeting" from "2026-09-01" to "2026-11-30"
+    When the project end date is reduced to "2026-10-01"
+    Then the activity "Early meeting" has end date "2026-08-01"
+    And the activity "Late meeting" has end date "2026-10-01"
