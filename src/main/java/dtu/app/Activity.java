@@ -43,6 +43,10 @@ public class Activity {
         employees.add(employee);
     }
 
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
     public List<Employee> getEmployees() {
         return employees;
     }
