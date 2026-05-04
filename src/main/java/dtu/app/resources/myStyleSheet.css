@@ -177,5 +177,5 @@
         -fx-cursor: hand;
 }
 .inputButtons:hover{
-        -fx-background-color: -fx-background-middle;    
+        -fx-background-color: -fx-background-middle;
 }

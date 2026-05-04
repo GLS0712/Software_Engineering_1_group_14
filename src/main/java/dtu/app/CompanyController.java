@@ -39,8 +39,8 @@ public class CompanyController {
 
     @FXML
     void menuSwitchToTimeLog(ActionEvent event) {
-        theView.menuSwitchToTimeLog(this.pages);    
-    }  
+        theView.menuSwitchToTimeLog(this.pages);
+    }
  
     @FXML
     void employeeLogin(ActionEvent event) {
