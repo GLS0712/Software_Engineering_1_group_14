@@ -71,6 +71,11 @@ public class CompanyViewer extends Application {
             pages.getSelectionModel().select(6);
         }
     }
+    public void menuSwitchToProjectView(TabPane pages, String projectName) {
+        if (theModel.getLoggedIn() != null) {
+            pages.getSelectionModel().select(5);
+        }
+    }
 
     public void showProjects(FlowPane bounds) {
         // Project project : theModel.getProjects()
@@ -80,15 +85,28 @@ public class CompanyViewer extends Application {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/projectView.fxml"));
                 Button projectButton = loader.load();
                 Pane graphicPane = (Pane) projectButton.getGraphic();
-                bounds.getChildren().add(projectButton);
-                
+
+                graphicPane.setMouseTransparent(true);
+              
                 Label nameLabel =  (Label) graphicPane.getChildren().get(1);  
                 Label idLabel = (Label) graphicPane.getChildren().get(2);  
                 Label endDateLabel = (Label) graphicPane.getChildren().get(3);
 
                 nameLabel.setText(project.getName());
                 idLabel.setText(project.getId());
-                endDateLabel.setText(project.getEndDate());
+                endDateLabel.setText(project.getEndDate() != null ? project.getEndDate() : "N/A");
+
+                projectButton.setOnAction(event -> {
+                    if (theController != null) {
+                        System.out.println("PROJECT NAME FROM BUTTON" + project.getName());
+                        theController.goToProject(event, project.getName());
+                    }
+                });
+
+
+                bounds.getChildren().add(projectButton);
+                
+                
 
             } catch (Exception e) {
                 e.printStackTrace();

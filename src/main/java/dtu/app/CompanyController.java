@@ -10,36 +10,75 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class CompanyController {
     private Company theModel;
     private CompanyViewer theView;
 
-    @FXML
-    private TabPane pages;
+       @FXML
+    private Button ProfileIcon;
+
     @FXML
     private AnchorPane bottomPane;
-    @FXML
-    private Button ProfileIcon;
-    @FXML
-    private TextField loginField;
+
     @FXML
     private Text errorText;
+
     @FXML
-    private FlowPane projectFlowPane;
+    private TextField loginField;
+
     @FXML
-    private DatePicker projectEndDatePicker;
-    @FXML
-    private DatePicker projectStartDatePicker;
-    @FXML
-    private ChoiceBox<String> projectLeaderPicker;
-    @FXML
-    private TextField projectNameField;
-    @FXML
-    private TextArea projectDescriptionField;
+    private TabPane pages;
+
     @FXML
     private Text projectCreateErrorText;
+
+    @FXML
+    private TextArea projectDescriptionField;
+
+    @FXML
+    private DatePicker projectEndDatePicker;
+
+    @FXML
+    private FlowPane projectFlowPane;
+
+    @FXML
+    private ChoiceBox<String> projectLeaderPicker;
+
+    @FXML
+    private TextField projectNameField;
+
+    @FXML
+    private VBox projectShowActivitiesBounds;
+
+    @FXML
+    private Pane projectShowActivityShow;
+
+    @FXML
+    private Text projectShowEndDate;
+
+    @FXML
+    private Text projectShowId;
+
+    @FXML
+    private Text projectShowName;
+
+    @FXML
+    private Text projectShowPojectLeader;
+
+    @FXML
+    private Rectangle projectShowSatusColor;
+
+    @FXML
+    private Text projectShowStartDate;
+
+    @FXML
+    private DatePicker projectStartDatePicker;
+
     public void setModelAndView(Company model, CompanyViewer view) {
         this.theModel = model;
         this.theView = view;
@@ -76,14 +115,14 @@ public class CompanyController {
         }
         projectCreateErrorText.setVisible(false);
         projectLeaderPicker.setValue(null);
-    
+
         projectNameField.setText(null);
         projectEndDatePicker.setValue(null);
         projectStartDatePicker.setValue(null);
         projectDescriptionField.setText(null);
 
         theView.menuSwitchToCreateProject(this.pages);
-        
+
     }
 
     @FXML
@@ -108,8 +147,8 @@ public class CompanyController {
     void createProject(ActionEvent event) {
         if (projectNameField.getText() == null || projectStartDatePicker.getValue() == null
                 || projectDescriptionField.getText() == null) {
-                    projectCreateErrorText.setText("Please fill out all non optional fields");
-                    projectCreateErrorText.setVisible(true);
+            projectCreateErrorText.setText("Please fill out all non optional fields");
+            projectCreateErrorText.setVisible(true);
         } else {
 
             theModel.createProject(projectNameField.getText());
@@ -130,7 +169,16 @@ public class CompanyController {
     }
 
     @FXML
-    void goToProject(ActionEvent event) {
-
-    }
+    void goToProject(ActionEvent event, String projectName) {
+        System.out.println("PROJECT NAME FROM RICIEVER: " + projectName);
+        Project project = theModel.getProject(projectName);
+        
+        projectShowActivityShow.setVisible(false);
+        projectShowName.setText(projectName);
+        projectShowId.setText(project.getId());
+        projectShowStartDate.setText("IMPLEMENT START DATE");
+        projectShowEndDate.setText("End date: " + project.getEndDate() != null ? project.getEndDate() : "N/A");
+        projectShowPojectLeader.setText("Project Leader: " + project.getProjectLeader().getName());
+        theView.menuSwitchToProjectView(this.pages, projectName);
+    }  
 }

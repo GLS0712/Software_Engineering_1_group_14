@@ -272,8 +272,8 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project name" />
-                        <Text layoutX="14.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Project Id" wrappingWidth="76.19999999999999" />
+                        <Text fx:id="projectShowName" layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project name" />
+                        <Text fx:id="projectShowId" layoutX="14.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Project Id" wrappingWidth="76.19999999999999" />
                         <TitledPane animated="false" collapsible="false" layoutX="15.0" layoutY="90.0" prefHeight="514.0" prefWidth="556.0" text="Activities">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -282,7 +282,7 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="691.0" prefWidth="542.0">
                                              <children>
-                                                <VBox prefHeight="490.0" prefWidth="548.0">
+                                                <VBox fx:id="projectShowActivitiesBounds" prefHeight="490.0" prefWidth="548.0">
                                                    <children>
                                                       <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
                                                          <graphic>
@@ -321,16 +321,16 @@
                               </AnchorPane>
                           </content>
                         </TitledPane>
-                        <Text layoutX="475.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date:" />
-                        <Text layoutX="478.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="538.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                        <Text fx:id="projectShowStartDate" layoutX="475.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date:" />
+                        <Text fx:id="projectShowEndDate" layoutX="478.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" />
+                        <Rectangle fx:id="projectShowSatusColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="538.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                         <Label layoutX="484.0" layoutY="22.0" prefHeight="15.0" prefWidth="45.0" text="Status">
                            <font>
                               <Font name="SansSerif Regular" size="12.0" />
                            </font>
                         </Label>
                         <Line endX="-164.7333984375" endY="547.86669921875" layoutX="753.0" layoutY="61.0" startX="-164.7333984375" startY="-28.133296966552734" styleClass="seperator" />
-                        <Pane layoutX="595.0" layoutY="9.0" prefHeight="604.0" prefWidth="574.0">
+                        <Pane fx:id="projectShowActivityShow" layoutX="595.0" layoutY="9.0" prefHeight="604.0" prefWidth="574.0">
                            <children>
                               <TitledPane animated="false" collapsible="false" layoutX="19.0" layoutY="135.0" prefHeight="462.0" prefWidth="547.0" text="Employees">
                                  <content>
@@ -403,7 +403,7 @@
                               <Button layoutX="445.0" layoutY="108.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="105.0" text="Add employee" />
                            </children>
                         </Pane>
-                        <Text layoutX="12.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project Leader: " />
+                        <Text fx:id="projectShowPojectLeader" layoutX="12.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project Leader: " />
                      </children></AnchorPane>
               </content>
             </Tab>
