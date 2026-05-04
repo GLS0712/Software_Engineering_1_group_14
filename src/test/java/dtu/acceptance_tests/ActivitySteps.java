@@ -170,4 +170,42 @@ public class ActivitySteps {
         List<Employee> employees = project.getActivityFromName(activityName).getEmployees();
         assertFalse(employees.contains(emloyee));
     }
+
+    @Given("there is a project with end date {string}")
+    public void there_is_a_project_with_end_date(String endDate) {
+        company.createProject("name", endDate);
+        project = company.getProject("name");
+    }
+
+    @When("{string} changes the end date of activity {string} to {string}")
+    public void changes_the_end_date_of_activity_to(String employeeName, String activityName, String newEndDate) {
+        Employee emp = employeeMap.getOrDefault(employeeName, employee);
+        try {
+            project.changeActivityEndDate(emp, activityName, LocalDate.parse(newEndDate));
+        } catch (IllegalAccessError e) {
+            errorMessageHandler.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @When("{string} creates activity {string} from {string} to {string}")
+    public void creates_activity_from_to(String employeeName, String activityName, String startDate, String endDate) {
+        Employee emp = employeeMap.getOrDefault(employeeName, employee);
+        try {
+            project.createActivity(emp, activityName, "description", LocalDate.parse(startDate), LocalDate.parse(endDate));
+        } catch (IllegalAccessError e) {
+            errorMessageHandler.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @When("the project end date is reduced to {string}")
+    public void the_project_end_date_is_reduced_to(String newEndDate) {
+        project.setEndDate(newEndDate);
+    }
+
+    @Then("the activity {string} has end date {string}")
+    public void the_activity_has_end_date(String activityName, String expectedEndDate) {
+        Activity act = project.getActivityFromName(activityName);
+        assertNotNull(act);
+        assertEquals(LocalDate.parse(expectedEndDate), act.getEndDate());
+    }
 }

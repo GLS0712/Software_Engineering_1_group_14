@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Project {
     private String name;
-    private String time;
+    private String endDate;
     private Employee projectLeader = null;
     private ArrayList<Employee> employeeList;
     private ArrayList<Activity> activityList;
@@ -17,16 +17,16 @@ public class Project {
         this.activityList = new ArrayList<>();
     }
 
-    public Project(String name, String time) {
+    public Project(String name, String endDate) {
         this.name = name;
-        this.time = time;
+        this.endDate = endDate;
         this.employeeList = new ArrayList<>();
         this.activityList = new ArrayList<>();
     }
 
-    public Project(String name, String time, Employee projectLeader) {
+    public Project(String name, String endDate, Employee projectLeader) {
         this.name = name;
-        this.time = time;
+        this.endDate = endDate;
         this.projectLeader = projectLeader;
         this.employeeList = new ArrayList<>();
         this.activityList = new ArrayList<>();
@@ -36,8 +36,8 @@ public class Project {
         return this.name;
     }
 
-    public String getTime() {
-        return this.time;
+    public String getEndDate() {
+        return this.endDate;
     }
 
     public Employee getProjectLeader() {
@@ -68,10 +68,28 @@ public class Project {
 
     public void createActivity(Employee employee, String name, String description, LocalDate startDate, LocalDate endDate) throws IllegalAccessError {
         if (projectLeader == null || this.projectLeader.getName().equals(employee.getName())) {
-            this.activityList.add(new Activity(name, description, startDate, endDate));
+            LocalDate effectiveEnd = capToProjectEndDate(endDate);
+            this.activityList.add(new Activity(name, description, startDate, effectiveEnd));
         } else {
             throw new IllegalAccessError("you are not projectLeader");
         }
+    }
+
+    public void changeActivityEndDate(Employee employee, String activityName, LocalDate newEndDate) throws IllegalAccessError {
+        if (projectLeader != null && !this.projectLeader.getName().equals(employee.getName())) {
+            throw new IllegalAccessError("you are not projectLeader");
+        }
+        getActivityFromName(activityName).setEndDate(capToProjectEndDate(newEndDate));
+    }
+
+    private LocalDate capToProjectEndDate(LocalDate date) {
+        if (this.endDate != null && !this.endDate.isEmpty()) {
+            LocalDate projectEnd = LocalDate.parse(this.endDate);
+            if (date.isAfter(projectEnd)) {
+                return projectEnd;
+            }
+        }
+        return date;
     }
 
     public void addEmployeeToActivity(Employee requester, Employee employeeToAdd, String activityName) {
@@ -94,5 +112,15 @@ public class Project {
 
     public void setProjectLeader(Employee employee) {
         this.projectLeader = employee;
+    }
+
+    public void setEndDate(String newEndDate) {
+        this.endDate = newEndDate;
+        LocalDate newEnd = LocalDate.parse(newEndDate);
+        for (Activity activity : activityList) {
+            if (activity.getEndDate() != null && activity.getEndDate().isAfter(newEnd)) {
+                activity.setEndDate(newEnd);
+            }
+        }
     }
 }

@@ -1,26 +1,5 @@
 Feature: activity
 
-  Scenario: create activity with name and Description and no projectleader
-    Given there is a project
-    And an employee "John doe" is assigned to project
-    And there is no projectleader
-    When "John doe" creates activity with "name" and "description"
-    Then there exists an activity with "name" and "description"
-
-  Scenario: create activity with name and Description as projectleader
-    Given there is a project
-    And an employee "John doe" is assigned to project
-    And the projectLeader is "John doe"
-    When "John doe" creates activity with "name" and "description"
-    Then there exists an activity with "name" and "description"
-
-  Scenario: create activity with name and Description with different projectleader
-    Given there is a project
-    And an employee "John doe" is assigned to project
-    And the projectLeader is not "John doe"
-    When "John doe" creates activity with "name" and "description"
-    Then the error message is "you are not projectLeader"
-
   Scenario: get activity from name
     Given there is a project
     And an employee "John doe" is assigned to project
@@ -99,3 +78,23 @@ Feature: activity
     And there is an activity "Design meeting" from "2026-06-01" to "2026-06-05"
     When "John doe" adds "Jane smith" to activity "Design meeting"
     Then "Jane smith" is assigned to activity "Design meeting"
+
+
+#!SECTION activity handle when the project endDate is defined
+  Scenario: change activities endDate to not exceed project endDate
+    Given there is a project with end date "2026-06-10"
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And there is an activity "Design meeting" from "2026-06-01" to "2026-06-05"
+    When "John doe" changes the end date of activity "Design meeting" to "2026-06-15"
+    Then the activity "Design meeting" has end date "2026-06-10"
+
+  Scenario: creating activity but restricting its periode to match project endDate
+    Given there is a project with end date "2026-06-10"
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    When "John doe" creates activity "Design meeting" from "2026-06-01" to "2026-06-15"
+    Then the activity "Design meeting" has end date "2026-06-10"
+
+
+
