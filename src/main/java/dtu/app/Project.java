@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Project {
     private String name;
-    private String time;
+    private String endDate;
     private Employee projectLeader = null;
     private ArrayList<Employee> employeeList;
     private ArrayList<Activity> activityList;
@@ -17,16 +17,16 @@ public class Project {
         this.activityList = new ArrayList<>();
     }
 
-    public Project(String name, String time) {
+    public Project(String name, String endDate) {
         this.name = name;
-        this.time = time;
+        this.endDate = endDate;
         this.employeeList = new ArrayList<>();
         this.activityList = new ArrayList<>();
     }
 
-    public Project(String name, String time, Employee projectLeader) {
+    public Project(String name, String endDate, Employee projectLeader) {
         this.name = name;
-        this.time = time;
+        this.endDate = endDate;
         this.projectLeader = projectLeader;
         this.employeeList = new ArrayList<>();
         this.activityList = new ArrayList<>();
@@ -36,8 +36,8 @@ public class Project {
         return this.name;
     }
 
-    public String getTime() {
-        return this.time;
+    public String getEndDate() {
+        return this.endDate;
     }
 
     public Employee getProjectLeader() {
