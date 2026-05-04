@@ -417,7 +417,7 @@
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Create Project" textAlignment="CENTER" />
                                     <Text fx:id="projectCreateErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Activity" textAlignment="CENTER" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Name" textAlignment="CENTER" />
                                     <TextField fx:id="projectNameField" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Project Name" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Desctiption" textAlignment="CENTER" />
                                     <TextArea fx:id="projectDescriptionField" maxWidth="400.0" prefHeight="102.0" prefWidth="400.0" promptText="Project Description" />

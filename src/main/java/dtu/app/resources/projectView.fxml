@@ -43,7 +43,7 @@
                             <Font name="SansSerif Regular" size="12.0" />
                         </font>
                     </Label>
-                    <Label layoutX="93.0" layoutY="129.0" prefHeight="15.0" prefWidth="60.0" text="End date">
+                    <Label layoutX="85.0" layoutY="130.0" prefHeight="15.0" prefWidth="70.0" text="End date">
                         <font>
                             <Font name="SansSerif Regular" size="12.0" />
                         </font>

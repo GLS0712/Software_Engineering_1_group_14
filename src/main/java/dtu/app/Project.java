@@ -8,6 +8,7 @@ public class Project {
     private String name;
     private String endDate; // yyyy-mm-dd
     private String description;
+    private String id = "25001";
     private Employee projectLeader = null;
     private ArrayList<Employee> employeeList;
     private ArrayList<Activity> activityList;
@@ -35,6 +36,9 @@ public class Project {
 
     public String getName() {
         return this.name;
+    }
+    public String getId(){
+        return this.id;
     }
     public String getDescription(){
         return this.description;

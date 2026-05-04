@@ -4,9 +4,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class CompanyViewer extends Application {
@@ -72,12 +74,21 @@ public class CompanyViewer extends Application {
 
     public void showProjects(FlowPane bounds) {
         // Project project : theModel.getProjects()
+        bounds.getChildren().clear();
         for (Project project : theModel.getProjects()) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/projectView.fxml"));
                 Button projectButton = loader.load();
+                Pane graphicPane = (Pane) projectButton.getGraphic();
                 bounds.getChildren().add(projectButton);
-                projectButton.setVisible(true);
+                
+                Label nameLabel =  (Label) graphicPane.getChildren().get(1);  
+                Label idLabel = (Label) graphicPane.getChildren().get(2);  
+                Label endDateLabel = (Label) graphicPane.getChildren().get(3);
+
+                nameLabel.setText(project.getName());
+                idLabel.setText(project.getId());
+                endDateLabel.setText(project.getEndDate());
 
             } catch (Exception e) {
                 e.printStackTrace();

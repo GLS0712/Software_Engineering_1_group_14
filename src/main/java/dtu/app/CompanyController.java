@@ -70,11 +70,20 @@ public class CompanyController {
 
     @FXML
     void switchToCreateProject(ActionEvent event) {
+        projectLeaderPicker.getItems().clear();
         for (Employee employee : theModel.getEmployees()) {
             projectLeaderPicker.getItems().add(employee.getName());
         }
         projectCreateErrorText.setVisible(false);
+        projectLeaderPicker.setValue(null);
+    
+        projectNameField.setText(null);
+        projectEndDatePicker.setValue(null);
+        projectStartDatePicker.setValue(null);
+        projectDescriptionField.setText(null);
+
         theView.menuSwitchToCreateProject(this.pages);
+        
     }
 
     @FXML
