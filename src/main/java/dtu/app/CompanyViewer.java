@@ -1,15 +1,18 @@
 package dtu.app;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
-
-public class CompanyViewer extends Application{
+public class CompanyViewer extends Application {
     private Company theModel;
     private CompanyController theController;
+
     @Override
     public void start(Stage primaryStage) {
 
@@ -18,40 +21,71 @@ public class CompanyViewer extends Application{
             theModel = new Company();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/gui.fxml"));
             AnchorPane root = loader.load();
-            
+
             // Exchange information between controller and view objects
             theController = (CompanyController) loader.getController();
             theController.setModelAndView(theModel, this);
-            
+
             Scene scene = new Scene(root);
             primaryStage.setTitle("Softwarehuset");
             scene.getStylesheets().add(getClass().getResource("resources/myStyleSheet.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public void update() {
-    
+
     }
-    public void menuSwitchToEmployees(TabPane pages){
-        pages.getSelectionModel().select(3);
+
+    public void menuSwitchToEmployees(TabPane pages) {
+        if (theModel.getLoggedIn() != null) {
+            pages.getSelectionModel().select(3);
+        }
     }
-    public void menuSwitchToLogin(TabPane pages){
-        pages.getSelectionModel().select(0);
+
+    public void menuSwitchToLogin(TabPane pages) {
+        if (theModel.getLoggedIn() != null) {
+            pages.getSelectionModel().select(0);
+        }
     }
-    public void menuSwitchToProjects(TabPane pages){
-        pages.getSelectionModel().select(4);
+
+    public void menuSwitchToProjects(TabPane pages) {
+        if (theModel.getLoggedIn() != null) {
+            pages.getSelectionModel().select(4);
+        }
     }
-    public void menuSwitchToTimeLog(TabPane pages){
-        pages.getSelectionModel().select(1);
+
+    public void menuSwitchToTimeLog(TabPane pages) {
+        if (theModel.getLoggedIn() != null) {
+            pages.getSelectionModel().select(1);
+        }
+    }
+    public void menuSwitchToCreateProject(TabPane pages) {
+        if (theModel.getLoggedIn() != null) {
+            pages.getSelectionModel().select(6);
+        }
+    }
+
+    public void showProjects(FlowPane bounds) {
+        // Project project : theModel.getProjects()
+        for (Project project : theModel.getProjects()) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/projectView.fxml"));
+                Button projectButton = loader.load();
+                bounds.getChildren().add(projectButton);
+                projectButton.setVisible(true);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 }
-
-

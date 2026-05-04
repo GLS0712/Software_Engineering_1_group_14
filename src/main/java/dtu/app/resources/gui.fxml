@@ -13,6 +13,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
@@ -43,8 +44,8 @@
                            </font>
                         </Text>
                         <Text layoutX="445.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Please enter your Initals in the box below" />
-                        <Text fill="#c30303" layoutX="409.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="Error code:" visible="false" wrappingWidth="228.35546875" />
-                        <TextField layoutX="473.0" layoutY="237.0" prefHeight="23.0" prefWidth="200.0" promptText="Intials..." />
+                        <Text fx:id="errorText" fill="#c30303" layoutX="477.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="Error code:" textAlignment="CENTER" visible="false" wrappingWidth="182.7554931640625" />
+                        <TextField fx:id="loginField" layoutX="473.0" layoutY="237.0" onAction="#employeeLogin" prefHeight="23.0" prefWidth="200.0" promptText="Intials..." />
                      </children>
                   </AnchorPane>
               </content>
@@ -140,7 +141,7 @@
                               </AnchorPane>
                            </content>
                         </TitledPane>
-                        <Pane layoutX="626.0" layoutY="10.0" prefHeight="604.0" prefWidth="574.0" visible="false">
+                        <Pane layoutX="626.0" layoutY="10.0" prefHeight="604.0" prefWidth="574.0">
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="604.0" prefWidth="550.0" spacing="20.0">
                                  <children>
@@ -162,7 +163,7 @@
                                  </padding></VBox>
                            </children>
                         </Pane>
-                        <DatePicker layoutX="432.0" layoutY="46.0" />
+                        <DatePicker layoutX="454.0" layoutY="56.0" />
                      </children>
                   </AnchorPane>
               </content>
@@ -233,7 +234,7 @@
                                     <Image url="@img/profile.png" />
                                  </image>
                               </ImageView>
-                              <Button id="ViewAvail" layoutX="206.0" layoutY="338.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="152.0" text="View availability" />
+                              <Button layoutX="206.0" layoutY="338.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="152.0" styleClass="inputButtons" text="View availability" />
                            </children>
                         </Pane>
                         <Button layoutX="510.0" layoutY="85.0" mnemonicParsing="false" text="Show me" />
@@ -245,42 +246,24 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="tab">
                      <children>
-                        <Rectangle id="projectFlowPane" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="530.0" layoutX="60.0" layoutY="60.0" stroke="#e42727" strokeType="INSIDE" strokeWidth="0.0" width="1060.0" />
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="622.0" prefWidth="1178.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1178.0">
+                                 <children>
+                                    <FlowPane fx:id="projectFlowPane" hgap="50.0" layoutY="44.0" maxWidth="1178.0" prefWidth="1178.0" rowValignment="TOP" vgap="50.0">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </FlowPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
                         <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Projects" />
-                        <FlowPane hgap="50.0" layoutX="60.0" layoutY="60.0" prefHeight="530.0" prefWidth="1060.0" rowValignment="TOP" vgap="50.0">
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <children>
-                              <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
-                                 <graphic>
-                                    <Pane prefHeight="150.0" prefWidth="150.0" styleClass="projectPane">
-                                       <children>
-                                          <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="54.0" layoutY="96.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="151.0" />
-                                          <Label layoutX="2.0" layoutY="96.0" prefHeight="22.0" prefWidth="115.0" text="Project Name">
-                                             <font>
-                                                <Font name="SansSerif Bold" size="15.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="2.0" layoutY="129.0" text="Project ID">
-                                             <font>
-                                                <Font name="SansSerif Regular" size="12.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="93.0" layoutY="129.0" prefHeight="15.0" prefWidth="60.0" text="End date">
-                                             <font>
-                                                <Font name="SansSerif Regular" size="12.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </Pane>
-                                 </graphic>
-                                 <padding>
-                                    <Insets left="-1.0" />
-                                 </padding>
-                              </Button>
-                           </children>
-                        </FlowPane>
+                        <Button layoutX="1007.0" layoutY="18.0" mnemonicParsing="false" onAction="#switchToCreateProject" prefHeight="30.0" prefWidth="133.0" styleClass="inputButtons" text="Create new project" />
                      </children>
                   </AnchorPane>
               </content>
@@ -424,6 +407,69 @@
                      </children></AnchorPane>
               </content>
             </Tab>
+            <Tab text="CreateProject">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="339.0" layoutY="18.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="-6.0" prefHeight="594.0" prefWidth="550.0" spacing="20.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Create Project" textAlignment="CENTER" />
+                                    <Text fx:id="projectCreateErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Activity" textAlignment="CENTER" />
+                                    <TextField fx:id="projectNameField" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Project Name" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Desctiption" textAlignment="CENTER" />
+                                    <TextArea fx:id="projectDescriptionField" maxWidth="400.0" prefHeight="102.0" prefWidth="400.0" promptText="Project Description" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date" />
+                                    <DatePicker fx:id="projectStartDatePicker" promptText="Start date..." />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date (Optional)" textAlignment="CENTER" />
+                                    <DatePicker fx:id="projectEndDatePicker" prefHeight="13.0" prefWidth="176.0" promptText="End date" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Leader (Optional)" textAlignment="CENTER" />
+                                    <ChoiceBox fx:id="projectLeaderPicker" prefWidth="150.0" />
+                                    <Button mnemonicParsing="false" onAction="#createProject" styleClass="inputButtons" text="Create project" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="40.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="CreateActivity">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="339.0" layoutY="18.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="-6.0" prefHeight="594.0" prefWidth="550.0" spacing="20.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Create Activity" textAlignment="CENTER" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Activity" textAlignment="CENTER" />
+                                    <TextField maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Activity name" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="activity Desctiption" textAlignment="CENTER" />
+                                    <TextArea maxWidth="400.0" prefHeight="102.0" prefWidth="400.0" promptText="Activity description" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date" />
+                                    <DatePicker promptText="Start date..." />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date (Optional)" textAlignment="CENTER" />
+                                    <DatePicker prefHeight="13.0" prefWidth="176.0" promptText="End date" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alotted time" textAlignment="CENTER" />
+                                    <Spinner editable="true" />
+                                    <Button mnemonicParsing="false" onAction="#createActivity" styleClass="inputButtons" text="Create project" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="40.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
          </tabs>
       </TabPane>
       <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="51.0" styleClass="sideMenu">
@@ -455,23 +501,11 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="menuButton" text="Settings" textAlignment="CENTER" textFill="#e384ca" textOverrun="CLIP" visible="false">
-               <graphic>
-                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
-                     <image>
-                        <Image url="@img/settings.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font name="Microsoft Sans Serif" size="12.0" />
-               </font>
-            </Button>
          </children>
       </VBox>
       <HBox alignment="CENTER_RIGHT" layoutX="102.0" prefHeight="71.0" prefWidth="1178.0" styleClass="sideMenu">
          <children>
-            <Button fx:id="ProfileIcon" alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="71.0" maxWidth="67.0" mnemonicParsing="false" onAction="#menuSwitchToLogin" prefHeight="71.0" prefWidth="67.0" styleClass="TopMenuButton" text="Name" textAlignment="CENTER" textFill="#e384ca" textOverrun="CLIP">
+            <Button fx:id="ProfileIcon" alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="97.0" maxWidth="60.0" mnemonicParsing="false" onAction="#menuSwitchToLogin" prefHeight="97.0" prefWidth="60.0" styleClass="TopMenuButton" text="Name" textAlignment="CENTER" textFill="#e384ca" wrapText="true">
                <graphic>
                   <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
                      <image>

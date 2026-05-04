@@ -6,6 +6,11 @@ public class Company {
     private ArrayList<Employee> employeeList = new ArrayList<>();
     private ArrayList<Project> projectList = new ArrayList<>();
     private Employee loggedIn = null;
+
+    public Company(){
+        this.employeeList.add(new Employee("Hubert Baumeister", "huba"));
+    }
+
     public void hireEmployee(Employee employee) {
         employeeList.add(employee);
     }
@@ -30,7 +35,14 @@ public class Company {
         }
         return null;
     }
+    public ArrayList<Project> getProjects(){
+        return this.projectList;
+    }
+    public ArrayList<Employee> getEmployees(){
+        return this.employeeList;
+    }
 
+    
     public void setInitailsForEmployee(Employee employeeToSet, String initials) {
         if(employeeList.indexOf(employeeToSet)== -1){
             throw new IllegalAccessError("Employee not part of company");
@@ -67,7 +79,7 @@ public class Company {
                 this.loggedIn = employee;
             }
         }
-        if(this.loggedIn == null || this.loggedIn.getInitials() != initials){
+        if(this.loggedIn == null){
             throw new IllegalAccessError("Employee not recognized");
         }
     }
