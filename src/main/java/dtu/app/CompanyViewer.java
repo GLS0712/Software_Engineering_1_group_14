@@ -16,7 +16,6 @@ public class CompanyViewer extends Application{
         try {
 
             theModel = new Company();
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/gui.fxml"));
             AnchorPane root = loader.load();
             
