@@ -40,6 +40,10 @@ public class Project {
     public String getId(){
         return this.id;
     }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
     public String getDescription(){
         return this.description;
     }
@@ -49,6 +53,10 @@ public class Project {
 
     public Employee getProjectLeader() {
         return this.projectLeader;
+    }
+    
+    public ArrayList<Activity> getActivities() {
+        return this.activityList;
     }
 
     public void assignEmployee(Employee employee) {
@@ -132,4 +140,7 @@ public class Project {
             }
         }
     }
+
+    
+
 }

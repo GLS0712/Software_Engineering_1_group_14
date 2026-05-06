@@ -7,6 +7,7 @@ import java.util.List;
 public class Activity {
     private String name;
     private String description;
+    private String AlottedTime;
     private LocalDate startDate;
     private LocalDate endDate;
     private List<Employee> employees = new ArrayList<>();
@@ -26,7 +27,9 @@ public class Activity {
     public String getName() {
         return this.name;
     }
-
+    public String getAlottedTime(){
+        return this.AlottedTime;
+    }
     public String getDescription() {
         return this.description;
     }
@@ -42,12 +45,25 @@ public class Activity {
     public void addEmployee(Employee employee) {
         employees.add(employee);
     }
-
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+    public void setAlottedTime(String AlottedTime){
+        this.AlottedTime = AlottedTime;
     }
 
     public List<Employee> getEmployees() {
         return employees;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

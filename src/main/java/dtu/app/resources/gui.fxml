@@ -272,7 +272,15 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Text fx:id="projectShowName" layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project name" />
+                        <HBox prefHeight="47.0" prefWidth="469.0" spacing="10.0">
+                           <children>
+                              <Text fx:id="projectShowName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project name" />
+                              <Button mnemonicParsing="false" onAction="#gotToEditProject" styleClass="inputButtons" text="Edit" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
                         <Text fx:id="projectShowId" layoutX="14.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Project Id" wrappingWidth="76.19999999999999" />
                         <TitledPane animated="false" collapsible="false" layoutX="15.0" layoutY="90.0" prefHeight="514.0" prefWidth="556.0" text="Activities">
                           <content>
@@ -284,32 +292,17 @@
                                              <children>
                                                 <VBox fx:id="projectShowActivitiesBounds" prefHeight="490.0" prefWidth="548.0">
                                                    <children>
-                                                      <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
-                                                         <graphic>
-                                                            <Pane maxHeight="60.0" maxWidth="530.0" minHeight="60.0" minWidth="530.0" prefHeight="60.0" prefWidth="530.0" styleClass="ActivitySelect">
-                                                               <children>
-                                                                  <Label layoutX="15.0" layoutY="17.0" prefHeight="22.0" prefWidth="115.0" text="ActivityName">
-                                                                     <font>
-                                                                        <Font name="SansSerif Bold" size="15.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Label layoutX="15.0" layoutY="39.0" text="Start-End Date">
-                                                                     <font>
-                                                                        <Font name="SansSerif Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Label layoutX="444.0" layoutY="19.0" prefHeight="15.0" prefWidth="60.0" text="Status">
-                                                                     <font>
-                                                                        <Font name="SansSerif Regular" size="12.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="495.0" layoutY="18.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
-                                                               </children>
-                                                            </Pane>
-                                                         </graphic>
+                                                      <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#switchToCreateActivity" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
                                                          <padding>
                                                             <Insets left="-1.0" />
                                                          </padding>
+                                                         <graphic>
+                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                                                               <image>
+                                                                  <Image url="@img/add.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </graphic>
                                                       </Button>
                                                    </children>
                                                 </VBox>
@@ -321,16 +314,16 @@
                               </AnchorPane>
                           </content>
                         </TitledPane>
-                        <Text fx:id="projectShowStartDate" layoutX="475.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date:" />
-                        <Text fx:id="projectShowEndDate" layoutX="478.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" />
-                        <Rectangle fx:id="projectShowSatusColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="538.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
-                        <Label layoutX="484.0" layoutY="22.0" prefHeight="15.0" prefWidth="45.0" text="Status">
+                        <Text fx:id="projectShowStartDate" layoutX="456.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date:" />
+                        <Text fx:id="projectShowEndDate" layoutX="459.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" />
+                        <Rectangle fx:id="projectShowSatusColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="511.0" layoutY="21.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                        <Label layoutX="461.0" layoutY="23.0" prefHeight="15.0" prefWidth="45.0" text="Status">
                            <font>
                               <Font name="SansSerif Regular" size="12.0" />
                            </font>
                         </Label>
                         <Line endX="-164.7333984375" endY="547.86669921875" layoutX="753.0" layoutY="61.0" startX="-164.7333984375" startY="-28.133296966552734" styleClass="seperator" />
-                        <Pane fx:id="projectShowActivityShow" layoutX="595.0" layoutY="9.0" prefHeight="604.0" prefWidth="574.0">
+                        <Pane fx:id="activityDetails" layoutX="595.0" layoutY="9.0" prefHeight="604.0" prefWidth="574.0">
                            <children>
                               <TitledPane animated="false" collapsible="false" layoutX="19.0" layoutY="135.0" prefHeight="462.0" prefWidth="547.0" text="Employees">
                                  <content>
@@ -340,7 +333,7 @@
                                             <content>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="691.0" prefWidth="542.0">
                                                    <children>
-                                                      <VBox prefHeight="490.0" prefWidth="548.0">
+                                                      <VBox fx:id="activityDetailsEmployeeBounds" prefHeight="490.0" prefWidth="548.0">
                                                          <children>
                                                             <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
                                                                <graphic>
@@ -388,19 +381,28 @@
                                     </AnchorPane>
                                  </content>
                               </TitledPane>
-                              <Text layoutX="473.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date:" />
-                              <Text layoutX="476.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="536.0" layoutY="3.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
-                              <Label layoutX="482.0" layoutY="5.0" prefHeight="15.0" prefWidth="45.0" text="Status">
+                              <HBox prefHeight="38.0" prefWidth="445.0" spacing="10.0">
+                                 <children>
+                                    <Text fx:id="activityDetailName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Activity name" wrappingWidth="394.388671875" />
+                                    <Button mnemonicParsing="false" onAction="#gotToEditActivity" prefHeight="23.0" prefWidth="46.0" styleClass="inputButtons" text="Edit" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </HBox>
+                              <Text fx:id="activityDetailStartDate" layoutX="461.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date:" />
+                              <Text fx:id="activityDetailEndDate" layoutX="464.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" />
+                              <Rectangle fx:id="activityDetailStatusColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="515.0" layoutY="3.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                              <Label fx:id="activityDetailStatusLabel" layoutX="461.0" layoutY="5.0" prefHeight="15.0" prefWidth="45.0" text="Status">
                                  <font>
                                     <Font name="SansSerif Regular" size="12.0" />
                                  </font>
                               </Label>
-                              <Text layoutX="18.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Activity name" />
-                              <Text layoutX="210.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Activity ID" wrappingWidth="76.19999999999999" />
-                              <Text layoutX="20.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Description" wrappingWidth="410.0" />
-                              <TextField layoutX="19.0" layoutY="107.0" prefHeight="23.0" prefWidth="383.0" promptText="Employee initals..." />
-                              <Button layoutX="445.0" layoutY="108.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="105.0" text="Add employee" />
+                              <Text fx:id="activityDetailDesctiption" layoutX="20.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Description" wrappingWidth="410.0" />
+                              <TextField fx:id="activityDetailsEmployeeInitalsField" layoutX="19.0" layoutY="107.0" prefHeight="23.0" prefWidth="383.0" promptText="Employee initals..." />
+                              <Button fx:id="activityDetailAddEmployee" layoutX="445.0" layoutY="108.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="105.0" text="Add employee" />
+                              <Text fx:id="activityDetailAlottedTime" layoutX="465.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alotted Time:" />
+                              <Text layoutX="382.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Activity ID" wrappingWidth="76.19999999999999" />
                            </children>
                         </Pane>
                         <Text fx:id="projectShowPojectLeader" layoutX="12.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project Leader: " />
@@ -448,17 +450,18 @@
                               <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="-6.0" prefHeight="594.0" prefWidth="550.0" spacing="20.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Create Activity" textAlignment="CENTER" />
+                                    <Text fx:id="activityCreateErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Activity" textAlignment="CENTER" />
-                                    <TextField maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Activity name" />
+                                    <TextField fx:id="createActivityName" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Activity name" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="activity Desctiption" textAlignment="CENTER" />
-                                    <TextArea maxWidth="400.0" prefHeight="102.0" prefWidth="400.0" promptText="Activity description" />
+                                    <TextArea fx:id="createActivityDescription" maxWidth="400.0" prefHeight="102.0" prefWidth="400.0" promptText="Activity description" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date" />
-                                    <DatePicker promptText="Start date..." />
+                                    <DatePicker fx:id="createActivityStartDate" promptText="Start date..." />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date (Optional)" textAlignment="CENTER" />
-                                    <DatePicker prefHeight="13.0" prefWidth="176.0" promptText="End date" />
+                                    <DatePicker fx:id="createActivityEndDate" prefHeight="13.0" prefWidth="176.0" promptText="End date" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alotted time" textAlignment="CENTER" />
-                                    <Spinner editable="true" />
-                                    <Button mnemonicParsing="false" onAction="#createActivity" styleClass="inputButtons" text="Create project" />
+                                    <TextField fx:id="createActivityHours" maxWidth="176.0" prefHeight="23.0" prefWidth="176.0" promptText="Time in hours..." />
+                                    <Button mnemonicParsing="false" onAction="#createActivity" styleClass="inputButtons" text="Create activity" />
                                  </children>
                                  <padding>
                                     <Insets top="40.0" />
@@ -469,6 +472,71 @@
                      </children>
                   </AnchorPane>
               </content>
+            </Tab>
+            <Tab text="EditProject">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="339.0" layoutY="18.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="-6.0" prefHeight="594.0" prefWidth="550.0" spacing="20.0">
+                                 <children>
+                                    <Text fx:id="editProjectHeader" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Editing Project" textAlignment="CENTER" wrappingWidth="288.78546142578125" />
+                                    <Text fx:id="projectEditErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New project Name" textAlignment="CENTER" />
+                                    <TextField fx:id="editProjectName" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Project Name" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Desctiption" textAlignment="CENTER" />
+                                    <TextArea fx:id="editProjectDescription" maxWidth="400.0" prefHeight="102.0" prefWidth="400.0" promptText="Project Description" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date" />
+                                    <DatePicker fx:id="editProjectStartDate" promptText="Start date..." />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date (Optional)" textAlignment="CENTER" />
+                                    <DatePicker fx:id="editProjectEndDate" prefHeight="13.0" prefWidth="176.0" promptText="End date" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Leader (Optional)" textAlignment="CENTER" />
+                                    <ChoiceBox fx:id="editProjectProjectLeader" prefWidth="150.0" />
+                                    <Button mnemonicParsing="false" onAction="#editProject" styleClass="inputButtons" text="Edit project" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="40.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="EditActivity">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="339.0" layoutY="18.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="-6.0" prefHeight="594.0" prefWidth="550.0" spacing="20.0">
+                                 <children>
+                                    <Text fx:id="editActivityHeader" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Edditing Activity" textAlignment="CENTER" />
+                                    <Label fx:id="editActivityProjectName" text="ProjectName" />
+                                    <Text fx:id="activityEditErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New activity name" textAlignment="CENTER" />
+                                    <TextField fx:id="editActivityName" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Activity name" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Activity desctiption" textAlignment="CENTER" />
+                                    <TextArea fx:id="editActivityDescription" maxWidth="400.0" prefHeight="102.0" prefWidth="400.0" promptText="Activity description" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date" />
+                                    <DatePicker fx:id="editActivityStartDate" promptText="Start date..." />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date (Optional)" textAlignment="CENTER" />
+                                    <DatePicker fx:id="editActivityEndDate" prefHeight="13.0" prefWidth="176.0" promptText="End date" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alotted time" textAlignment="CENTER" />
+                                    <TextField fx:id="editActivityHours" maxWidth="176.0" prefHeight="23.0" prefWidth="176.0" promptText="Time in hours..." />
+                                    <Button mnemonicParsing="false" onAction="#editActivity" styleClass="inputButtons" text="Edit activity" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="40.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </content>
             </Tab>
          </tabs>
       </TabPane>

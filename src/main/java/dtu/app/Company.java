@@ -1,6 +1,9 @@
 package dtu.app;
 
 import java.util.ArrayList;
+import java.util.Date;
+
+import javafx.util.converter.LocalDateStringConverter;
 
 public class Company {
     private ArrayList<Employee> employeeList = new ArrayList<>();
@@ -9,6 +12,12 @@ public class Company {
 
     public Company(){
         this.employeeList.add(new Employee("Hubert Baumeister", "huba"));
+        this.projectList.add(new Project("Testing project", null, null));
+        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity", "GAE");
+        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity1", "GAE");
+        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity2", "GAE");
+        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity3", "GAE");
+
     }
 
     public void hireEmployee(Employee employee) {

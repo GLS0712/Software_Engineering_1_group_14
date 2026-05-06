@@ -9,6 +9,8 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class CompanyViewer extends Application {
@@ -66,17 +68,38 @@ public class CompanyViewer extends Application {
             pages.getSelectionModel().select(1);
         }
     }
+
     public void menuSwitchToCreateProject(TabPane pages) {
         if (theModel.getLoggedIn() != null) {
             pages.getSelectionModel().select(6);
         }
     }
+
     public void menuSwitchToProjectView(TabPane pages, String projectName) {
         if (theModel.getLoggedIn() != null) {
+
             pages.getSelectionModel().select(5);
         }
     }
 
+    public void menuSwitchToCreateActivity(TabPane pages) {
+        if (theModel.getLoggedIn() != null) {
+
+            pages.getSelectionModel().select(7);
+        }
+    }
+public void menuSwitchToEditProject(TabPane pages) {
+        if (theModel.getLoggedIn() != null) {
+
+            pages.getSelectionModel().select(8);
+        }
+    }
+   public void menuSwitchToEditActivity(TabPane pages) {
+        if (theModel.getLoggedIn() != null) {
+
+            pages.getSelectionModel().select(9);
+        }
+    }
     public void showProjects(FlowPane bounds) {
         // Project project : theModel.getProjects()
         bounds.getChildren().clear();
@@ -86,10 +109,10 @@ public class CompanyViewer extends Application {
                 Button projectButton = loader.load();
                 Pane graphicPane = (Pane) projectButton.getGraphic();
 
-                graphicPane.setMouseTransparent(true);
-              
-                Label nameLabel =  (Label) graphicPane.getChildren().get(1);  
-                Label idLabel = (Label) graphicPane.getChildren().get(2);  
+                // graphicPane.setMouseTransparent(true);
+
+                Label nameLabel = (Label) graphicPane.getChildren().get(1);
+                Label idLabel = (Label) graphicPane.getChildren().get(2);
                 Label endDateLabel = (Label) graphicPane.getChildren().get(3);
 
                 nameLabel.setText(project.getName());
@@ -98,15 +121,44 @@ public class CompanyViewer extends Application {
 
                 projectButton.setOnAction(event -> {
                     if (theController != null) {
-                        System.out.println("PROJECT NAME FROM BUTTON" + project.getName());
                         theController.goToProject(event, project.getName());
                     }
                 });
 
+                bounds.getChildren().add(projectButton);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void showActivities(VBox bounds, String projectName) {
+        // Project project : theModel.getProjects()
+        bounds.getChildren().remove(1, bounds.getChildren().size());
+        for (Activity activity : theModel.getProject(projectName).getActivities()) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/activityView.fxml"));
+                Button projectButton = loader.load();
+                Pane graphicPane = (Pane) projectButton.getGraphic();
+
+                // graphicPane.setMouseTransparent(true);
+
+                Label nameLabel = (Label) graphicPane.getChildren().get(0);
+                Label idLabel = (Label) graphicPane.getChildren().get(1);
+                Label statusLabel = (Label) graphicPane.getChildren().get(2);
+                Rectangle statusRect = (Rectangle) graphicPane.getChildren().get(3);
+
+                nameLabel.setText(activity.getName());
+                idLabel.setText("DATELABELS");
+
+                projectButton.setOnAction(event -> {
+                    if (theController != null) {
+                        theController.showActivityDetails(event, activity.getName());
+                    }
+                });
 
                 bounds.getChildren().add(projectButton);
-                
-                
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -117,4 +169,7 @@ public class CompanyViewer extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+ 
+
 }
