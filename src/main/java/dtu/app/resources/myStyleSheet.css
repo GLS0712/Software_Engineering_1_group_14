@@ -9,10 +9,10 @@
     -fx-menu-button-hover: #cccccc;
     -fx-menu-button-click: #999999;
     -fx-font-family: "SansSerif";
-    -fx-company-Color-700: #ff0000;
-    -fx-company-Color-600: #dd0000;
-    -fx-company-Color-500: #aa0000;
-    -fx-company-Color-450: #440000;
+    -fx-company-Color-700: #77A6B6;
+    -fx-company-Color-600: #6a95a4;
+    -fx-company-Color-500: #4d6871;
+    -fx-company-Color-450: #475e66;
     -fx-text-error: #c30303;
 
 } 
@@ -141,7 +141,7 @@
 
 }
 .ActivitySelect:hover{
-        -fx-background-color: -fx-background-middle;
+        -fx-background-color: -fx-company-Color-600;
 
 }
 .seperator{
@@ -157,25 +157,21 @@
 
 }
 #ViewAvail{
-        -fx-background-color: -fx-background-light;
+        -fx-background-color: -fx-company-Color-700;
         -fx-background-radius: 15;
         -fx-cursor: hand;
 }
-#ViewAvail{
-        -fx-background-color: -fx-background-light;
-        -fx-background-radius: 15;
-        -fx-cursor: hand;
-        
-}
+
 #ViewAvail:hover{
-        -fx-background-color: -fx-background-middle;
+        -fx-background-color: -fx-company-Color-600;
 
 }
 .inputButtons{
--fx-background-color: -fx-background-light;
+        -fx-background-color: -fx-company-Color-700;
         -fx-background-radius: 5;
+        -fx-text-fill: white;
         -fx-cursor: hand;
 }
 .inputButtons:hover{
-        -fx-background-color: -fx-background-middle;
+        -fx-background-color: -fx-company-Color-600;    
 }

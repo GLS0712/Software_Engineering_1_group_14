@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 public class Project {
     private String name;
-    private String endDate;
+    private String endDate; // yyyy-mm-dd
+    private String description;
+    private String id = "25001";
     private Employee projectLeader = null;
     private ArrayList<Employee> employeeList;
     private ArrayList<Activity> activityList;
@@ -35,7 +37,16 @@ public class Project {
     public String getName() {
         return this.name;
     }
-
+    public String getId(){
+        return this.id;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getDescription(){
+        return this.description;
+    }
     public String getEndDate() {
         return this.endDate;
     }
@@ -43,11 +54,17 @@ public class Project {
     public Employee getProjectLeader() {
         return this.projectLeader;
     }
+    
+    public ArrayList<Activity> getActivities() {
+        return this.activityList;
+    }
 
     public void assignEmployee(Employee employee) {
         employeeList.add(employee);
     }
-
+    public void setDescription(String description){
+        this.description = description;
+    }
     public void createActivity(Employee employee, String name, String description) throws IllegalAccessError {
         if (projectLeader == null || this.projectLeader.getName().equals(employee.getName())) {
             this.activityList.add(new Activity(name, description));
@@ -123,4 +140,7 @@ public class Project {
             }
         }
     }
+
+    
+
 }

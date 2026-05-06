@@ -1,11 +1,25 @@
 package dtu.app;
 
 import java.util.ArrayList;
+import java.util.Date;
+
+import javafx.util.converter.LocalDateStringConverter;
 
 public class Company {
     private ArrayList<Employee> employeeList = new ArrayList<>();
     private ArrayList<Project> projectList = new ArrayList<>();
     private Employee loggedIn = null;
+
+    public Company(){
+        this.employeeList.add(new Employee("Hubert Baumeister", "huba"));
+        this.projectList.add(new Project("Testing project", null, null));
+        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity", "GAE");
+        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity1", "GAE");
+        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity2", "GAE");
+        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity3", "GAE");
+
+    }
+
     public void hireEmployee(Employee employee) {
         employeeList.add(employee);
     }
@@ -30,7 +44,14 @@ public class Company {
         }
         return null;
     }
+    public ArrayList<Project> getProjects(){
+        return this.projectList;
+    }
+    public ArrayList<Employee> getEmployees(){
+        return this.employeeList;
+    }
 
+    
     public void setInitailsForEmployee(Employee employeeToSet, String initials) {
         if(employeeList.indexOf(employeeToSet)== -1){
             throw new IllegalAccessError("Employee not part of company");
@@ -67,7 +88,7 @@ public class Company {
                 this.loggedIn = employee;
             }
         }
-        if(this.loggedIn == null || this.loggedIn.getInitials() != initials){
+        if(this.loggedIn == null){
             throw new IllegalAccessError("Employee not recognized");
         }
     }
