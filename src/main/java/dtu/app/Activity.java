@@ -45,6 +45,15 @@ public class Activity {
     public void addEmployee(Employee employee) {
         employees.add(employee);
     }
+    public void removeEmployee(Employee employeeToRemove){
+        Employee employeeToBeRemoved = null;
+        for (Employee employeeInActivity : employees) {
+            if(employeeInActivity.equals(employeeToRemove)){
+                employeeToBeRemoved = employeeInActivity;
+            }
+        }
+        this.employees.remove(employeeToBeRemoved);
+    }
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }

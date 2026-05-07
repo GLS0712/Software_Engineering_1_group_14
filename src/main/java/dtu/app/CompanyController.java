@@ -1,5 +1,8 @@
 package dtu.app;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import java.time.LocalDate;
 
 import javafx.event.ActionEvent;
@@ -24,18 +27,11 @@ import javafx.scene.text.Text;
 public class CompanyController {
     private Company theModel;
     private CompanyViewer theView;
-
     @FXML
     private Button ProfileIcon;
 
     @FXML
     private Text activityCreateErrorText;
-
-    @FXML
-    private Text activityCreateErrorText1;
-
-    @FXML
-    private Button activityDetailAddEmployee;
 
     @FXML
     private Text activityDetailAlottedTime;
@@ -68,6 +64,12 @@ public class CompanyController {
     private TextField activityDetailsEmployeeInitalsField;
 
     @FXML
+    private Text activityEditErrorText;
+
+    @FXML
+    private Text hireEmployeeErrorText;
+
+    @FXML
     private AnchorPane bottomPane;
 
     @FXML
@@ -87,10 +89,7 @@ public class CompanyController {
 
     @FXML
     private TextArea editActivityDescription;
-    @FXML
-    private Text projectEditErrorText;
-    @FXML
-    private Text activityEditErrorText;
+
     @FXML
     private DatePicker editActivityEndDate;
 
@@ -128,7 +127,43 @@ public class CompanyController {
     private DatePicker editProjectStartDate;
 
     @FXML
+    private Pane employeDetails;
+
+    @FXML
+    private Text employeDetailsName;
+
+    @FXML
+    private Text employeeAddActivityErrorText;
+
+    @FXML
+    private Text employeeDetailsInitials;
+
+    @FXML
+    private DatePicker employeeShowDatePicker;
+
+    @FXML
+    private Text employeeShowInitials;
+
+    @FXML
+    private Text employeeShowName;
+
+    @FXML
+    private Text employeeShowNumberOfTasks;
+
+    @FXML
+    private VBox employeesBounds;
+
+    @FXML
     private Text errorText;
+
+    @FXML
+    private Button hireEmployeeButton;
+
+    @FXML
+    private TextField hireEmployeeInitials;
+
+    @FXML
+    private TextField hireEmployeeName;
 
     @FXML
     private TextField loginField;
@@ -140,10 +175,10 @@ public class CompanyController {
     private Text projectCreateErrorText;
 
     @FXML
-    private Text projectCreateErrorText1;
+    private TextArea projectDescriptionField;
 
     @FXML
-    private TextArea projectDescriptionField;
+    private Text projectEditErrorText;
 
     @FXML
     private DatePicker projectEndDatePicker;
@@ -179,8 +214,10 @@ public class CompanyController {
     private Text projectShowStartDate;
 
     @FXML
-    private DatePicker projectStartDatePicker;
+    private Pane timeOffPane;
 
+    @FXML
+    private DatePicker projectStartDatePicker;
     public void setModelAndView(Company model, CompanyViewer view) {
         this.theModel = model;
         this.theView = view;
@@ -194,9 +231,22 @@ public class CompanyController {
 
     @FXML
     void menuSwitchToEmployees(ActionEvent event) {
+        if (theModel.getLoggedIn().getInitials() == "huba") {
+            hireEmployeeButton.setVisible(true);
+            hireEmployeeButton.setDisable(false);
+        } else {
+            hireEmployeeButton.setVisible(false);
+            hireEmployeeButton.setDisable(true);
+        }
+        employeDetails.setVisible(false);
+        theView.addEmployees(employeesBounds);
         theView.menuSwitchToEmployees(this.pages);
     }
-
+    @FXML
+    void menuSwitchToHireEmployee(ActionEvent event) {
+        hireEmployeeErrorText.setVisible(false);
+        theView.menuSwitchToHireEmployee(this.pages);
+    }
     @FXML
     void menuSwitchToLogin(ActionEvent event) {
         theView.menuSwitchToLogin(this.pages);
@@ -295,6 +345,7 @@ public class CompanyController {
             }
 
             this.goToProject(event, projectShowName.getText());
+            showActivityDetails(event, editActivityName.getText());
         }
 
     }
@@ -306,7 +357,7 @@ public class CompanyController {
             projectCreateErrorText.setText("Please fill out all non optional fields");
             projectCreateErrorText.setVisible(true);
         } else {
-            
+
             theModel.createProject(projectNameField.getText());
             Project project = theModel.getProject(projectNameField.getText());
             project.setDescription(projectDescriptionField.getText());
@@ -331,7 +382,7 @@ public class CompanyController {
             projectEditErrorText.setText("Please fill out all non optional fields");
             projectEditErrorText.setVisible(true);
         } else {
-   
+
             Project project = theModel.getProject(editProjectHeader.getText());
             project.setName(editProjectName.getText());
             project.setDescription(editProjectDescription.getText());
@@ -346,7 +397,7 @@ public class CompanyController {
             }
 
             this.goToProject(event, editProjectName.getText());
-           
+
         }
     }
 
@@ -357,7 +408,8 @@ public class CompanyController {
         projectShowName.setText(projectName);
         projectShowId.setText(project.getId());
         projectShowStartDate.setText("IMPLEMENT START DATE");
-        projectShowEndDate.setText(project.getEndDate() != null ? "End date: " +project.getEndDate() : "End date: N/A");
+        projectShowEndDate
+                .setText(project.getEndDate() != null ? "End date: " + project.getEndDate() : "End date: N/A");
         if (project.getProjectLeader() != null) {
             projectShowPojectLeader.setText("Project Leader: " + project.getProjectLeader().getName());
         } else {
@@ -422,8 +474,88 @@ public class CompanyController {
         } else {
             activityDetailEndDate.setText("End Date: N/A");
         }
-
-        activityDetails.setVisible(true);
+        employeeAddActivityErrorText.setVisible(false);
+        activityDetailsEmployeeInitalsField.setText(null);
+        theView.showActivityDetails(this.activityDetails, activity, this.activityDetailsEmployeeBounds);
 
     }
+
+    @FXML
+    void removeEmployee(ActionEvent event, Employee employee) {
+        Activity activity = theModel.getProject(projectShowName.getText())
+                .getActivityFromName(activityDetailName.getText());
+        activity.removeEmployee(employee);
+        showActivityDetails(event, activity.getName());
+    }
+
+    @FXML
+    void goToEmployee(ActionEvent event, Employee employee) {
+        employeeShowName.setText(employee.getName());
+        employeeShowInitials.setText(employee.getInitials());
+        employeeShowDatePicker.setValue(LocalDate.now());
+        // employeeShowNumberOfTasks
+        // .setText("Number of tasks: " +
+        // employee.getCalendar().getEntries(LocalDate.now()).size());
+        if(theModel.getLoggedIn().getName().equals(employee.getName())){
+            timeOffPane.setVisible(true);
+        } else {
+            timeOffPane.setVisible(false);
+        }
+
+
+        theView.menuSwitchToEmployee(pages);
+    }
+
+    @FXML
+    void addEmployeeToActivity(ActionEvent event) {
+        try {
+            Employee employee = theModel.getEmployeeFromInitials(activityDetailsEmployeeInitalsField.getText());
+            Activity activity = theModel.getProject(projectShowName.getText())
+                    .getActivityFromName(activityDetailName.getText());
+
+            if (employee == null) {
+                employeeAddActivityErrorText.setText("Employee not found");
+                employeeAddActivityErrorText.setVisible(true);
+
+            } else if (!activity.getEmployees().contains(employee)) {
+                activity.addEmployee(employee);
+                activityDetailsEmployeeInitalsField.setText(null);
+                showActivityDetails(event, activity.getName());
+            } else {
+                employeeAddActivityErrorText.setText("Employee already on project");
+                employeeAddActivityErrorText.setVisible(true);
+            }
+
+        } catch (
+
+        Exception e) {
+            employeeAddActivityErrorText.setText("Employee not found");
+            employeeAddActivityErrorText.setVisible(true);
+        }
+
+    }
+
+    @FXML
+    void showEmployeeDetails(ActionEvent event, Employee employee) {
+        employeDetailsName.setText(employee.getName());
+        employeeDetailsInitials.setText(employee.getInitials());
+        employeDetails.setVisible(true);
+    }
+
+    @FXML
+    void viewAvailability(ActionEvent event) {
+        goToEmployee(event, theModel.getEmployeeFromInitials(employeeDetailsInitials.getText()));
+    }
+
+    @FXML
+    void hireEmployee(ActionEvent event) {
+        if(theModel.getEmployeeFromInitials(hireEmployeeInitials.getText()) == null){
+            theModel.hireEmployee(new Employee(hireEmployeeName.getText(), hireEmployeeInitials.getText()));
+            menuSwitchToEmployees(event);
+        }else{
+            hireEmployeeErrorText.setText("Employee with initials already exists");
+            hireEmployeeErrorText.setVisible(true);
+        }
+    }
+
 }
