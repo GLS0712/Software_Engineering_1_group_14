@@ -6,8 +6,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -43,6 +46,12 @@ public class CompanyViewer extends Application {
 
     public void update() {
 
+    }
+
+    public void menuSwitchToEmployee(TabPane pages) {
+         if (theModel.getLoggedIn() != null) {
+            pages.getSelectionModel().select(2);
+        }
     }
 
     public void menuSwitchToEmployees(TabPane pages) {
@@ -88,18 +97,28 @@ public class CompanyViewer extends Application {
             pages.getSelectionModel().select(7);
         }
     }
-public void menuSwitchToEditProject(TabPane pages) {
+
+    public void menuSwitchToEditProject(TabPane pages) {
         if (theModel.getLoggedIn() != null) {
 
             pages.getSelectionModel().select(8);
         }
     }
-   public void menuSwitchToEditActivity(TabPane pages) {
+
+    public void menuSwitchToEditActivity(TabPane pages) {
         if (theModel.getLoggedIn() != null) {
 
             pages.getSelectionModel().select(9);
         }
     }
+    public void menuSwitchToHireEmployee(TabPane pages) {
+         if (theModel.getLoggedIn() != null) {
+
+            pages.getSelectionModel().select(10);
+        }
+    }
+
+
     public void showProjects(FlowPane bounds) {
         // Project project : theModel.getProjects()
         bounds.getChildren().clear();
@@ -139,8 +158,8 @@ public void menuSwitchToEditProject(TabPane pages) {
         for (Activity activity : theModel.getProject(projectName).getActivities()) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/activityView.fxml"));
-                Button projectButton = loader.load();
-                Pane graphicPane = (Pane) projectButton.getGraphic();
+                Button activityButton = loader.load();
+                Pane graphicPane = (Pane) activityButton.getGraphic();
 
                 // graphicPane.setMouseTransparent(true);
 
@@ -152,13 +171,13 @@ public void menuSwitchToEditProject(TabPane pages) {
                 nameLabel.setText(activity.getName());
                 idLabel.setText("DATELABELS");
 
-                projectButton.setOnAction(event -> {
+                activityButton.setOnAction(event -> {
                     if (theController != null) {
                         theController.showActivityDetails(event, activity.getName());
                     }
                 });
 
-                bounds.getChildren().add(projectButton);
+                bounds.getChildren().add(activityButton);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -166,10 +185,79 @@ public void menuSwitchToEditProject(TabPane pages) {
         }
     }
 
+    public void showActivityDetails(Pane activityDetails, Activity activity, VBox bounds) {
+        bounds.getChildren().clear();
+        for (Employee employee : activity.getEmployees()) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/activityEmployee.fxml"));
+                HBox employeeHbox = loader.load();
+                Button employeeButton = (Button) employeeHbox.getChildren().getFirst();
+                Pane graphicPane = (Pane) employeeButton.getGraphic();
+
+                Label nameLabel = (Label) graphicPane.getChildren().get(0);
+                Label initialsLabel = (Label) graphicPane.getChildren().get(1);
+                Button removeButton = (Button) employeeHbox.getChildren().getLast();
+
+                nameLabel.setText(employee.getName());
+                initialsLabel.setText(employee.getInitials());
+                removeButton.setOnAction(event -> {
+                    if (theController != null) {
+                        theController.removeEmployee(event, employee);
+                    }
+
+                });
+                employeeButton.setOnAction(event -> {
+                    if (theController != null) {
+                        theController.goToEmployee(event, employee);
+                    }
+                });
+
+                bounds.getChildren().add(employeeHbox);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        activityDetails.setVisible(true);
+    }
+
+    public void addEmployees(VBox bounds) {
+        bounds.getChildren().clear();
+        for (Employee employee : theModel.getEmployees()) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/employeeShow.fxml"));
+                Button employeeButton = loader.load();
+                Pane graphicPane = (Pane) employeeButton.getGraphic();
+
+                // graphicPane.setMouseTransparent(true);
+
+                Label nameLabel = (Label) graphicPane.getChildren().get(0);
+                Label idLabel = (Label) graphicPane.getChildren().get(1);
+                Label statusLabel = (Label) graphicPane.getChildren().get(2);
+                ImageView statusIcon = (ImageView) graphicPane.getChildren().get(3);
+                nameLabel.setText(employee.getName());
+                idLabel.setText(employee.getInitials());
+                statusLabel.setText("");
+                statusIcon.setImage(null);
+
+                employeeButton.setOnAction(event -> {
+                    if (theController != null) {
+                        theController.showEmployeeDetails(event, employee);
+                    }
+                });
+
+                bounds.getChildren().add(employeeButton);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public static void main(String[] args) {
         launch(args);
     }
 
- 
+    
+    
 
 }

@@ -12,6 +12,7 @@ public class Company {
 
     public Company(){
         this.employeeList.add(new Employee("Hubert Baumeister", "huba"));
+        this.employeeList.add(new Employee("Daniel Hedegaard", "dahe"));
         this.projectList.add(new Project("Testing project", null, null));
         this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity", "GAE");
         this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity1", "GAE");
@@ -76,6 +77,14 @@ public class Company {
     public Employee getEmployeeFromName(String name) {
         for (Employee employee : employeeList) {
             if (employee.getName().equals(name)) {
+                return employee;
+            }
+        }
+        return null;
+    }
+      public Employee getEmployeeFromInitials(String initials) {
+        for (Employee employee : this.employeeList) {
+            if (employee.getInitials().equals(initials)) {
                 return employee;
             }
         }
