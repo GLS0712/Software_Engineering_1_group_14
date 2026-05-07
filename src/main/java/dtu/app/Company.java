@@ -1,10 +1,13 @@
 package dtu.app;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.*;
 
 public class Company {
     private ArrayList<Employee> employeeList = new ArrayList<>();
     private ArrayList<Project> projectList = new ArrayList<>();
+    private TimeLogRepository timeLogRepo = new TimeLogRepository();
     private Employee loggedIn = null;
     public void hireEmployee(Employee employee) {
         employeeList.add(employee);
@@ -76,4 +79,20 @@ public class Company {
         return loggedIn;
     }
 
+    public void registerLog(Employee employee, Project project, Activity activity, LocalDate date, double hours) throws IOException {
+        TimeLog timeLogEntry = new TimeLog(employee, project, activity, date, hours);
+        timeLogRepo.registerEntry(timeLogEntry);
+    }
+
+    public void changeLog(int logNumber, List<String> log) throws IOException {
+        timeLogRepo.editEntry(logNumber, log);
+    }
+
+    public List<List<String>> loadAllLogs() throws IOException{
+        return timeLogRepo.load();
+    }
+
+    public List<String> getLog(int logNumber) throws IOException {
+        return timeLogRepo.getEntry(logNumber);
+    }
 }

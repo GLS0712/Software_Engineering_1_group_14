@@ -1,44 +1,110 @@
-// package dtu.acceptance_tests;
+package dtu.acceptance_tests;
 
-// import static org.junit.Assert.assertEquals;
-// import static org.junit.Assert.assertFalse;
-// import static org.junit.Assert.assertTrue;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-// import java.util.List;
+import dtu.app.Activity;
+import dtu.app.Company;
+import dtu.app.Employee;
+import dtu.app.Project;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import java.time.LocalDate;
 
-// import io.cucumber.java.en.Given;
-// import io.cucumber.java.en.Then;
-// import io.cucumber.java.en.When;
+import static org.junit.Assert.assertEquals;
 
-// public class LogTimeSteps { 
-//     @Given("An {string} has finished an activity")
-//     public void anHasFinishedAnActivity(String string) {
-//         // Write code here that turns the phrase above into concrete actions
-//     }
+import java.io.IOException;
 
-//     @When("the {string} logs that they have spend {int} hours")
-//     public void theLogsThatTheyHaveSpendHours(String string, Integer int1) {
-//         // Write code here that turns the phrase above into concrete actions
-//     }
+public class LogTimeSteps {
 
-//     @Then("it should be logged that {int} hours have been spend")
-//     public void itShouldBeLoggedThatHoursHaveBeenSpend(Integer int1) {
-//         // Write code here that turns the phrase above into concrete actions
-//     }
+    Company company;
+    Project project;
+    Activity activity;
+    Employee employee;
+    LocalDate date = LocalDate.of(1111, 11, 11);
+    Map<String, Employee> employeeMap = new HashMap<>();
+    ErrorMessageHandler errorMessageHandler;
 
-//     @Then("the {string} should be notified of incorrect time logged")
-//     public void should_be_notified_of_incorrect_time_logged(String s) {
-//         // Write code here that turns the phrase above into concrete actions
-//     }
+    public LogTimeSteps(Company company, ErrorMessageHandler errorMessageHandler) {
+        this.company = company;
+        this.errorMessageHandler = errorMessageHandler;
+    }
 
-//     @Then("no time should be logged")
-//     public void no_time_should_be_logged() {
-//         // Write code here that turns the phrase above into concrete actions
-//     }
+    @Given("employee {string} is assigned to activity {string} in project {string}")
+    public void employeeIsAssignedToActivityInProject(String employeeName, String activityName, String projectName) {
+        employee = new Employee(employeeName);
+        company.createProject(projectName);
+        project = company.getProject(projectName);
+        project.createActivity(employee, activityName, "");
+        activity = project.getActivityFromName(activityName);
 
-//     @Given("An {string} has finished an activity with total time of {int} days")
-//     public void An_has_finished_an_activity_with_total_time_of_day(String s, int i) {
-//         // Write code here that turns the phrase above into concrete actions
-//     }
-	
-// }
+        activity.addEmployee(employee);
+    }
+
+    @When("{string} logs {double} hours on {string}")
+    public void logsHoursOn(String employeeName, double hours, String activityName) throws IOException {
+        company.registerLog(employee, project, activity, date, hours);
+    }
+
+    @Then("{double} hours should be registered on {string} for {string}")
+    public void hoursShouldBeRegisteredOnFor(double hours, String acitvityName, String employeeName)
+            throws IOException {
+        assertEquals(company.loadAllLogs().getLast().get(1), employeeName);
+        assertEquals(company.loadAllLogs().getLast().get(3), acitvityName);
+        assertEquals(company.loadAllLogs().getLast().get(5), String.valueOf(hours));
+    }
+
+    @When("{string} logs {double} hours on {string} on {string}")
+    public void logsHoursOnOn(String string, double hours, String string2, String string3) throws IOException {
+        company.registerLog(employee, project, activity, date, hours);
+    }
+
+    @Then("{string}'s time sheet for {string} shows {double} hours on {string}")
+    public void sTimeSheetForShowsHoursOn(String employeeName, String expectedDate, double hours, String acitvityName)
+            throws IOException {
+        assertEquals(company.loadAllLogs().getLast().get(1), employeeName);
+        assertEquals(company.loadAllLogs().getLast().get(3), acitvityName);
+        assertEquals(company.loadAllLogs().getLast().get(4), expectedDate);
+        assertEquals(company.loadAllLogs().getLast().get(5), String.valueOf(hours));
+    }
+
+    @Given("activity {string} exists in project {string}")
+    public void activityExistsInProject(String activityName, String projectName) {
+        company.createProject(projectName);
+        project = company.getProject(projectName);
+        project.createActivity(employee, activityName, "");
+        activity = project.getActivityFromName(activityName);
+    }
+
+    @Given("employee {string} is not assigned to {string}")
+    public void employeeIsNotAssignedTo(String employeeName, String activityName) {
+        employee = new Employee(employeeName);
+    }
+
+    @Given("{string} has logged {double} hours on {string} in {string}")
+    public void hasLoggedHoursOnIn(String employeeName, double hours, String activityName, String projectName)
+            throws IOException {
+        employee = new Employee(employeeName);
+        company.createProject(projectName);
+        project = company.getProject(projectName);
+        project.createActivity(employee, activityName, "");
+        activity = project.getActivityFromName(activityName);
+        activity.addEmployee(employee);
+
+        company.registerLog(employee, project, activity, date, hours);
+    }
+
+    @When("{string} updates the entry to {double} hours")
+    public void updatesTheEntryToHours(String employeeName, double hours) throws IOException {
+        List<String> log = company.getLog(company.loadAllLogs().size()-1);
+        log.set(5, String.valueOf(hours));
+        company.changeLog(company.loadAllLogs().size()-1, log);
+    }
+
+    @Then("{double} hours should now be registered on {string} for {string}")
+    public void hoursShouldNowBeRegisteredOnFor(Double hours, String activityName, String employeeName) throws IOException {
+        assertEquals(company.loadAllLogs().getLast().get(5), String.valueOf(hours));
+    }
+}
