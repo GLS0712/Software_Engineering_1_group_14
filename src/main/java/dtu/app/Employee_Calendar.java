@@ -60,6 +60,14 @@ public class Employee_Calendar {
                 .add(new CalendarEntry(CalendarEntryType.ACTIVITY, activity));
     }
 
+    // Range version of forceRegisterActivity — bypasses the cap for all weeks in the period
+    public void forceRegisterActivity(LocalDate startDate, LocalDate endDate, String activity) {
+        for (String key : distinctWeeks(startDate, endDate)) {
+            calendar.computeIfAbsent(key, k -> new ArrayList<>())
+                    .add(new CalendarEntry(CalendarEntryType.ACTIVITY, activity));
+        }
+    }
+
     // Registers one entry per distinct week covered by [startDate, endDate)
     public void registerActivity(LocalDate startDate, LocalDate endDate, String activity) {
         for (String key : distinctWeeks(startDate, endDate)) {
@@ -72,6 +80,16 @@ public class Employee_Calendar {
     public void registerTimeOff(LocalDate date, String type) {
         calendar.computeIfAbsent(toWeekKey(date), k -> new ArrayList<>())
                 .add(new CalendarEntry(CalendarEntryType.TIME_OFF, type));
+    }
+
+    // Returns false if any week in [startDate, endDate) is already at the 10-activity cap
+    public boolean isAvailableForPeriod(LocalDate startDate, LocalDate endDate) {
+        for (String key : distinctWeeks(startDate, endDate)) {
+            if (calendar.getOrDefault(key, Collections.emptyList()).size() >= 10) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // Get all entries for the week containing date

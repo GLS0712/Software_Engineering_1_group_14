@@ -7,10 +7,12 @@ public class Employee {
 
     public Employee(String name) {
         this.name = name;
+        this.calendar = new Employee_Calendar(name);
     }
     public Employee(String name, String initials) {
         this.name = name;
         this.initials = initials;
+        this.calendar = new Employee_Calendar(name);
     }
   
     public String getName() {

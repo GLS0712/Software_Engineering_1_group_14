@@ -67,7 +67,11 @@ public class Project {
     }
     public void createActivity(Employee employee, String name, String description) throws IllegalAccessError {
         if (projectLeader == null || this.projectLeader.getName().equals(employee.getName())) {
-            this.activityList.add(new Activity(name, description));
+            Activity activity = new Activity(name, description);
+            if (this.endDate != null && !this.endDate.isEmpty()) {
+                activity.setEndDate(LocalDate.parse(this.endDate));
+            }
+            this.activityList.add(activity);
         } else {
             throw new IllegalAccessError("you are not projectLeader");
         }

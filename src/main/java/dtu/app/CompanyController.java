@@ -27,6 +27,8 @@ import javafx.scene.text.Text;
 public class CompanyController {
     private Company theModel;
     private CompanyViewer theView;
+    private Employee currentShownEmployee;
+    private Employee pendingEmployeeToAdd;
     @FXML
     private Button ProfileIcon;
 
@@ -151,10 +153,16 @@ public class CompanyController {
     private Text employeeShowNumberOfTasks;
 
     @FXML
+    private VBox employeeCalendarBounds;
+
+    @FXML
     private VBox employeesBounds;
 
     @FXML
     private Text errorText;
+
+    @FXML
+    private Button confirmAddEmployeeButton;
 
     @FXML
     private Button hireEmployeeButton;
@@ -336,13 +344,22 @@ public class CompanyController {
             Activity activity = theModel.getProject(projectShowName.getText())
                     .getActivityFromName(editActivityHeader.getText());
 
+            LocalDate oldStartDate = activity.getStartDate();
+            LocalDate oldEndDate = activity.getEndDate();
+            String oldName = activity.getName();
+
             activity.setName(editActivityName.getText());
             activity.setDescription(editActivityDescription.getText());
             activity.setStartDate(editActivityStartDate.getValue());
             activity.setAlottedTime(editActivityHours.getText());
             if (editActivityEndDate.getValue() != null) {
                 activity.setEndDate(editActivityEndDate.getValue());
+            } else {
+                Project project = theModel.getProject(projectShowName.getText());
+                activity.setEndDate(project.getEndDate() != null ? LocalDate.parse(project.getEndDate()) : null);
             }
+
+            activity.updateEmployeeCalendars(oldStartDate, oldEndDate, oldName);
 
             this.goToProject(event, projectShowName.getText());
             showActivityDetails(event, editActivityName.getText());
@@ -490,20 +507,26 @@ public class CompanyController {
 
     @FXML
     void goToEmployee(ActionEvent event, Employee employee) {
+        currentShownEmployee = employee;
         employeeShowName.setText(employee.getName());
         employeeShowInitials.setText(employee.getInitials());
         employeeShowDatePicker.setValue(LocalDate.now());
-        // employeeShowNumberOfTasks
-        // .setText("Number of tasks: " +
-        // employee.getCalendar().getEntries(LocalDate.now()).size());
-        if(theModel.getLoggedIn().getName().equals(employee.getName())){
+        employeeShowNumberOfTasks.setText("Activities this week: " + employee.getCalendar().getEntries(LocalDate.now()).size());
+        if (theModel.getLoggedIn().getName().equals(employee.getName())) {
             timeOffPane.setVisible(true);
         } else {
             timeOffPane.setVisible(false);
         }
-
-
+        theView.showEmployeeCalendar(employeeCalendarBounds, employee, LocalDate.now());
         theView.menuSwitchToEmployee(pages);
+    }
+
+    @FXML
+    void refreshEmployeeCalendar(ActionEvent event) {
+        if (currentShownEmployee == null || employeeShowDatePicker.getValue() == null) return;
+        LocalDate date = employeeShowDatePicker.getValue();
+        employeeShowNumberOfTasks.setText("Activities this week: " + currentShownEmployee.getCalendar().getEntries(date).size());
+        theView.showEmployeeCalendar(employeeCalendarBounds, currentShownEmployee, date);
     }
 
     @FXML
@@ -518,21 +541,40 @@ public class CompanyController {
                 employeeAddActivityErrorText.setVisible(true);
 
             } else if (!activity.getEmployees().contains(employee)) {
-                activity.addEmployee(employee);
-                activityDetailsEmployeeInitalsField.setText(null);
-                showActivityDetails(event, activity.getName());
+                try {
+                    activity.addEmployee(employee);
+                    activityDetailsEmployeeInitalsField.setText(null);
+                    confirmAddEmployeeButton.setVisible(false);
+                    showActivityDetails(event, activity.getName());
+                } catch (IllegalArgumentException e) {
+                    pendingEmployeeToAdd = employee;
+                    employeeAddActivityErrorText.setText(e.getMessage());
+                    employeeAddActivityErrorText.setVisible(true);
+                    confirmAddEmployeeButton.setVisible(true);
+                }
             } else {
                 employeeAddActivityErrorText.setText("Employee already on project");
                 employeeAddActivityErrorText.setVisible(true);
             }
 
-        } catch (
-
-        Exception e) {
+        } catch (Exception e) {
             employeeAddActivityErrorText.setText("Employee not found");
             employeeAddActivityErrorText.setVisible(true);
         }
 
+    }
+
+    @FXML
+    void confirmAddEmployeeToActivity(ActionEvent event) {
+        if (pendingEmployeeToAdd == null) return;
+        Activity activity = theModel.getProject(projectShowName.getText())
+                .getActivityFromName(activityDetailName.getText());
+        activity.forceAddEmployee(pendingEmployeeToAdd);
+        pendingEmployeeToAdd = null;
+        activityDetailsEmployeeInitalsField.setText(null);
+        confirmAddEmployeeButton.setVisible(false);
+        employeeAddActivityErrorText.setVisible(false);
+        showActivityDetails(event, activity.getName());
     }
 
     @FXML

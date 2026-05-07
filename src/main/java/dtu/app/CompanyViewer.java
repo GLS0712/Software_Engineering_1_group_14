@@ -1,5 +1,8 @@
 package dtu.app;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -253,6 +256,20 @@ public class CompanyViewer extends Application {
             }
         }
     }
+    public void showEmployeeCalendar(VBox bounds, Employee employee, LocalDate date) {
+        bounds.getChildren().clear();
+        List<Employee_Calendar.CalendarEntry> entries = employee.getCalendar().getEntries(date);
+        if (entries.isEmpty()) {
+            bounds.getChildren().add(new Label("No activities this week"));
+        } else {
+            for (Employee_Calendar.CalendarEntry entry : entries) {
+                Label label = new Label(entry.getType() + ": " + entry.getDescription());
+                label.setStyle("-fx-padding: 8 15; -fx-font-size: 13;");
+                bounds.getChildren().add(label);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         launch(args);
     }

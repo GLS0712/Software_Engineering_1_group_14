@@ -102,7 +102,7 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="60.0" prefWidth="607.0">
                                              <children>
-                                                <VBox prefHeight="60.0" prefWidth="613.0">
+                                                <VBox fx:id="employeeCalendarBounds" prefHeight="60.0" prefWidth="613.0">
                                                    <children>
                                                       <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="60.0" prefWidth="587.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
                                                          <graphic>
@@ -163,7 +163,7 @@
                                  </padding></VBox>
                            </children>
                         </Pane>
-                        <DatePicker fx:id="employeeShowDatePicker" layoutX="454.0" layoutY="56.0" />
+                        <DatePicker fx:id="employeeShowDatePicker" layoutX="454.0" layoutY="56.0" onAction="#refreshEmployeeCalendar" />
                      </children>
                   </AnchorPane>
               </content>
@@ -403,6 +403,7 @@
                               <Text fx:id="activityDetailAlottedTime" layoutX="465.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alotted Time:" />
                               <Text layoutX="382.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Activity ID" wrappingWidth="76.19999999999999" />
                               <Text fx:id="employeeAddActivityErrorText" fill="#b40d0d" layoutX="19.0" layoutY="104.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                              <Button fx:id="confirmAddEmployeeButton" layoutX="19.0" layoutY="132.0" mnemonicParsing="false" onAction="#confirmAddEmployeeToActivity" prefHeight="23.0" prefWidth="200.0" styleClass="inputButtons" text="Add anyway" visible="false" />
                            </children>
                         </Pane>
                         <Text fx:id="projectShowPojectLeader" layoutX="12.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project Leader: " />
