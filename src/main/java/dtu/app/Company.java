@@ -63,8 +63,8 @@ public class Company {
 
     
     public void setInitailsForEmployee(Employee employeeToSet, String initials) {
-        if(employeeList.indexOf(employeeToSet)== -1){
-            throw new IllegalAccessError("Employee not part of company");
+        if(employeeList.indexOf(employeeToSet)== -1){                                                                               // 1
+            throw new IllegalAccessError("Employee not part of company");                       
         }
         ArrayList<String> initalsList = new ArrayList<String>();
         for (Employee employee : employeeList) {
@@ -74,9 +74,9 @@ public class Company {
 
         }
         for (Employee employee : employeeList) {
-            if (employeeToSet.getName().equals(employee.getName()) && initalsList.contains(employeeToSet.getInitials())) {
+            if (employeeToSet.getName().equals(employee.getName()) && initalsList.contains(initials)) {                             // 2
                 throw new IllegalAccessError("Initials already exists");
-            } else if (employeeToSet.getName().equals(employee.getName())) {
+            } else if (employeeToSet.getName().equals(employee.getName())) {                                                        // 3
                 employeeList.get(employeeList.indexOf(employee)).setInitails(initials);
             }
         }
