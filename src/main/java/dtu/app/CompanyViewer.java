@@ -52,7 +52,7 @@ public class CompanyViewer extends Application {
     }
 
     public void menuSwitchToEmployee(TabPane pages) {
-         if (theModel.getLoggedIn() != null) {
+        if (theModel.getLoggedIn() != null) {
             pages.getSelectionModel().select(2);
         }
     }
@@ -114,13 +114,13 @@ public class CompanyViewer extends Application {
             pages.getSelectionModel().select(9);
         }
     }
+
     public void menuSwitchToHireEmployee(TabPane pages) {
-         if (theModel.getLoggedIn() != null) {
+        if (theModel.getLoggedIn() != null) {
 
             pages.getSelectionModel().select(10);
         }
     }
-
 
     public void showProjects(FlowPane bounds) {
         // Project project : theModel.getProjects()
@@ -174,6 +174,20 @@ public class CompanyViewer extends Application {
                 nameLabel.setText(activity.getName());
                 idLabel.setText("DATELABELS");
 
+                if (activity.getStartDate() != null) {
+            if (activity.getEndDate() != null) {
+                statusRect
+                        .setStyle("-fx-fill : " + theController.getStatusColorForActivity(activity) + " ;"); // has both dates
+            } else {
+                if (activity.getStartDate().isBefore(LocalDate.now())||activity.getStartDate().isEqual(LocalDate.now())) {
+                    statusRect.setStyle("-fx-fill: #fffc00;");
+                } else {
+                    statusRect.setStyle("-fx-fill: #ff0000;");
+                }
+            }
+        } else {
+                statusRect.setStyle("-fx-fill: #ff0000;"); // no start date case
+        }
                 activityButton.setOnAction(event -> {
                     if (theController != null) {
                         theController.showActivityDetails(event, activity.getName());
@@ -256,6 +270,7 @@ public class CompanyViewer extends Application {
             }
         }
     }
+
     public void showEmployeeCalendar(VBox bounds, Employee employee, LocalDate date) {
         bounds.getChildren().clear();
         List<Employee_Calendar.CalendarEntry> entries = employee.getCalendar().getEntries(date);
@@ -273,8 +288,5 @@ public class CompanyViewer extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
-    
-    
 
 }

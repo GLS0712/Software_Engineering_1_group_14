@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 
 import java.time.LocalDate;
 
+import javafx.css.converter.PaintConverter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,6 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class CompanyController {
     private Company theModel;
@@ -229,6 +232,7 @@ public class CompanyController {
 
     @FXML
     private DatePicker projectStartDatePicker;
+
     public void setModelAndView(Company model, CompanyViewer view) {
         this.theModel = model;
         this.theView = view;
@@ -253,11 +257,13 @@ public class CompanyController {
         theView.addEmployees(employeesBounds);
         theView.menuSwitchToEmployees(this.pages);
     }
+
     @FXML
     void menuSwitchToHireEmployee(ActionEvent event) {
         hireEmployeeErrorText.setVisible(false);
         theView.menuSwitchToHireEmployee(this.pages);
     }
+
     @FXML
     void menuSwitchToLogin(ActionEvent event) {
         theView.menuSwitchToLogin(this.pages);
@@ -344,7 +350,7 @@ public class CompanyController {
     @FXML
     void editActivity(ActionEvent event) {
         if (editActivityName.getText() == null || editActivityDescription.getText() == null
-                || editActivityStartDate.getValue() == null || editActivityHours == null) {
+                || editActivityStartDate.getValue() == null || editActivityHours.getText() == null) {
             activityEditErrorText.setText("Please fill out all non optional fields");
             activityEditErrorText.setVisible(true);
         } else {
@@ -510,6 +516,21 @@ public class CompanyController {
         } else {
             activityDetailEndDate.setText("End Date: N/A");
         }
+        
+        if (activity.getStartDate() != null) {
+            if (activity.getEndDate() != null) {
+                activityDetailStatusColor
+                        .setStyle("-fx-fill : " + this.getStatusColorForActivity(activity) + " ;"); // has both dates
+            } else {
+                if (activity.getStartDate().isBefore(LocalDate.now())||activity.getStartDate().isEqual(LocalDate.now())) {
+                    activityDetailStatusColor.setStyle("-fx-fill: #fffc00;");
+                } else {
+                    activityDetailStatusColor.setStyle("-fx-fill: #ff0000;");
+                }
+            }
+        } else {
+                activityDetailStatusColor.setStyle("-fx-fill: #ff0000;"); // no start date case
+        }
         employeeAddActivityErrorText.setVisible(false);
         activityDetailsEmployeeInitalsField.setText(null);
         theView.showActivityDetails(this.activityDetails, activity, this.activityDetailsEmployeeBounds);
@@ -536,7 +557,8 @@ public class CompanyController {
         employeeShowName.setText(employee.getName());
         employeeShowInitials.setText(employee.getInitials());
         employeeShowDatePicker.setValue(LocalDate.now());
-        employeeShowNumberOfTasks.setText("Activities this week: " + employee.getCalendar().getEntries(LocalDate.now()).size());
+        employeeShowNumberOfTasks
+                .setText("Activities this week: " + employee.getCalendar().getEntries(LocalDate.now()).size());
         if (theModel.getLoggedIn().getName().equals(employee.getName())) {
             timeOffPane.setVisible(true);
         } else {
@@ -548,9 +570,11 @@ public class CompanyController {
 
     @FXML
     void refreshEmployeeCalendar(ActionEvent event) {
-        if (currentShownEmployee == null || employeeShowDatePicker.getValue() == null) return;
+        if (currentShownEmployee == null || employeeShowDatePicker.getValue() == null)
+            return;
         LocalDate date = employeeShowDatePicker.getValue();
-        employeeShowNumberOfTasks.setText("Activities this week: " + currentShownEmployee.getCalendar().getEntries(date).size());
+        employeeShowNumberOfTasks
+                .setText("Activities this week: " + currentShownEmployee.getCalendar().getEntries(date).size());
         theView.showEmployeeCalendar(employeeCalendarBounds, currentShownEmployee, date);
     }
 
@@ -598,7 +622,8 @@ public class CompanyController {
 
     @FXML
     void confirmAddEmployeeToActivity(ActionEvent event) {
-        if (pendingEmployeeToAdd == null) return;
+        if (pendingEmployeeToAdd == null)
+            return;
         Project project = theModel.getProject(projectShowName.getText());
         if (project.getProjectLeader() != null &&
                 !project.getProjectLeader().getName().equals(theModel.getLoggedIn().getName())) {
@@ -624,19 +649,36 @@ public class CompanyController {
     }
 
     @FXML
+    void showSelf(ActionEvent event) {
+        employeDetailsName.setText(theModel.getLoggedIn().getName());
+        employeeDetailsInitials.setText(theModel.getLoggedIn().getInitials());
+        employeDetails.setVisible(true);
+    }
+
+    @FXML
     void viewAvailability(ActionEvent event) {
         goToEmployee(event, theModel.getEmployeeFromInitials(employeeDetailsInitials.getText()));
     }
 
     @FXML
     void hireEmployee(ActionEvent event) {
-        if(theModel.getEmployeeFromInitials(hireEmployeeInitials.getText()) == null){
+        if (theModel.getEmployeeFromInitials(hireEmployeeInitials.getText()) == null) {
             theModel.hireEmployee(new Employee(hireEmployeeName.getText(), hireEmployeeInitials.getText()));
             menuSwitchToEmployees(event);
-        }else{
+        } else {
             hireEmployeeErrorText.setText("Employee with initials already exists");
             hireEmployeeErrorText.setVisible(true);
         }
     }
 
+    public String getStatusColorForActivity(Activity activity) {
+        if (activity.getStartDate().isAfter(LocalDate.now())) {
+            return "#ff0000";
+        } else if (activity.getEndDate().isAfter(LocalDate.now())) {
+            return "#fffc00";
+        } else {
+            return "#41ff00";
+        }
+
+    }
 }

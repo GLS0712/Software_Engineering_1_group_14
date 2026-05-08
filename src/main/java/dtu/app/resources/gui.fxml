@@ -16,6 +16,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -237,7 +238,7 @@
                               <Button layoutX="199.0" layoutY="359.0" mnemonicParsing="false" onAction="#viewAvailability" prefHeight="50.0" prefWidth="152.0" styleClass="inputButtons" text="View availability" />
                            </children>
                         </Pane>
-                        <Button layoutX="519.0" layoutY="86.0" mnemonicParsing="false" text="Show me" />
+                        <Button layoutX="519.0" layoutY="86.0" mnemonicParsing="false" onAction="#showSelf" text="Show me" />
                         <Button fx:id="hireEmployeeButton" layoutX="507.0" layoutY="55.0" mnemonicParsing="false" onAction="#menuSwitchToHireEmployee" text="Add Employee" />
                      </children>
                   </AnchorPane>
@@ -397,6 +398,9 @@
                                  <font>
                                     <Font name="SansSerif Regular" size="12.0" />
                                  </font>
+                                 <tooltip>
+                                    <Tooltip />
+                                 </tooltip>
                               </Label>
                               <Text fx:id="activityDetailDesctiption" layoutX="20.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Description" wrappingWidth="410.0" />
                               <TextField fx:id="activityDetailsEmployeeInitalsField" layoutX="19.0" layoutY="107.0" onAction="#addEmployeeToActivity" prefHeight="23.0" prefWidth="383.0" promptText="Employee initals..." />
