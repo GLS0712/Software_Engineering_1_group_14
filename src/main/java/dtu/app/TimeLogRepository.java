@@ -7,9 +7,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class TimeLogRepository {
 
@@ -44,14 +47,12 @@ public class TimeLogRepository {
         }
     }
 
-    public static void writeAll(List<List<String>> logs) throws IOException {
+    public void writeAll(List<List<String>> logs) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-            int lineNumber = 0;
             bw.write(HEADER);
             bw.newLine();
+
             for (List<String> log : logs) {
-                lineNumber++;
-                bw.write(lineNumber);
                 bw.write(String.join(COMMA_DELIMITER, log));
                 bw.newLine();
             }
@@ -67,11 +68,100 @@ public class TimeLogRepository {
         }
     }
 
+    public void hoursLoggedToday(Employee employee) throws IOException {
+        List<List<String>> logs = new ArrayList<>();
+        double totalHours = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            boolean isHeader = true;
+            while ((line = br.readLine()) != null) {
+                if (isHeader) {
+                    isHeader = false;
+                    continue;
+                }
+
+                String[] entries = line.split(COMMA_DELIMITER);
+                if (entries[1].equals(employee.getInitials()) && LocalDate.parse(entries[4]).equals(LocalDate.now())) {
+                    logs.add(Arrays.asList(entries));
+                }
+            }
+        }
+
+        System.out.println("Logs from today: ");
+        for (List<String> log : logs) {
+            System.out.println("\n" + log);
+            totalHours += Double.valueOf(log.get(4));
+        }
+
+        System.out.println("Total hours worked today: " + totalHours);
+    }
+
+    public double hoursLoggedWeek(Employee employee) throws IOException {
+        List<List<String>> logs = new ArrayList<>();
+        double totalHours = 0;
+
+        LocalDate date = LocalDate.now();
+        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+        int weekNumber = date.get(woy);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            boolean isHeader = true;
+            while ((line = br.readLine()) != null) {
+                if (isHeader) {
+                    isHeader = false;
+                    continue;
+                }
+
+                String[] entries = line.split(COMMA_DELIMITER);
+                if (entries[1].equals(employee.getInitials()) && LocalDate.parse(entries[4]).get(woy) == weekNumber) {
+                    logs.add(Arrays.asList(entries));
+                }
+            }
+        }
+
+        System.out.println("Logs from this week: ");
+        for (List<String> log : logs) {
+            totalHours += Double.valueOf(log.get(4));
+        }
+
+        return totalHours;
+    }
+
+    public double hoursLoggedMonth(Employee employee) throws IOException {
+        List<List<String>> logs = new ArrayList<>();
+        double totalHours = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            boolean isHeader = true;
+            while ((line = br.readLine()) != null) {
+                if (isHeader) {
+                    isHeader = false;
+                    continue;
+                }
+
+                String[] entries = line.split(COMMA_DELIMITER);
+                LocalDate entryDate = LocalDate.parse(entries[4]);
+                LocalDate today = LocalDate.now();
+                if (entries[1].equals(employee.getInitials()) && entryDate.getYear() == today.getYear() && entryDate.getMonth() == today.getMonth()) {
+                    logs.add(Arrays.asList(entries));
+                }
+            }
+        }
+
+        for (List<String> log : logs) {
+            totalHours += Double.valueOf(log.get(4));
+        }
+
+        return totalHours;
+    }
+
     public void editEntry(int lineIndex, List<String> newValues) throws IOException {
         List<List<String>> logs = load();
 
         if (lineIndex < 0 || lineIndex >= logs.size()) {
-            System.out.println("HEJ");
             throw new IllegalArgumentException("Line index out of range: " + lineIndex);
         }
 
