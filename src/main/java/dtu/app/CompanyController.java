@@ -69,13 +69,16 @@ public class CompanyController {
     private TextField activityDetailsEmployeeInitalsField;
 
     @FXML
+    private Button activityEditButton;
+
+    @FXML
     private Text activityEditErrorText;
 
     @FXML
-    private Text hireEmployeeErrorText;
+    private AnchorPane bottomPane;
 
     @FXML
-    private AnchorPane bottomPane;
+    private Button confirmAddEmployeeButton;
 
     @FXML
     private TextArea createActivityDescription;
@@ -141,6 +144,9 @@ public class CompanyController {
     private Text employeeAddActivityErrorText;
 
     @FXML
+    private VBox employeeCalendarBounds;
+
+    @FXML
     private Text employeeDetailsInitials;
 
     @FXML
@@ -156,19 +162,16 @@ public class CompanyController {
     private Text employeeShowNumberOfTasks;
 
     @FXML
-    private VBox employeeCalendarBounds;
-
-    @FXML
     private VBox employeesBounds;
 
     @FXML
     private Text errorText;
 
     @FXML
-    private Button confirmAddEmployeeButton;
+    private Button hireEmployeeButton;
 
     @FXML
-    private Button hireEmployeeButton;
+    private Text hireEmployeeErrorText;
 
     @FXML
     private TextField hireEmployeeInitials;
@@ -187,6 +190,9 @@ public class CompanyController {
 
     @FXML
     private TextArea projectDescriptionField;
+
+    @FXML
+    private Button projectEditButton;
 
     @FXML
     private Text projectEditErrorText;
@@ -219,19 +225,19 @@ public class CompanyController {
     private Text projectShowPojectLeader;
 
     @FXML
-    private Text projectViewErrorText;
-
-    @FXML
     private Rectangle projectShowSatusColor;
 
     @FXML
     private Text projectShowStartDate;
 
     @FXML
-    private Pane timeOffPane;
+    private DatePicker projectStartDatePicker;
 
     @FXML
-    private DatePicker projectStartDatePicker;
+    private Text projectViewErrorText;
+
+    @FXML
+    private Pane timeOffPane;
 
     public void setModelAndView(Company model, CompanyViewer view) {
         this.theModel = model;
@@ -440,6 +446,16 @@ public class CompanyController {
         projectShowName.setText(projectName);
         projectShowId.setText(project.getId());
         projectShowStartDate.setText("IMPLEMENT START DATE");
+
+        if (theModel.getProject(projectName).getProjectLeader() == null) // project leader does not exist
+        {
+            projectEditButton.setVisible(true);
+        } else if (theModel.getProject(projectName).getProjectLeader().equals(theModel.getLoggedIn())) {
+            projectEditButton.setVisible(true);
+        } else {
+            projectEditButton.setVisible(false);
+        }
+
         projectShowEndDate
                 .setText(project.getEndDate() != null ? "End date: " + project.getEndDate() : "End date: N/A");
         if (project.getProjectLeader() != null) {
@@ -447,8 +463,8 @@ public class CompanyController {
         } else {
             projectShowPojectLeader.setText("Project Leader: N/A");
         }
-        theView.showActivities(projectShowActivitiesBounds, projectName);
 
+        theView.showActivities(projectShowActivitiesBounds, projectName);
         theView.menuSwitchToProjectView(this.pages, projectName);
     }
 
@@ -516,20 +532,30 @@ public class CompanyController {
         } else {
             activityDetailEndDate.setText("End Date: N/A");
         }
-        
+
+        if (theModel.getProject(projectShowName.getText()).getProjectLeader() == null) // project leader does not exist
+        {
+            activityEditButton.setVisible(true);
+        } else if (theModel.getProject(projectShowName.getText()).getProjectLeader().equals(theModel.getLoggedIn())) {
+            activityEditButton.setVisible(true);
+        } else {
+            activityEditButton.setVisible(false);
+        }
+
         if (activity.getStartDate() != null) {
             if (activity.getEndDate() != null) {
                 activityDetailStatusColor
                         .setStyle("-fx-fill : " + this.getStatusColorForActivity(activity) + " ;"); // has both dates
             } else {
-                if (activity.getStartDate().isBefore(LocalDate.now())||activity.getStartDate().isEqual(LocalDate.now())) {
+                if (activity.getStartDate().isBefore(LocalDate.now())
+                        || activity.getStartDate().isEqual(LocalDate.now())) {
                     activityDetailStatusColor.setStyle("-fx-fill: #fffc00;");
                 } else {
                     activityDetailStatusColor.setStyle("-fx-fill: #ff0000;");
                 }
             }
         } else {
-                activityDetailStatusColor.setStyle("-fx-fill: #ff0000;"); // no start date case
+            activityDetailStatusColor.setStyle("-fx-fill: #ff0000;"); // no start date case
         }
         employeeAddActivityErrorText.setVisible(false);
         activityDetailsEmployeeInitalsField.setText(null);

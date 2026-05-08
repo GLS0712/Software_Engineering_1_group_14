@@ -156,8 +156,18 @@ public class CompanyViewer extends Application {
     }
 
     public void showActivities(VBox bounds, String projectName) {
-        // Project project : theModel.getProjects()
-        bounds.getChildren().remove(1, bounds.getChildren().size());
+        if(theModel.getProject(projectName).getProjectLeader() == null)       // project leader does not exist
+        {
+            bounds.getChildren().remove(1, bounds.getChildren().size());
+            bounds.getChildren().getFirst().setDisable(false);
+        } else if (theModel.getProject(projectName).getProjectLeader().equals(theModel.getLoggedIn())){                // project leader logged in 
+            bounds.getChildren().remove(1, bounds.getChildren().size());
+            bounds.getChildren().getFirst().setDisable(false);
+        }   else{
+            bounds.getChildren().remove(1, bounds.getChildren().size());        // you are not project leader
+            bounds.getChildren().getFirst().setDisable(true);
+        }
+      
         for (Activity activity : theModel.getProject(projectName).getActivities()) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/activityView.fxml"));

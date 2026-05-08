@@ -16,7 +16,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -277,14 +276,14 @@
                         <HBox prefHeight="47.0" prefWidth="469.0" spacing="10.0">
                            <children>
                               <Text fx:id="projectShowName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project name" />
-                              <Button minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditProject" styleClass="inputButtons" text="Edit" />
+                              <Button fx:id="projectEditButton" minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditProject" styleClass="inputButtons" text="Edit" />
                            </children>
                            <padding>
                               <Insets left="10.0" top="10.0" />
                            </padding>
                         </HBox>
                         <Text fx:id="projectShowId" layoutX="14.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Project Id" wrappingWidth="76.19999999999999" />
-                        <Text fx:id="projectViewErrorText" fill="#b40d0d" layoutX="14.0" layoutY="80.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                        <Text fx:id="projectViewErrorText" fill="#b40d0d" layoutX="200.0" layoutY="80.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
                         <TitledPane animated="false" collapsible="false" layoutX="15.0" layoutY="90.0" prefHeight="514.0" prefWidth="556.0" text="Activities">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -385,22 +384,19 @@
                               <HBox prefHeight="38.0" prefWidth="445.0" spacing="10.0">
                                  <children>
                                     <Text fx:id="activityDetailName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Activity name" wrappingWidth="184.388671875" />
-                                    <Button minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditActivity" prefHeight="23.0" prefWidth="48.0" styleClass="inputButtons" text="Edit" />
+                                    <Button fx:id="activityEditButton" minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditActivity" prefHeight="23.0" prefWidth="48.0" styleClass="inputButtons" text="Edit" />
                                  </children>
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </HBox>
+                              <Rectangle fx:id="activityDetailStatusColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="505.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                               <Text fx:id="activityDetailStartDate" layoutX="461.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date:" />
                               <Text fx:id="activityDetailEndDate" layoutX="464.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" />
-                              <Rectangle fx:id="activityDetailStatusColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="515.0" layoutY="3.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
                               <Label fx:id="activityDetailStatusLabel" layoutX="461.0" layoutY="5.0" prefHeight="15.0" prefWidth="45.0" text="Status">
                                  <font>
                                     <Font name="SansSerif Regular" size="12.0" />
                                  </font>
-                                 <tooltip>
-                                    <Tooltip />
-                                 </tooltip>
                               </Label>
                               <Text fx:id="activityDetailDesctiption" layoutX="20.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Description" wrappingWidth="410.0" />
                               <TextField fx:id="activityDetailsEmployeeInitalsField" layoutX="19.0" layoutY="107.0" onAction="#addEmployeeToActivity" prefHeight="23.0" prefWidth="383.0" promptText="Employee initals..." />
