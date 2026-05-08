@@ -20,13 +20,6 @@ public class Company {
         this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity2", "GAE");
         this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity3", "GAE");
         this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity4", "GAE");
-        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity5", "GAE");
-        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity6", "GAE");
-        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity7", "GAE");
-        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity8", "GAE");
-        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity9", "GAE");
-        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity10", "GAE");
-        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity11", "GAE");
 
     }
 

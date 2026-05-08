@@ -283,15 +283,16 @@
                            </padding>
                         </HBox>
                         <Text fx:id="projectShowId" layoutX="14.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Project Id" wrappingWidth="76.19999999999999" />
+                        <Text fx:id="projectViewErrorText" fill="#b40d0d" layoutX="14.0" layoutY="80.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
                         <TitledPane animated="false" collapsible="false" layoutX="15.0" layoutY="90.0" prefHeight="514.0" prefWidth="556.0" text="Activities">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <ScrollPane hbarPolicy="NEVER" prefHeight="490.0" prefWidth="546.0">
+                                    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="490.0" prefWidth="546.0">
                                        <content>
-                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="691.0" prefWidth="542.0">
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="542.0">
                                              <children>
-                                                <VBox fx:id="projectShowActivitiesBounds" prefHeight="490.0" prefWidth="548.0">
+                                                <VBox fx:id="projectShowActivitiesBounds" prefWidth="548.0">
                                                    <children>
                                                       <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#switchToCreateActivity" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
                                                          <padding>
@@ -451,7 +452,7 @@
                               <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="-6.0" prefHeight="594.0" prefWidth="550.0" spacing="20.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Create Activity" textAlignment="CENTER" />
-                                    <Text fx:id="activityCreateErrorText1" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                                    <Text fx:id="activityCreateErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Activity" textAlignment="CENTER" />
                                     <TextField fx:id="createActivityName" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Activity name" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="activity Desctiption" textAlignment="CENTER" />

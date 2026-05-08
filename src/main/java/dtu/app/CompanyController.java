@@ -216,6 +216,9 @@ public class CompanyController {
     private Text projectShowPojectLeader;
 
     @FXML
+    private Text projectViewErrorText;
+
+    @FXML
     private Rectangle projectShowSatusColor;
 
     @FXML
@@ -313,23 +316,28 @@ public class CompanyController {
 
     @FXML
     void createActivity(ActionEvent event) {
-        if (createActivityName.getText() == null || createActivityDescription.getText() == null
-                || createActivityStartDate.getValue() == null || createActivityHours == null) {
+        if (createActivityName.getText().isEmpty() || createActivityDescription.getText().isEmpty()
+                || createActivityStartDate.getValue() == null) {
             activityCreateErrorText.setText("Please fill out all non optional fields");
             activityCreateErrorText.setVisible(true);
         } else {
-
-            theModel.getProject(projectShowName.getText()).createActivity(theModel.getLoggedIn(),
-                    createActivityName.getText(), createActivityDescription.getText());
-            Activity activity = theModel.getProject(projectShowName.getText())
-                    .getActivityFromName(createActivityName.getText());
-            activity.setStartDate(createActivityStartDate.getValue());
-            activity.setAlottedTime(createActivityHours.getText());
-            if (createActivityEndDate.getValue() != null) {
-                activity.setEndDate(createActivityEndDate.getValue());
+            try {
+                theModel.getProject(projectShowName.getText()).createActivity(theModel.getLoggedIn(),
+                        createActivityName.getText(), createActivityDescription.getText());
+                Activity activity = theModel.getProject(projectShowName.getText())
+                        .getActivityFromName(createActivityName.getText());
+                activity.setStartDate(createActivityStartDate.getValue());
+                if (!createActivityHours.getText().isEmpty()) {
+                    activity.setAlottedTime(createActivityHours.getText());
+                }
+                if (createActivityEndDate.getValue() != null) {
+                    activity.setEndDate(createActivityEndDate.getValue());
+                }
+                this.goToProject(event, projectShowName.getText());
+            } catch (Exception e) {
+                activityCreateErrorText.setText(e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName());
+                activityCreateErrorText.setVisible(true);
             }
-
-            this.goToProject(event, projectShowName.getText());
         }
     }
 
@@ -422,6 +430,7 @@ public class CompanyController {
     void goToProject(ActionEvent event, String projectName) {
         Project project = theModel.getProject(projectName);
         activityDetails.setVisible(false);
+        projectViewErrorText.setVisible(false);
         projectShowName.setText(projectName);
         projectShowId.setText(project.getId());
         projectShowStartDate.setText("IMPLEMENT START DATE");
@@ -439,10 +448,16 @@ public class CompanyController {
 
     @FXML
     void gotToEditActivity(ActionEvent event) {
-        Activity activity = theModel.getProject(projectShowName.getText())
-                .getActivityFromName(activityDetailName.getText());
+        Project project = theModel.getProject(projectShowName.getText());
+        if (project.getProjectLeader() != null &&
+                !project.getProjectLeader().getName().equals(theModel.getLoggedIn().getName())) {
+            employeeAddActivityErrorText.setText("Only the project leader can edit this activity");
+            employeeAddActivityErrorText.setVisible(true);
+            return;
+        }
+        Activity activity = project.getActivityFromName(activityDetailName.getText());
         editActivityHeader.setText(activity.getName());
-        editActivityProjectName.setText("From project: " + theModel.getProject(projectShowName.getText()).getName());
+        editActivityProjectName.setText("From project: " + project.getName());
         editActivityName.setText(activity.getName());
         editActivityDescription.setText(activity.getDescription());
         editActivityStartDate.setValue(activity.getStartDate());
@@ -454,11 +469,15 @@ public class CompanyController {
     @FXML
     void gotToEditProject(ActionEvent event) {
         Project project = theModel.getProject(projectShowName.getText());
+        if (project.getProjectLeader() != null &&
+                !project.getProjectLeader().getName().equals(theModel.getLoggedIn().getName())) {
+            projectViewErrorText.setText("Only the project leader can edit this project");
+            projectViewErrorText.setVisible(true);
+            return;
+        }
         editProjectHeader.setText(project.getName());
         editProjectName.setText(project.getName());
         editProjectDescription.setText(project.getDescription());
-        // editProjectStartDate.setValue(LocalDate.parse(project.getStartDate()));
-        // editProjectEndDate.setValue(LocalDate.parse(project.getEndDate()));
         editProjectProjectLeader.getItems().clear();
         for (Employee employee : theModel.getEmployees()) {
             editProjectProjectLeader.getItems().add(employee.getName());
@@ -499,8 +518,14 @@ public class CompanyController {
 
     @FXML
     void removeEmployee(ActionEvent event, Employee employee) {
-        Activity activity = theModel.getProject(projectShowName.getText())
-                .getActivityFromName(activityDetailName.getText());
+        Project project = theModel.getProject(projectShowName.getText());
+        if (project.getProjectLeader() != null &&
+                !project.getProjectLeader().getName().equals(theModel.getLoggedIn().getName())) {
+            employeeAddActivityErrorText.setText("Only the project leader can modify employees");
+            employeeAddActivityErrorText.setVisible(true);
+            return;
+        }
+        Activity activity = project.getActivityFromName(activityDetailName.getText());
         activity.removeEmployee(employee);
         showActivityDetails(event, activity.getName());
     }
@@ -531,6 +556,13 @@ public class CompanyController {
 
     @FXML
     void addEmployeeToActivity(ActionEvent event) {
+        Project project = theModel.getProject(projectShowName.getText());
+        if (project.getProjectLeader() != null &&
+                !project.getProjectLeader().getName().equals(theModel.getLoggedIn().getName())) {
+            employeeAddActivityErrorText.setText("Only the project leader can modify employees");
+            employeeAddActivityErrorText.setVisible(true);
+            return;
+        }
         try {
             Employee employee = theModel.getEmployeeFromInitials(activityDetailsEmployeeInitalsField.getText());
             Activity activity = theModel.getProject(projectShowName.getText())
@@ -567,6 +599,13 @@ public class CompanyController {
     @FXML
     void confirmAddEmployeeToActivity(ActionEvent event) {
         if (pendingEmployeeToAdd == null) return;
+        Project project = theModel.getProject(projectShowName.getText());
+        if (project.getProjectLeader() != null &&
+                !project.getProjectLeader().getName().equals(theModel.getLoggedIn().getName())) {
+            employeeAddActivityErrorText.setText("Only the project leader can modify employees");
+            employeeAddActivityErrorText.setVisible(true);
+            return;
+        }
         Activity activity = theModel.getProject(projectShowName.getText())
                 .getActivityFromName(activityDetailName.getText());
         activity.forceAddEmployee(pendingEmployeeToAdd);
