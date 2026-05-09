@@ -56,25 +56,30 @@ public class Company {
 
     
     public void setInitailsForEmployee(Employee employeeToSet, String initials) {
+
+        assert employeeToSet != null && initials != null && initials != "";
+            
         if(employeeList.indexOf(employeeToSet)== -1){                                                                               // 1
             throw new IllegalAccessError("Employee not part of company");                       
         }
-        ArrayList<String> initalsList = new ArrayList<String>();
+        ArrayList<String> initialsList = new ArrayList<String>();
         for (Employee employee : employeeList) {
             if (employee.getInitials() != null) {
-                initalsList.add(employee.getInitials());
+                initialsList.add(employee.getInitials());
             }
 
         }
         for (Employee employee : employeeList) {
-            if (employeeToSet.getName().equals(employee.getName()) && initalsList.contains(initials)) {                             // 2
+            if (employeeToSet.getName().equals(employee.getName()) && initialsList.contains(initials)) {                             // 2
                 throw new IllegalAccessError("Initials already exists");
-            } else if (employeeToSet.getName().equals(employee.getName())) {                                                        // 3
+            } else if (employeeToSet.getName().equals(employee.getName())) {                                                         // 3
                 employeeList.get(employeeList.indexOf(employee)).setInitails(initials);
             }
         }
        
+        assert employeeToSet.getInitials() == initials;
     }
+
 
     public Employee getEmployeeFromName(String name) {
         for (Employee employee : employeeList) {
