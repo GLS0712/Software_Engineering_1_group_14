@@ -10,11 +10,13 @@ public class Project {
     private String description;
     private String id = "25001";
     private Employee projectLeader = null;
+    private LocalDate startDate;
     private ArrayList<Employee> employeeList;
     private ArrayList<Activity> activityList;
 
     public Project(String name) {
         this.name = name;
+        this.startDate = LocalDate.now();
         this.employeeList = new ArrayList<>();
         this.activityList = new ArrayList<>();
     }
@@ -22,6 +24,7 @@ public class Project {
     public Project(String name, String endDate) {
         this.name = name;
         this.endDate = endDate;
+        this.startDate = LocalDate.now();
         this.employeeList = new ArrayList<>();
         this.activityList = new ArrayList<>();
     }
@@ -30,6 +33,7 @@ public class Project {
         this.name = name;
         this.endDate = endDate;
         this.projectLeader = projectLeader;
+        this.startDate = LocalDate.now();
         this.employeeList = new ArrayList<>();
         this.activityList = new ArrayList<>();
     }
@@ -47,6 +51,14 @@ public class Project {
     public String getDescription(){
         return this.description;
     }
+    public LocalDate getStartDate() {
+        return this.startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
     public String getEndDate() {
         return this.endDate;
     }

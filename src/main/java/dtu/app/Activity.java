@@ -49,6 +49,9 @@ public class Activity {
     }
 
     public void addEmployee(Employee employee) {
+        if (startDate != null && employee.getCalendar().hasTimeOffInPeriod(startDate, effectiveEnd())) {
+            throw new IllegalStateException("Cannot add employee: they have sick leave or time off during this period");
+        }
         if (startDate != null && !employee.getCalendar().isAvailableForPeriod(startDate, effectiveEnd())) {
             throw new IllegalArgumentException("are you sure this activity should be added, schedule is full");
         }
@@ -59,6 +62,9 @@ public class Activity {
     }
 
     public void forceAddEmployee(Employee employee) {
+        if (startDate != null && employee.getCalendar().hasTimeOffInPeriod(startDate, effectiveEnd())) {
+            throw new IllegalStateException("Cannot add employee: they have sick leave or time off during this period");
+        }
         employees.add(employee);
         if (startDate != null) {
             employee.getCalendar().forceRegisterActivity(startDate, effectiveEnd(), name);

@@ -1,14 +1,11 @@
 package dtu.app;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
 import java.time.LocalDate;
 
-import javafx.css.converter.PaintConverter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -16,16 +13,12 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.control.TitledPane;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 public class CompanyController {
     private Company theModel;
@@ -231,6 +224,27 @@ public class CompanyController {
     private Pane timeOffPane;
 
     @FXML
+    private Text sickStatusText;
+
+    @FXML
+    private CheckBox sickCheckBox;
+
+    @FXML
+    private Text sicknessErrorText;
+
+    @FXML
+    private TextField timeOffReasonField;
+
+    @FXML
+    private DatePicker timeOffStartDatePicker;
+
+    @FXML
+    private DatePicker timeOffEndDatePicker;
+
+    @FXML
+    private Text timeOffErrorText;
+
+    @FXML
     private DatePicker projectStartDatePicker;
 
     public void setModelAndView(Company model, CompanyViewer view) {
@@ -246,13 +260,16 @@ public class CompanyController {
 
     @FXML
     void menuSwitchToEmployees(ActionEvent event) {
-        if (theModel.getLoggedIn().getInitials() == "huba") {
-            hireEmployeeButton.setVisible(true);
-            hireEmployeeButton.setDisable(false);
-        } else {
-            hireEmployeeButton.setVisible(false);
-            hireEmployeeButton.setDisable(true);
-        }
+        // if (theModel.getLoggedIn().getInitials() == "huba") {
+        //     hireEmployeeButton.setVisible(true);
+        //     hireEmployeeButton.setDisable(false);
+        // } else {
+        //     hireEmployeeButton.setVisible(false);
+        //     hireEmployeeButton.setDisable(true);
+        // }
+        hireEmployeeButton.setVisible(true);
+        hireEmployeeButton.setDisable(false);
+
         employeDetails.setVisible(false);
         theView.addEmployees(employeesBounds);
         theView.menuSwitchToEmployees(this.pages);
@@ -396,7 +413,7 @@ public class CompanyController {
                 project.setProjectLeader(theModel.getEmployeeFromName(projectLeaderPicker.getValue().toString()));
             }
             if (projectStartDatePicker.getValue() != null) {
-                System.out.println("IMPLEMENT START DATE");
+                project.setStartDate(projectStartDatePicker.getValue());
             }
             if (projectEndDatePicker.getValue() != null) {
                 project.setEndDate(projectEndDatePicker.getValue().toString());
@@ -421,7 +438,7 @@ public class CompanyController {
                 project.setProjectLeader(theModel.getEmployeeFromName(editProjectProjectLeader.getValue().toString()));
             }
             if (editProjectStartDate.getValue() != null) {
-                System.out.println("IMPLEMENT START DATE");
+                project.setStartDate(editProjectStartDate.getValue());
             }
             if (editProjectEndDate.getValue() != null) {
                 project.setEndDate(editProjectEndDate.getValue().toString());
@@ -439,9 +456,10 @@ public class CompanyController {
         projectViewErrorText.setVisible(false);
         projectShowName.setText(projectName);
         projectShowId.setText(project.getId());
-        projectShowStartDate.setText("IMPLEMENT START DATE");
+        projectShowStartDate.setText(project.getStartDate() != null ? "Start date: " + project.getStartDate() : "Start date: N/A");
         projectShowEndDate
                 .setText(project.getEndDate() != null ? "End date: " + project.getEndDate() : "End date: N/A");
+        projectShowSatusColor.setStyle("-fx-fill: " + getStatusColorForProject(project) + ";");
         if (project.getProjectLeader() != null) {
             projectShowPojectLeader.setText("Project Leader: " + project.getProjectLeader().getName());
         } else {
@@ -484,6 +502,7 @@ public class CompanyController {
         editProjectHeader.setText(project.getName());
         editProjectName.setText(project.getName());
         editProjectDescription.setText(project.getDescription());
+        editProjectStartDate.setValue(project.getStartDate());
         editProjectProjectLeader.getItems().clear();
         for (Employee employee : theModel.getEmployees()) {
             editProjectProjectLeader.getItems().add(employee.getName());
@@ -561,6 +580,15 @@ public class CompanyController {
                 .setText("Activities this week: " + employee.getCalendar().getEntries(LocalDate.now()).size());
         if (theModel.getLoggedIn().getName().equals(employee.getName())) {
             timeOffPane.setVisible(true);
+            sicknessErrorText.setVisible(false);
+            timeOffErrorText.setVisible(false);
+            if (employee.getCalendar().hasTimeOffInPeriod(LocalDate.now(), LocalDate.now().plusDays(1))) {
+                sickStatusText.setText("You have sick leave or time off this week");
+                sickStatusText.setStyle("-fx-fill: #cc0000;");
+            } else {
+                sickStatusText.setText("No current sick leave or time off");
+                sickStatusText.setStyle("-fx-fill: #008800;");
+            }
         } else {
             timeOffPane.setVisible(false);
         }
@@ -602,6 +630,10 @@ public class CompanyController {
                     activityDetailsEmployeeInitalsField.setText(null);
                     confirmAddEmployeeButton.setVisible(false);
                     showActivityDetails(event, activity.getName());
+                } catch (IllegalStateException e) {
+                    employeeAddActivityErrorText.setText(e.getMessage());
+                    employeeAddActivityErrorText.setVisible(true);
+                    confirmAddEmployeeButton.setVisible(false);
                 } catch (IllegalArgumentException e) {
                     pendingEmployeeToAdd = employee;
                     employeeAddActivityErrorText.setText(e.getMessage());
@@ -633,7 +665,15 @@ public class CompanyController {
         }
         Activity activity = theModel.getProject(projectShowName.getText())
                 .getActivityFromName(activityDetailName.getText());
-        activity.forceAddEmployee(pendingEmployeeToAdd);
+        try {
+            activity.forceAddEmployee(pendingEmployeeToAdd);
+        } catch (IllegalStateException e) {
+            employeeAddActivityErrorText.setText(e.getMessage());
+            employeeAddActivityErrorText.setVisible(true);
+            confirmAddEmployeeButton.setVisible(false);
+            pendingEmployeeToAdd = null;
+            return;
+        }
         pendingEmployeeToAdd = null;
         activityDetailsEmployeeInitalsField.setText(null);
         confirmAddEmployeeButton.setVisible(false);
@@ -671,6 +711,52 @@ public class CompanyController {
         }
     }
 
+    @FXML
+    void reportSickness(ActionEvent event) {
+        sicknessErrorText.setVisible(false);
+        if (!sickCheckBox.isSelected()) {
+            sicknessErrorText.setText("Please check 'I am sick' to confirm");
+            sicknessErrorText.setVisible(true);
+            return;
+        }
+        Employee employee = theModel.getLoggedIn();
+        employee.getCalendar().registerTimeOff(LocalDate.now(), "Sick");
+        sickCheckBox.setSelected(false);
+        sickStatusText.setText("You are sick this week");
+        sickStatusText.setStyle("-fx-fill: #cc0000;");
+        theView.showEmployeeCalendar(employeeCalendarBounds, employee, LocalDate.now());
+        employeeShowNumberOfTasks.setText("Activities this week: " + employee.getCalendar().getEntries(LocalDate.now()).size());
+    }
+
+    @FXML
+    void requestTimeOff(ActionEvent event) {
+        timeOffErrorText.setVisible(false);
+        if (timeOffStartDatePicker.getValue() == null || timeOffEndDatePicker.getValue() == null) {
+            timeOffErrorText.setText("Please select start and end dates");
+            timeOffErrorText.setVisible(true);
+            return;
+        }
+        LocalDate start = timeOffStartDatePicker.getValue();
+        LocalDate end = timeOffEndDatePicker.getValue();
+        if (end.isBefore(start)) {
+            timeOffErrorText.setText("End date must be after start date");
+            timeOffErrorText.setVisible(true);
+            return;
+        }
+        String reason = (timeOffReasonField.getText() != null && !timeOffReasonField.getText().isEmpty())
+                ? timeOffReasonField.getText() : "Time off";
+        Employee employee = theModel.getLoggedIn();
+        // endDate from picker is inclusive; add 1 day so distinctWeeks covers the end week
+        employee.getCalendar().registerTimeOff(start, end.plusDays(1), reason);
+        timeOffReasonField.setText(null);
+        timeOffStartDatePicker.setValue(null);
+        timeOffEndDatePicker.setValue(null);
+        sickStatusText.setText("Time off registered: " + start + " – " + end);
+        sickStatusText.setStyle("-fx-fill: #008800;");
+        theView.showEmployeeCalendar(employeeCalendarBounds, employee, LocalDate.now());
+        employeeShowNumberOfTasks.setText("Activities this week: " + employee.getCalendar().getEntries(LocalDate.now()).size());
+    }
+
     public String getStatusColorForActivity(Activity activity) {
         if (activity.getStartDate().isAfter(LocalDate.now())) {
             return "#ff0000";
@@ -679,6 +765,15 @@ public class CompanyController {
         } else {
             return "#41ff00";
         }
+    }
 
+    public String getStatusColorForProject(Project project) {
+        if (project.getStartDate() != null && project.getStartDate().isAfter(LocalDate.now())) {
+            return "#ff0000";
+        } else if (project.getEndDate() == null || LocalDate.parse(project.getEndDate()).isAfter(LocalDate.now())) {
+            return "#fffc00";
+        } else {
+            return "#41ff00";
+        }
     }
 }
