@@ -299,7 +299,7 @@
                                              <children>
                                                 <VBox fx:id="projectShowActivitiesBounds" prefWidth="548.0">
                                                    <children>
-                                                      <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#switchToCreateActivity" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
+                                                      <Button fx:id="addActivityButton" cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#switchToCreateActivity" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
                                                          <padding>
                                                             <Insets left="-1.0" />
                                                          </padding>
@@ -389,7 +389,7 @@
                               <HBox prefHeight="38.0" prefWidth="445.0" spacing="10.0">
                                  <children>
                                     <Text fx:id="activityDetailName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Activity name" wrappingWidth="184.388671875" />
-                                    <Button minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditActivity" prefHeight="23.0" prefWidth="48.0" styleClass="inputButtons" text="Edit" />
+                                    <Button fx:id="editActivityButton" minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditActivity" prefHeight="23.0" prefWidth="48.0" styleClass="inputButtons" text="Edit" />
                                  </children>
                                  <padding>
                                     <Insets left="10.0" />
@@ -408,7 +408,7 @@
                               </Label>
                               <Text fx:id="activityDetailDesctiption" layoutX="20.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Description" wrappingWidth="410.0" />
                               <TextField fx:id="activityDetailsEmployeeInitalsField" layoutX="19.0" layoutY="107.0" onAction="#addEmployeeToActivity" prefHeight="23.0" prefWidth="383.0" promptText="Employee initals..." />
-                              <Button layoutX="445.0" layoutY="108.0" mnemonicParsing="false" onAction="#addEmployeeToActivity" prefHeight="23.0" prefWidth="105.0" text="Add employee" />
+                              <Button fx:id="addEmployeeButton" layoutX="445.0" layoutY="108.0" mnemonicParsing="false" onAction="#addEmployeeToActivity" prefHeight="23.0" prefWidth="105.0" text="Add employee" />
                               <Text fx:id="activityDetailAlottedTime" layoutX="465.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alotted Time:" />
                               <Text layoutX="382.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Activity ID" wrappingWidth="76.19999999999999" />
                               <Text fx:id="employeeAddActivityErrorText" fill="#b40d0d" layoutX="19.0" layoutY="104.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
@@ -493,6 +493,7 @@
                                  <children>
                                     <Text fx:id="editProjectHeader" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Editing Project" textAlignment="CENTER" wrappingWidth="288.78546142578125" />
                                     <Text fx:id="projectEditErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                                    <Text fx:id="editProjectArchivedNote" fill="#0055aa" strokeType="OUTSIDE" strokeWidth="0.0" text="This project is archived. Only the end date can be changed." textAlignment="CENTER" visible="false" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New project Name" textAlignment="CENTER" />
                                     <TextField fx:id="editProjectName" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Project Name" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Desctiption" textAlignment="CENTER" />
@@ -574,6 +575,31 @@
                   </AnchorPane>
               </content>
             </Tab>
+            <Tab text="Completed Projects">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="tab">
+                     <children>
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="622.0" prefWidth="1178.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1178.0">
+                                 <children>
+                                    <FlowPane fx:id="completedProjectsFlowPane" hgap="50.0" layoutY="44.0" maxWidth="1178.0" prefWidth="1178.0" rowValignment="TOP" vgap="50.0">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </FlowPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                        <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Completed Projects" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
          </tabs>
       </TabPane>
       <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="51.0" styleClass="sideMenu">
@@ -601,6 +627,15 @@
                   <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
                      <image>
                         <Image url="@img/Employees.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#menuSwitchToCompletedProjects" styleClass="menuButton" text="Archive" textAlignment="CENTER" textFill="#e384ca" textOverrun="CLIP">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
+                     <image>
+                        <Image url="@img/home.png" />
                      </image>
                   </ImageView>
                </graphic>

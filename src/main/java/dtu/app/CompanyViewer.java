@@ -6,9 +6,11 @@ import java.util.List;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -122,10 +124,67 @@ public class CompanyViewer extends Application {
         }
     }
 
-    public void showProjects(FlowPane bounds) {
-        // Project project : theModel.getProjects()
+    public void menuSwitchToCompletedProjects(TabPane pages) {
+        if (theModel.getLoggedIn() != null) {
+            pages.getSelectionModel().select(11);
+        }
+    }
+
+    public void showCompletedProjects(FlowPane bounds) {
         bounds.getChildren().clear();
+        LocalDate today = LocalDate.now();
         for (Project project : theModel.getProjects()) {
+            if (project.getEndDate() == null || project.getEndDate().isEmpty()) continue;
+            if (!LocalDate.parse(project.getEndDate()).isBefore(today)) continue;
+            boolean allActivitiesDone = project.getActivities().stream()
+                .allMatch(a -> a.getEndDate() != null && a.getEndDate().isBefore(today));
+            if (!allActivitiesDone) continue;
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/projectView.fxml"));
+                Button projectButton = loader.load();
+                Pane graphicPane = (Pane) projectButton.getGraphic();
+                Label nameLabel = (Label) graphicPane.getChildren().get(1);
+                Label idLabel = (Label) graphicPane.getChildren().get(2);
+                Label endDateLabel = (Label) graphicPane.getChildren().get(3);
+                nameLabel.setText(project.getName());
+                idLabel.setText(project.getId());
+                endDateLabel.setText(project.getEndDate());
+                Rectangle statusRect = (Rectangle) graphicPane.getChildren().get(0);
+                statusRect.setStyle("-fx-fill: #00c853;");
+
+                Employee loggedIn = theModel.getLoggedIn();
+                boolean canView = project.getProjectLeader() == null
+                        || project.getProjectLeader().equals(loggedIn);
+
+                if (canView) {
+                    projectButton.setOnAction(event -> {
+                        if (theController != null) {
+                            theController.goToProject(event, project.getName());
+                        }
+                    });
+                } else {
+                    projectButton.setOpacity(0.45);
+                    projectButton.setCursor(Cursor.DEFAULT);
+                    Tooltip.install(projectButton, new Tooltip("Only the project leader can view this project"));
+                }
+
+                bounds.getChildren().add(projectButton);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void showProjects(FlowPane bounds) {
+        bounds.getChildren().clear();
+        LocalDate today = LocalDate.now();
+        for (Project project : theModel.getProjects()) {
+            if (project.getEndDate() != null && !project.getEndDate().isEmpty()
+                    && LocalDate.parse(project.getEndDate()).isBefore(today)
+                    && project.getActivities().stream()
+                        .allMatch(a -> a.getEndDate() != null && a.getEndDate().isBefore(today))) {
+                continue;
+            }
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/projectView.fxml"));
                 Button projectButton = loader.load();
@@ -202,7 +261,7 @@ public class CompanyViewer extends Application {
         }
     }
 
-    public void showActivityDetails(Pane activityDetails, Activity activity, VBox bounds) {
+    public void showActivityDetails(Pane activityDetails, Activity activity, VBox bounds, boolean archived) {
         bounds.getChildren().clear();
         for (Employee employee : activity.getEmployees()) {
             try {
@@ -217,11 +276,12 @@ public class CompanyViewer extends Application {
 
                 nameLabel.setText(employee.getName());
                 initialsLabel.setText(employee.getInitials());
+                removeButton.setVisible(!archived);
+                removeButton.setManaged(!archived);
                 removeButton.setOnAction(event -> {
                     if (theController != null) {
                         theController.removeEmployee(event, employee);
                     }
-
                 });
                 employeeButton.setOnAction(event -> {
                     if (theController != null) {

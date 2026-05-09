@@ -25,6 +25,7 @@ public class CompanyController {
     private CompanyViewer theView;
     private Employee currentShownEmployee;
     private Employee pendingEmployeeToAdd;
+    private boolean viewingArchivedProject = false;
     @FXML
     private Button ProfileIcon;
 
@@ -161,6 +162,18 @@ public class CompanyController {
     private Button confirmAddEmployeeButton;
 
     @FXML
+    private Button addActivityButton;
+
+    @FXML
+    private Button editActivityButton;
+
+    @FXML
+    private Button addEmployeeButton;
+
+    @FXML
+    private Text editProjectArchivedNote;
+
+    @FXML
     private Button hireEmployeeButton;
 
     @FXML
@@ -189,6 +202,9 @@ public class CompanyController {
 
     @FXML
     private FlowPane projectFlowPane;
+
+    @FXML
+    private FlowPane completedProjectsFlowPane;
 
     @FXML
     private ChoiceBox<String> projectLeaderPicker;
@@ -293,6 +309,12 @@ public class CompanyController {
     }
 
     @FXML
+    void menuSwitchToCompletedProjects(ActionEvent event) {
+        theView.showCompletedProjects(completedProjectsFlowPane);
+        theView.menuSwitchToCompletedProjects(this.pages);
+    }
+
+    @FXML
     void menuSwitchToTimeLog(ActionEvent event) {
         theView.menuSwitchToTimeLog(this.pages);
     }
@@ -315,6 +337,7 @@ public class CompanyController {
 
     @FXML
     void switchToCreateActivity(ActionEvent event) {
+        if (viewingArchivedProject) return;
         activityCreateErrorText.setVisible(false);
         createActivityDescription.setText(null);
         createActivityHours.setText(null);
@@ -469,6 +492,9 @@ public class CompanyController {
     @FXML
     void goToProject(ActionEvent event, String projectName) {
         Project project = theModel.getProject(projectName);
+        viewingArchivedProject = isProjectArchived(project);
+        addActivityButton.setVisible(!viewingArchivedProject);
+        addActivityButton.setManaged(!viewingArchivedProject);
         activityDetails.setVisible(false);
         projectViewErrorText.setVisible(false);
         projectShowName.setText(projectName);
@@ -489,6 +515,7 @@ public class CompanyController {
 
     @FXML
     void gotToEditActivity(ActionEvent event) {
+        if (viewingArchivedProject) return;
         Project project = theModel.getProject(projectShowName.getText());
         if (project.getProjectLeader() != null &&
                 !project.getProjectLeader().getName().equals(theModel.getLoggedIn().getName())) {
@@ -520,6 +547,11 @@ public class CompanyController {
         editProjectName.setText(project.getName());
         editProjectDescription.setText(project.getDescription());
         editProjectStartDate.setValue(project.getStartDate());
+        if (project.getEndDate() != null && !project.getEndDate().isEmpty()) {
+            editProjectEndDate.setValue(LocalDate.parse(project.getEndDate()));
+        } else {
+            editProjectEndDate.setValue(null);
+        }
         editProjectProjectLeader.getItems().clear();
         for (Employee employee : theModel.getEmployees()) {
             editProjectProjectLeader.getItems().add(employee.getName());
@@ -527,6 +559,13 @@ public class CompanyController {
         if (project.getProjectLeader() != null) {
             editProjectProjectLeader.setValue(project.getProjectLeader().getName());
         }
+
+        editProjectName.setDisable(viewingArchivedProject);
+        editProjectDescription.setDisable(viewingArchivedProject);
+        editProjectStartDate.setDisable(viewingArchivedProject);
+        editProjectProjectLeader.setDisable(viewingArchivedProject);
+        projectEditErrorText.setVisible(false);
+        editProjectArchivedNote.setVisible(viewingArchivedProject);
 
         theView.menuSwitchToEditProject(pages);
     }
@@ -569,12 +608,20 @@ public class CompanyController {
         }
         employeeAddActivityErrorText.setVisible(false);
         activityDetailsEmployeeInitalsField.setText(null);
-        theView.showActivityDetails(this.activityDetails, activity, this.activityDetailsEmployeeBounds);
+        editActivityButton.setVisible(!viewingArchivedProject);
+        editActivityButton.setManaged(!viewingArchivedProject);
+        addEmployeeButton.setVisible(!viewingArchivedProject);
+        addEmployeeButton.setManaged(!viewingArchivedProject);
+        activityDetailsEmployeeInitalsField.setVisible(!viewingArchivedProject);
+        activityDetailsEmployeeInitalsField.setManaged(!viewingArchivedProject);
+        confirmAddEmployeeButton.setVisible(false);
+        theView.showActivityDetails(this.activityDetails, activity, this.activityDetailsEmployeeBounds, viewingArchivedProject);
 
     }
 
     @FXML
     void removeEmployee(ActionEvent event, Employee employee) {
+        if (viewingArchivedProject) return;
         Project project = theModel.getProject(projectShowName.getText());
         if (project.getProjectLeader() != null &&
                 !project.getProjectLeader().getName().equals(theModel.getLoggedIn().getName())) {
@@ -625,6 +672,7 @@ public class CompanyController {
 
     @FXML
     void addEmployeeToActivity(ActionEvent event) {
+        if (viewingArchivedProject) return;
         Project project = theModel.getProject(projectShowName.getText());
         if (project.getProjectLeader() != null &&
                 !project.getProjectLeader().getName().equals(theModel.getLoggedIn().getName())) {
@@ -671,6 +719,7 @@ public class CompanyController {
 
     @FXML
     void confirmAddEmployeeToActivity(ActionEvent event) {
+        if (viewingArchivedProject) return;
         if (pendingEmployeeToAdd == null)
             return;
         Project project = theModel.getProject(projectShowName.getText());
@@ -772,6 +821,14 @@ public class CompanyController {
         sickStatusText.setStyle("-fx-fill: #008800;");
         theView.showEmployeeCalendar(employeeCalendarBounds, employee, LocalDate.now());
         employeeShowNumberOfTasks.setText("Activities this week: " + employee.getCalendar().getEntries(LocalDate.now()).size());
+    }
+
+    private boolean isProjectArchived(Project project) {
+        LocalDate today = LocalDate.now();
+        return project.getEndDate() != null && !project.getEndDate().isEmpty()
+                && LocalDate.parse(project.getEndDate()).isBefore(today)
+                && project.getActivities().stream()
+                    .allMatch(a -> a.getEndDate() != null && a.getEndDate().isBefore(today));
     }
 
     public String getStatusColorForActivity(Activity activity) {
