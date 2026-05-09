@@ -391,6 +391,7 @@ public class CompanyController {
 
             theModel.createProject(projectNameField.getText());
             Project project = theModel.getProject(projectNameField.getText());
+            project.setId(theModel);
             project.setDescription(projectDescriptionField.getText());
             if (projectLeaderPicker.getValue() != null) {
                 project.setProjectLeader(theModel.getEmployeeFromName(projectLeaderPicker.getValue().toString()));

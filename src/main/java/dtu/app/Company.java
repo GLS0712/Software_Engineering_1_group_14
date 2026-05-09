@@ -14,12 +14,6 @@ public class Company {
         this.employeeList.add(new Employee("Hubert Baumeister", "huba"));
         this.employeeList.add(new Employee("Daniel Hedegaard", "dahe"));
         this.employeeList.add(new Employee("Gustav Svare", "gusv"));
-        this.projectList.add(new Project("Testing project", null, null));
-        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity", "GAE");
-        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity1", "GAE");
-        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity2", "GAE");
-        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity3", "GAE");
-        this.getProject("Testing project").createActivity(getEmployeeFromName("Hubert Baumeister"), "test Activity4", "GAE");
 
     }
 

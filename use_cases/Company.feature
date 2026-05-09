@@ -20,6 +20,20 @@ Feature: Create project
         And the project named "Make McDonalds ui" has the projectLeader "John doe"
 
 
+#!SECTION setting the id for a project
+  Scenario: create project and set id
+    Given there is an employee named "John doe"
+    When "John doe" creates project with name "Make McDonalds ui" with end date "2026-12-01"
+    And "John doe" sets the id for "Make McDonalds ui"
+    Then there is a project named "Make McDonalds ui" with id "26001"
+
+ Scenario: create project and set id when already a project
+    Given there is an employee named "John doe"
+    And there is another project with an id
+    When "John doe" creates project with name "Make McDonalds ui" with end date "2026-12-01"
+    And "John doe" sets the id for "Make McDonalds ui"
+    Then there is a project named "Make McDonalds ui" with id "26002"
+
 #!SECTION updating all activities endDate in project when the project endDate is reduced
   Scenario: Activity end date is capped when project end date is reduced below it
     Given there is a project with end date "2026-12-01"

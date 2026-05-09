@@ -1,8 +1,11 @@
 package dtu.app;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Project {
     private String name;
@@ -40,7 +43,10 @@ public class Project {
     public String getId(){
         return this.id;
     }
-    
+    public void setId(Company company){
+        DateFormat df = new SimpleDateFormat("yy");
+        id = df.format(Calendar.getInstance().getTime()) + String.format("%03d", company.getProjects().size());
+    }
     public void setName(String name) {
         this.name = name;
     }
