@@ -82,6 +82,26 @@ public class Employee_Calendar {
                 .add(new CalendarEntry(CalendarEntryType.TIME_OFF, type));
     }
 
+    // Register time off for all weeks in [startDate, endDate) — endDate is exclusive
+    public void registerTimeOff(LocalDate startDate, LocalDate endDate, String type) {
+        for (String key : distinctWeeks(startDate, endDate)) {
+            calendar.computeIfAbsent(key, k -> new ArrayList<>())
+                    .add(new CalendarEntry(CalendarEntryType.TIME_OFF, type));
+        }
+    }
+
+    // Returns true if any week in [startDate, endDate) has a TIME_OFF entry
+    public boolean hasTimeOffInPeriod(LocalDate startDate, LocalDate endDate) {
+        for (String key : distinctWeeks(startDate, endDate)) {
+            for (CalendarEntry entry : calendar.getOrDefault(key, Collections.emptyList())) {
+                if (entry.getType() == CalendarEntryType.TIME_OFF) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     // Returns false if any week in [startDate, endDate) is already at the 10-activity cap
     public boolean isAvailableForPeriod(LocalDate startDate, LocalDate endDate) {
         for (String key : distinctWeeks(startDate, endDate)) {

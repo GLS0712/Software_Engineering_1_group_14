@@ -146,22 +146,26 @@
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="604.0" prefWidth="550.0" spacing="20.0">
                                  <children>
+                                    <Text fx:id="sickStatusText" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Report sickness" />
-                                    <CheckBox mnemonicParsing="false" text="I am sick" />
-                                    <Button mnemonicParsing="false" styleClass="inputButtons" text="Report" />
+                                    <CheckBox fx:id="sickCheckBox" mnemonicParsing="false" text="I am sick" />
+                                    <Button mnemonicParsing="false" onAction="#reportSickness" styleClass="inputButtons" text="Report" />
+                                    <Text fx:id="sicknessErrorText" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="false" />
                                     <Separator prefHeight="59.0" prefWidth="550.0" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Request time off" textAlignment="CENTER" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason" textAlignment="CENTER" />
-                                    <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="200.0" promptText="Reason.." />
+                                    <TextField fx:id="timeOffReasonField" maxWidth="200.0" prefHeight="25.0" prefWidth="200.0" promptText="Reason.." />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date:" />
-                                    <DatePicker promptText="Start date..." />
+                                    <DatePicker fx:id="timeOffStartDatePicker" promptText="Start date..." />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" textAlignment="CENTER" />
-                                    <DatePicker prefHeight="13.0" prefWidth="176.0" promptText="End date" />
-                                    <Button mnemonicParsing="false" styleClass="inputButtons" text="Request" />
+                                    <DatePicker fx:id="timeOffEndDatePicker" prefHeight="13.0" prefWidth="176.0" promptText="End date" />
+                                    <Button mnemonicParsing="false" onAction="#requestTimeOff" styleClass="inputButtons" text="Request" />
+                                    <Text fx:id="timeOffErrorText" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="false" />
                                  </children>
                                  <padding>
                                     <Insets top="20.0" />
-                                 </padding></VBox>
+                                 </padding>
+                              </VBox>
                            </children>
                         </Pane>
                         <DatePicker fx:id="employeeShowDatePicker" layoutX="454.0" layoutY="56.0" onAction="#refreshEmployeeCalendar" />
