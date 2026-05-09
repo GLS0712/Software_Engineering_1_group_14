@@ -14,7 +14,7 @@ public class Company {
         this.employeeList.add(new Employee("Hubert Baumeister", "huba"));
         this.employeeList.add(new Employee("Daniel Hedegaard", "dahe"));
         this.employeeList.add(new Employee("Gustav Svare", "gusv"));
-
+        this.employeeList.add(new Employee("Adrian Kristensen", "adkr"));
     }
 
     public void hireEmployee(Employee employee) {

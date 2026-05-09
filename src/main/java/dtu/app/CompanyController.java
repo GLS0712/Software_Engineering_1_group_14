@@ -343,6 +343,10 @@ public class CompanyController {
                 || createActivityStartDate.getValue() == null) {
             activityCreateErrorText.setText("Please fill out all non optional fields");
             activityCreateErrorText.setVisible(true);
+        } else if (createActivityEndDate.getValue() != null
+                && createActivityEndDate.getValue().isBefore(createActivityStartDate.getValue())) {
+            activityCreateErrorText.setText("End date cannot be before start date");
+            activityCreateErrorText.setVisible(true);
         } else {
             try {
                 theModel.getProject(projectShowName.getText()).createActivity(theModel.getLoggedIn(),
@@ -369,6 +373,10 @@ public class CompanyController {
         if (editActivityName.getText() == null || editActivityDescription.getText() == null
                 || editActivityStartDate.getValue() == null || editActivityHours.getText() == null) {
             activityEditErrorText.setText("Please fill out all non optional fields");
+            activityEditErrorText.setVisible(true);
+        } else if (editActivityEndDate.getValue() != null
+                && editActivityEndDate.getValue().isBefore(editActivityStartDate.getValue())) {
+            activityEditErrorText.setText("End date cannot be before start date");
             activityEditErrorText.setVisible(true);
         } else {
 
@@ -404,6 +412,10 @@ public class CompanyController {
                 || projectDescriptionField.getText() == null) {
             projectCreateErrorText.setText("Please fill out all non optional fields");
             projectCreateErrorText.setVisible(true);
+        } else if (projectEndDatePicker.getValue() != null
+                && projectEndDatePicker.getValue().isBefore(projectStartDatePicker.getValue())) {
+            projectCreateErrorText.setText("End date cannot be before start date");
+            projectCreateErrorText.setVisible(true);
         } else {
 
             theModel.createProject(projectNameField.getText());
@@ -429,6 +441,10 @@ public class CompanyController {
         if (editProjectName.getText() == null || editProjectStartDate.getValue() == null
                 || editProjectDescription.getText() == null) {
             projectEditErrorText.setText("Please fill out all non optional fields");
+            projectEditErrorText.setVisible(true);
+        } else if (editProjectEndDate.getValue() != null
+                && editProjectEndDate.getValue().isBefore(editProjectStartDate.getValue())) {
+            projectEditErrorText.setText("End date cannot be before start date");
             projectEditErrorText.setVisible(true);
         } else {
 
