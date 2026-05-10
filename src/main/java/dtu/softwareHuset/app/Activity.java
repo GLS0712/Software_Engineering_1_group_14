@@ -1,4 +1,4 @@
-package dtu.app;
+package dtu.softwareHuset.app;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

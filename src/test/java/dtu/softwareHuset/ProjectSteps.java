@@ -1,4 +1,4 @@
-package dtu.acceptance_tests;
+package dtu.softwareHuset;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -6,9 +6,9 @@ import static org.junit.Assert.assertNull;
 
 import java.time.LocalDate;
 
-import Company;
-import Employee;
-import Project;
+import dtu.softwareHuset.app.Company;
+import dtu.softwareHuset.app.Employee;
+import dtu.softwareHuset.app.Project;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

@@ -1,10 +1,10 @@
-package dtu.acceptance_tests;
+package dtu.softwareHuset;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import Company;
-import Employee;
+import dtu.softwareHuset.app.Company;
+import dtu.softwareHuset.app.Employee;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

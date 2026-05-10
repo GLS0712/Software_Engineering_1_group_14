@@ -1,4 +1,4 @@
-package dtu.acceptance_tests;
+package dtu.softwareHuset;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -11,11 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Activity;
-import Company;
-import Employee;
-import Employee_Calendar;
-import Project;
+import dtu.softwareHuset.app.Activity;
+import dtu.softwareHuset.app.Company;
+import dtu.softwareHuset.app.Employee;
+import dtu.softwareHuset.app.Employee_Calendar;
+import dtu.softwareHuset.app.Project;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
