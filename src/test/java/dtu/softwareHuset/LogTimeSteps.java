@@ -1,13 +1,13 @@
-package dtu.acceptance_tests;
+package dtu.softwareHuset;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import dtu.app.Activity;
-import dtu.app.Company;
-import dtu.app.Employee;
-import dtu.app.Project;
+import dtu.softwareHuset.app.Activity;
+import dtu.softwareHuset.app.Company;
+import dtu.softwareHuset.app.Employee;
+import dtu.softwareHuset.app.Project;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

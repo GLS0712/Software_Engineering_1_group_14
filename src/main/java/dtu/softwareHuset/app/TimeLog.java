@@ -1,4 +1,4 @@
-package steps;
+package dtu.softwareHuset.app;
 import java.time.LocalDate;
 
 public class TimeLog {

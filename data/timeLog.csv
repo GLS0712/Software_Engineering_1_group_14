@@ -87,3 +87,9 @@ entryId,employeeId,projectId,activityName,date,hours
 86,huba,26001,Activity_1,1111-11-11,1.5
 87,huba,26001,Activity_1,1111-11-11,3.0
 88,huba,26001,Activity_1,2026-05-08,2.0
+89,huba,26001,Activity_1,1111-11-11,2.0
+90,huba,26001,Activity_1,1111-11-11,2.0
+91,huba,26001,Activity_1,1111-11-11,2.0
+92,huba,26001,Activity_1,1111-11-11,1.5
+93,huba,26001,Activity_1,1111-11-11,3.0
+94,huba,26001,Activity_1,2026-05-08,2.0
