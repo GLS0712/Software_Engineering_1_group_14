@@ -1,0 +1,197 @@
+package dtu.softwareHuset.app;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+
+public class Project {
+    private String name;
+    private String endDate; // yyyy-mm-dd
+    private String description;
+    private String id = "25001";
+    private Employee projectLeader = null;
+    private LocalDate startDate;
+    private ArrayList<Employee> employeeList;
+    private ArrayList<Activity> activityList;
+
+    // Constructor for a project with no end date
+    public Project(String name) {
+        this.name = name;
+        this.startDate = LocalDate.now();
+        this.employeeList = new ArrayList<>();
+        this.activityList = new ArrayList<>();
+    }
+
+    // Constructor for a project with a known end date
+    public Project(String name, String endDate) {
+        this.name = name;
+        this.endDate = endDate;
+        this.startDate = LocalDate.now();
+        this.employeeList = new ArrayList<>();
+        this.activityList = new ArrayList<>();
+    }
+
+    // Constructor for a project with both an end date and an assigned project
+    // leader
+    public Project(String name, String endDate, Employee projectLeader) {
+        this.name = name;
+        this.endDate = endDate;
+        this.projectLeader = projectLeader;
+        this.startDate = LocalDate.now();
+        this.employeeList = new ArrayList<>();
+        this.activityList = new ArrayList<>();
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    // Generates an ID in the format "Pyy###" (e.g. "P25003") based on the current
+    // year and number of projects
+    public void setId(Company company) {
+        DateFormat df = new SimpleDateFormat("yy");
+        id = "P" + df.format(Calendar.getInstance().getTime()) + String.format("%03d", company.getProjects().size());
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public LocalDate getStartDate() {
+        return this.startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return this.endDate;
+    }
+
+    public Employee getProjectLeader() {
+        return this.projectLeader;
+    }
+
+    public ArrayList<Activity> getActivities() {
+        return this.activityList;
+    }
+
+    public void assignEmployee(Employee employee) {
+        employeeList.add(employee);
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    // Creates an activity with no explicit dates — end date is inherited from the
+    // project if one is set.
+    // Only the project leader (or anyone if there is no leader) can create
+    // activities.
+    public void createActivity(Employee employee, String name, String description) throws IllegalAccessError {
+        if (projectLeader == null || this.projectLeader.getName().equals(employee.getName())) {
+            Activity activity = new Activity(name, description);
+            // Inherit the project's end date so the activity doesn't outlast the project
+            if (this.endDate != null && !this.endDate.isEmpty()) {
+                activity.setEndDate(LocalDate.parse(this.endDate));
+            }
+            this.activityList.add(activity);
+        } else {
+            throw new IllegalAccessError("you are not projectLeader");
+        }
+    }
+
+    public Activity getActivityFromName(String name) {
+        for (Activity activity : activityList) {
+            if (activity.getName().equals(name)) {
+                return activity;
+            }
+        }
+
+        return null;
+    }
+
+    // Creates an activity with explicit start and end dates.
+    // The end date is capped to the project's end date if it would exceed it.
+    public void createActivity(Employee employee, String name, String description, LocalDate startDate,
+            LocalDate endDate) throws IllegalAccessError {
+        if (projectLeader == null || this.projectLeader.getName().equals(employee.getName())) {
+            LocalDate effectiveEnd = capToProjectEndDate(endDate);
+            this.activityList.add(new Activity(name, description, startDate, effectiveEnd));
+        } else {
+            throw new IllegalAccessError("you are not projectLeader");
+        }
+    }
+
+    // Changes an activity's end date, capping it to the project's end date if
+    // necessary.
+    // Only the project leader may make this change when a leader is assigned.
+    public void changeActivityEndDate(Employee employee, String activityName, LocalDate newEndDate)
+            throws IllegalAccessError {
+        if (projectLeader != null && !this.projectLeader.getName().equals(employee.getName())) {
+            throw new IllegalAccessError("you are not projectLeader");
+        }
+        getActivityFromName(activityName).setEndDate(capToProjectEndDate(newEndDate));
+    }
+
+    // Ensures an activity's end date never goes past the project's own end date
+    private LocalDate capToProjectEndDate(LocalDate date) {
+        if (this.endDate != null && !this.endDate.isEmpty()) {
+            LocalDate projectEnd = LocalDate.parse(this.endDate);
+            if (date.isAfter(projectEnd)) {
+                return projectEnd;
+            }
+        }
+        return date;
+    }
+
+    // Adds an employee to an activity after checking availability day by day.
+    // Throws if any day in the activity's period already has 10 entries on the
+    // employee's calendar.
+    public void addEmployeeToActivity(Employee requester, Employee employeeToAdd, String activityName) {
+        if (projectLeader != null && !projectLeader.getName().equals(requester.getName())) {
+            throw new IllegalAccessError("you are not projectLeader");
+        }
+        Activity activity = getActivityFromName(activityName);
+        Employee_Calendar cal = employeeToAdd.getCalendar();
+        if (cal != null && activity.getStartDate() != null && activity.getEndDate() != null) {
+            int days = (int) activity.getStartDate().until(activity.getEndDate(), ChronoUnit.DAYS);
+            for (int i = 0; i < days; i++) {
+                LocalDate day = activity.getStartDate().plusDays(i);
+                if (cal.getEntries(day).size() >= 10) {
+                    throw new IllegalArgumentException("Employee is not available during the activity period");
+                }
+            }
+        }
+        activity.addEmployee(employeeToAdd);
+    }
+
+    public void setProjectLeader(Employee employee) {
+        this.projectLeader = employee;
+    }
+
+    // Updates the project's end date and caps any activity end dates that now
+    // exceed it
+    public void setEndDate(String newEndDate) {
+        this.endDate = newEndDate;
+        LocalDate newEnd = LocalDate.parse(newEndDate);
+        for (Activity activity : activityList) {
+            if (activity.getEndDate() != null && activity.getEndDate().isAfter(newEnd)) {
+                activity.setEndDate(newEnd);
+            }
+        }
+    }
+
+}
