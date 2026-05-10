@@ -21,6 +21,6 @@ public class TimeLog {
 
     @Override
     public String toString() {
-        return employee.getName() + COMMA_DELIMITER + project.getName() + COMMA_DELIMITER + activity.getName() + COMMA_DELIMITER + date.toString() + COMMA_DELIMITER + hours.toString();
+        return employee.getInitials() + COMMA_DELIMITER + project.getName() + COMMA_DELIMITER + activity.getName() + COMMA_DELIMITER + date.toString() + COMMA_DELIMITER + hours.toString();
     }
 }

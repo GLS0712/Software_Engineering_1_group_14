@@ -145,7 +145,8 @@ public class TimeLogRepository {
                 String[] entries = line.split(COMMA_DELIMITER);
                 LocalDate entryDate = LocalDate.parse(entries[4]);
                 LocalDate today = LocalDate.now();
-                if (entries[1].equals(employee.getInitials()) && entryDate.getYear() == today.getYear() && entryDate.getMonth() == today.getMonth()) {
+                if (entries[1].equals(employee.getInitials()) && entryDate.getYear() == today.getYear()
+                        && entryDate.getMonth() == today.getMonth()) {
                     logs.add(Arrays.asList(entries));
                 }
             }
@@ -160,12 +161,22 @@ public class TimeLogRepository {
 
     public void editEntry(int lineIndex, List<String> newValues) throws IOException {
         List<List<String>> logs = load();
-
-        if (lineIndex < 0 || lineIndex >= logs.size()) {
-            throw new IllegalArgumentException("Line index out of range: " + lineIndex);
-        }
-
         logs.set(lineIndex, newValues);
+        writeAll(logs);
+    }
+
+    public void updateEntry(String entryId, TimeLog newEntry) throws IOException {
+        List<List<String>> logs = load();
+        String row = entryId + COMMA_DELIMITER + newEntry.toString();
+        List<String> editedLog = Arrays.asList(row.split(COMMA_DELIMITER));
+
+        for (int i = 0; i < logs.size(); i++) {
+            if (logs.get(i).get(0).equals(entryId)) {
+                logs.set(i, editedLog);
+                break;
+            }
+        }
+        
         writeAll(logs);
     }
 
