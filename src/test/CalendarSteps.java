@@ -9,9 +9,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import dtu.app.Company;
-import dtu.app.Employee;
-import dtu.app.Employee_Calendar;
+import Company;
+import Employee;
+import Employee_Calendar;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

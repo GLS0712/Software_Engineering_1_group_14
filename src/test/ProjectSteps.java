@@ -6,9 +6,9 @@ import static org.junit.Assert.assertNull;
 
 import java.time.LocalDate;
 
-import dtu.app.Company;
-import dtu.app.Employee;
-import dtu.app.Project;
+import Company;
+import Employee;
+import Project;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

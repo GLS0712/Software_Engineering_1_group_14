@@ -3,8 +3,8 @@ package dtu.acceptance_tests;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import dtu.app.Company;
-import dtu.app.Employee;
+import Company;
+import Employee;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

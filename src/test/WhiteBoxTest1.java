@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import dtu.app.Company;
-import dtu.app.Employee;
+import Company;
+import Employee;
 
 public class WhiteBoxTest1 {
     Company company = new Company();
