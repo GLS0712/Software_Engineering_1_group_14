@@ -11,11 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import dtu.app.Activity;
-import dtu.app.Company;
-import dtu.app.Employee;
-import dtu.app.Employee_Calendar;
-import dtu.app.Project;
+import Activity;
+import Company;
+import Employee;
+import Employee_Calendar;
+import Project;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

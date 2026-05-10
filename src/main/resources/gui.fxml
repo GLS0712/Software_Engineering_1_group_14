@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="bottomPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="root" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dtu.app.CompanyController">
+   <children>
+      <TabPane fx:id="pages" accessibleRole="COMBO_BOX" focusTraversable="false" layoutX="102.0" layoutY="68.0" prefHeight="653.0" prefWidth="1178.0" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab text="Login">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="tab">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff99" height="248.0" layoutX="426.0" layoutY="120.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="293.0" />
+                        <Button id="loginButton" layoutX="522.0" layoutY="279.0" mnemonicParsing="false" onAction="#employeeLogin" prefHeight="32.0" prefWidth="102.0" text="Login" />
+                        <Text layoutX="532.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Login">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="445.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Please enter your Initals in the box below" />
+                        <Text fx:id="errorText" fill="#c30303" layoutX="477.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="Error code:" textAlignment="CENTER" visible="false" wrappingWidth="182.7554931640625" />
+                        <TextField fx:id="loginField" layoutX="473.0" layoutY="237.0" onAction="#employeeLogin" prefHeight="23.0" prefWidth="200.0" promptText="Intials..." />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Time Log">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="22.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Logged Time" />
+                        <TableView layoutX="29.0" layoutY="65.0" prefHeight="511.0" prefWidth="500.0">
+                          <columns>
+                            <TableColumn maxWidth="125.0" minWidth="125.0" prefWidth="125.0" resizable="false" text="Date" />
+                              <TableColumn maxWidth="125.0" minWidth="125.0" prefWidth="125.0" resizable="false" text="Duration" />
+                            <TableColumn maxWidth="125.0" minWidth="125.0" prefWidth="125.0" resizable="false" text="Time" />
+                              <TableColumn maxWidth="125.0" minWidth="125.0" prefWidth="125.0" resizable="false" text="Activity" />
+                          </columns>
+                        </TableView>
+                        <Pane layoutX="579.0" layoutY="-3.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutY="10.0" prefHeight="594.0" prefWidth="550.0" spacing="20.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Log Time" textAlignment="CENTER" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Activity" textAlignment="CENTER" />
+                                    <ChoiceBox prefWidth="150.0" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
+                                    <DatePicker promptText="Start date..." />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start time" textAlignment="CENTER" />
+                                    <DatePicker prefHeight="13.0" prefWidth="176.0" promptText="End date" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Duration" textAlignment="CENTER" />
+                                    <Spinner />
+                                    <Button mnemonicParsing="false" styleClass="inputButtons" text="Log time" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="40.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </Pane>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Employee">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Text fx:id="employeeShowName" layoutX="12.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Employee name" />
+                        <Text fx:id="employeeShowInitials" layoutX="17.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Initials" />
+                        <Text fx:id="employeeShowNumberOfTasks" layoutX="19.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Number of tasks:" />
+                        <TitledPane animated="false" collapsible="false" layoutX="19.0" layoutY="85.0" prefHeight="534.0" prefWidth="606.0" text="Activities">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ScrollPane hbarPolicy="NEVER" prefHeight="507.0" prefWidth="608.0">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="60.0" prefWidth="607.0">
+                                             <children>
+                                                <VBox fx:id="employeeCalendarBounds" prefHeight="60.0" prefWidth="613.0">
+                                                   <children>
+                                                      <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="60.0" prefWidth="587.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
+                                                         <graphic>
+                                                            <Pane maxHeight="60.0" maxWidth="595.0" minHeight="60.0" minWidth="530.0" prefHeight="60.0" prefWidth="595.0" styleClass="ActivitySelect">
+                                                               <children>
+                                                                  <Label layoutX="15.0" layoutY="17.0" prefHeight="22.0" prefWidth="115.0" text="ActivityName">
+                                                                     <font>
+                                                                        <Font name="SansSerif Bold" size="15.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <Label layoutX="15.0" layoutY="39.0" text="Start-End Date">
+                                                                     <font>
+                                                                        <Font name="SansSerif Regular" size="12.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <Label layoutX="490.0" layoutY="19.0" prefHeight="15.0" prefWidth="60.0" text="Status">
+                                                                     <font>
+                                                                        <Font name="SansSerif Regular" size="12.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="541.0" layoutY="18.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                                                               </children>
+                                                            </Pane>
+                                                         </graphic>
+                                                         <padding>
+                                                            <Insets left="-1.0" />
+                                                         </padding>
+                                                      </Button>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </ScrollPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </TitledPane>
+                        <Pane fx:id="timeOffPane" layoutX="626.0" layoutY="10.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" prefHeight="604.0" prefWidth="550.0" spacing="20.0">
+                                 <children>
+                                    <Text fx:id="sickStatusText" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Report sickness" />
+                                    <CheckBox fx:id="sickCheckBox" mnemonicParsing="false" text="I am sick" />
+                                    <Button mnemonicParsing="false" onAction="#reportSickness" styleClass="inputButtons" text="Report" />
+                                    <Text fx:id="sicknessErrorText" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="false" />
+                                    <Separator prefHeight="59.0" prefWidth="550.0" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Request time off" textAlignment="CENTER" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason" textAlignment="CENTER" />
+                                    <TextField fx:id="timeOffReasonField" maxWidth="200.0" prefHeight="25.0" prefWidth="200.0" promptText="Reason.." />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date:" />
+                                    <DatePicker fx:id="timeOffStartDatePicker" promptText="Start date..." />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" textAlignment="CENTER" />
+                                    <DatePicker fx:id="timeOffEndDatePicker" prefHeight="13.0" prefWidth="176.0" promptText="End date" />
+                                    <Button mnemonicParsing="false" onAction="#requestTimeOff" styleClass="inputButtons" text="Request" />
+                                    <Text fx:id="timeOffErrorText" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="false" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="20.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </Pane>
+                        <DatePicker fx:id="employeeShowDatePicker" layoutX="454.0" layoutY="56.0" onAction="#refreshEmployeeCalendar" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Employees">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="31.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Employee availability" />
+                        <TextField layoutX="31.0" layoutY="86.0" promptText="Search..." visible="false" />
+                        <TitledPane animated="false" collapsible="false" layoutX="30.0" layoutY="114.0" prefHeight="476.0" prefWidth="556.0" text="Employees">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="554.0">
+                                 <children>
+                                    <ScrollPane hbarPolicy="NEVER" prefHeight="454.0" prefWidth="546.0">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="542.0">
+                                             <children>
+                                                <VBox fx:id="employeesBounds" prefWidth="447.0">
+                                                   <children>
+                                                      <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
+                                                         <graphic>
+                                                            <Pane maxHeight="60.0" maxWidth="530.0" minHeight="60.0" minWidth="530.0" prefHeight="60.0" prefWidth="530.0" styleClass="ActivitySelect">
+                                                               <children>
+                                                                  <Label layoutX="15.0" layoutY="17.0" prefHeight="22.0" prefWidth="332.0" text="EmployeeName" wrapText="true">
+                                                                     <font>
+                                                                        <Font name="SansSerif Bold" size="15.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <Label layoutX="15.0" layoutY="39.0" text="Inittials">
+                                                                     <font>
+                                                                        <Font name="SansSerif Regular" size="12.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <Label layoutX="444.0" layoutY="19.0" prefHeight="15.0" prefWidth="60.0" text="Status">
+                                                                     <font>
+                                                                        <Font name="SansSerif Regular" size="12.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <ImageView fitHeight="38.0" fitWidth="39.0" layoutX="485.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                                                                     <image>
+                                                                        <Image url="@img/home.png" />
+                                                                     </image>
+                                                                  </ImageView>
+                                                               </children>
+                                                            </Pane>
+                                                         </graphic>
+                                                         <padding>
+                                                            <Insets left="-1.0" />
+                                                         </padding>
+                                                      </Button>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </ScrollPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </TitledPane>
+                        <Pane fx:id="employeDetails" layoutX="606.0" layoutY="13.0" prefHeight="604.0" prefWidth="561.0">
+                           <children>
+                              <Text fx:id="employeDetailsName" layoutX="134.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Activity name" textAlignment="CENTER" wrappingWidth="292.388671875" />
+                              <Text fx:id="employeeDetailsInitials" layoutX="195.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Initials" textAlignment="CENTER" wrappingWidth="160.40008544921875" />
+                              <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@img/profile.png" />
+                                 </image>
+                              </ImageView>
+                              <Button layoutX="199.0" layoutY="359.0" mnemonicParsing="false" onAction="#viewAvailability" prefHeight="50.0" prefWidth="152.0" styleClass="inputButtons" text="View availability" />
+                           </children>
+                        </Pane>
+                        <Button layoutX="519.0" layoutY="86.0" mnemonicParsing="false" onAction="#showSelf" text="Show me" />
+                        <Button fx:id="hireEmployeeButton" layoutX="507.0" layoutY="55.0" mnemonicParsing="false" onAction="#menuSwitchToHireEmployee" text="Add Employee" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Projects">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="tab">
+                     <children>
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="622.0" prefWidth="1178.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1178.0">
+                                 <children>
+                                    <FlowPane fx:id="projectFlowPane" hgap="50.0" layoutY="44.0" maxWidth="1178.0" prefWidth="1178.0" rowValignment="TOP" vgap="50.0">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </FlowPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                        <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Projects" />
+                        <Button layoutX="1007.0" layoutY="18.0" mnemonicParsing="false" onAction="#switchToCreateProject" prefHeight="30.0" prefWidth="133.0" styleClass="inputButtons" text="Create new project" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Activity">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox prefHeight="47.0" prefWidth="469.0" spacing="10.0">
+                           <children>
+                              <Text fx:id="projectShowName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project name" />
+                              <Button minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditProject" styleClass="inputButtons" text="Edit" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                        <Text fx:id="projectShowId" layoutX="14.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Project Id" wrappingWidth="76.19999999999999" />
+                        <Text fx:id="projectViewErrorText" fill="#b40d0d" layoutX="14.0" layoutY="80.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                        <TextArea fx:id="projectShowDescription" editable="false" focusTraversable="false" layoutX="15.0" layoutY="90.0" prefHeight="50.0" prefWidth="530.0" styleClass="lesserText" wrapText="true" />
+                        <TitledPane animated="false" collapsible="false" layoutX="15.0" layoutY="147.0" prefHeight="457.0" prefWidth="556.0" text="Activities">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="490.0" prefWidth="546.0">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="542.0">
+                                             <children>
+                                                <VBox fx:id="projectShowActivitiesBounds" prefWidth="548.0">
+                                                   <children>
+                                                      <Button fx:id="addActivityButton" cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#switchToCreateActivity" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
+                                                         <padding>
+                                                            <Insets left="-1.0" />
+                                                         </padding>
+                                                         <graphic>
+                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                                                               <image>
+                                                                  <Image url="@img/add.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </graphic>
+                                                      </Button>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </ScrollPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </TitledPane>
+                        <Text fx:id="projectShowStartDate" layoutX="456.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date:" />
+                        <Text fx:id="projectShowEndDate" layoutX="459.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" />
+                        <Rectangle fx:id="projectShowSatusColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="511.0" layoutY="21.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                        <Label layoutX="461.0" layoutY="23.0" prefHeight="15.0" prefWidth="45.0" text="Status">
+                           <font>
+                              <Font name="SansSerif Regular" size="12.0" />
+                           </font>
+                        </Label>
+                        <Line endX="-164.7333984375" endY="547.86669921875" layoutX="753.0" layoutY="61.0" startX="-164.7333984375" startY="-28.133296966552734" styleClass="seperator" />
+                        <Pane fx:id="projectStatsPane" layoutX="595.0" layoutY="9.0" prefHeight="604.0" prefWidth="574.0" visible="false">
+                           <children>
+                              <VBox layoutX="19.0" layoutY="20.0" spacing="18.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project Statistics" />
+                                    <Text fx:id="statsActivitiesInProgress" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Activities in progress: 0" />
+                                    <Text fx:id="statsActivitiesCompleted" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Activities completed: 0" />
+                                    <Text fx:id="statsTotalEmployees" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Total employees: 0" />
+                                    <Text fx:id="statsTotalAllottedTime" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Total allotted time: 0 hours" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="activityDetails" layoutX="595.0" layoutY="9.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <TitledPane animated="false" collapsible="false" layoutX="19.0" layoutY="195.0" prefHeight="402.0" prefWidth="547.0" text="Employees">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <ScrollPane hbarPolicy="NEVER" prefHeight="369.0" prefWidth="546.0">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="691.0" prefWidth="542.0">
+                                                   <children>
+                                                      <VBox fx:id="activityDetailsEmployeeBounds" prefHeight="436.0" prefWidth="548.0">
+                                                         <children>
+                                                            <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="56.0" prefWidth="548.0">
+                                                               <children>
+                                                                  <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="60.0" prefWidth="492.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
+                                                                     <graphic>
+                                                                        <Pane maxHeight="60.0" maxWidth="530.0" minHeight="60.0" minWidth="474.0" prefHeight="60.0" prefWidth="474.0" styleClass="ActivitySelect">
+                                                                           <children>
+                                                                              <Label layoutX="15.0" layoutY="17.0" prefHeight="22.0" prefWidth="439.0" text="EmployeeName">
+                                                                                 <font>
+                                                                                    <Font name="SansSerif Bold" size="15.0" />
+                                                                                 </font>
+                                                                              </Label>
+                                                                              <Label layoutX="15.0" layoutY="39.0" prefHeight="15.0" prefWidth="51.0" text="Initials">
+                                                                                 <font>
+                                                                                    <Font name="SansSerif Regular" size="12.0" />
+                                                                                 </font>
+                                                                              </Label>
+                                                                           </children>
+                                                                        </Pane>
+                                                                     </graphic>
+                                                                     <padding>
+                                                                        <Insets left="-1.0" />
+                                                                     </padding>
+                                                                  </Button>
+                                                                  <Button mnemonicParsing="false" prefHeight="23.0" prefWidth="29.0" styleClass="closeButton" textAlignment="CENTER">
+                                                                     <graphic>
+                                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                                           <image>
+                                                                              <Image url="@img/close.png" />
+                                                                           </image>
+                                                                        </ImageView>
+                                                                     </graphic>
+                                                                  </Button>
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </AnchorPane>
+                                            </content>
+                                          </ScrollPane>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </TitledPane>
+                              <HBox prefHeight="38.0" prefWidth="445.0" spacing="10.0">
+                                 <children>
+                                    <Text fx:id="activityDetailName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Activity name" wrappingWidth="184.388671875" />
+                                    <Button fx:id="editActivityButton" minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditActivity" prefHeight="23.0" prefWidth="48.0" styleClass="inputButtons" text="Edit" />
+                                    <Button fx:id="closeActivityDetailsButton" mnemonicParsing="false" onAction="#closeActivityDetails" prefHeight="23.0" prefWidth="23.0" styleClass="closeButton" text="✕" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </HBox>
+                              <Text fx:id="activityDetailStartDate" layoutX="461.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date:" />
+                              <Text fx:id="activityDetailEndDate" layoutX="464.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date:" />
+                              <Rectangle fx:id="activityDetailStatusColor" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" layoutX="515.0" layoutY="3.0" stroke="BLACK" strokeType="INSIDE" width="20.0" />
+                              <Label fx:id="activityDetailStatusLabel" layoutX="461.0" layoutY="5.0" prefHeight="15.0" prefWidth="45.0" text="Status">
+                                 <font>
+                                    <Font name="SansSerif Regular" size="12.0" />
+                                 </font>
+                                 <tooltip>
+                                    <Tooltip />
+                                 </tooltip>
+                              </Label>
+                              <TextArea fx:id="activityDetailDesctiption" editable="false" focusTraversable="false" layoutX="20.0" layoutY="50.0" prefHeight="90.0" prefWidth="355.0" styleClass="lesserText" text="Description" wrapText="true" />
+                              <TextField fx:id="activityDetailsEmployeeInitalsField" layoutX="19.0" layoutY="147.0" onAction="#addEmployeeToActivity" prefHeight="23.0" prefWidth="383.0" promptText="Employee initals..." />
+                              <Button fx:id="addEmployeeButton" layoutX="445.0" layoutY="148.0" mnemonicParsing="false" onAction="#addEmployeeToActivity" prefHeight="23.0" prefWidth="105.0" text="Add employee" />
+                              <Text fx:id="activityDetailAlottedTime" layoutX="465.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alotted Time:" />
+                              <Text fx:id="activityDetailId" layoutX="382.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Activity ID" wrappingWidth="76.19999999999999" />
+                              <Text fx:id="employeeAddActivityErrorText" fill="#b40d0d" layoutX="19.0" layoutY="144.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                              <Button fx:id="confirmAddEmployeeButton" layoutX="19.0" layoutY="172.0" mnemonicParsing="false" onAction="#confirmAddEmployeeToActivity" prefHeight="23.0" prefWidth="200.0" styleClass="inputButtons" text="Add anyway" visible="false" />
+                           </children>
+                        </Pane>
+                        <Text fx:id="projectShowPojectLeader" layoutX="12.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project Leader: " />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="CreateProject">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="339.0" layoutY="18.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="-6.0" prefHeight="594.0" prefWidth="550.0" spacing="20.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Create Project" textAlignment="CENTER" />
+                                    <Text fx:id="projectCreateErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Name" textAlignment="CENTER" />
+                                    <TextField fx:id="projectNameField" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Project Name" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Desctiption" textAlignment="CENTER" />
+                                    <TextArea fx:id="projectDescriptionField" maxWidth="400.0" prefHeight="102.0" prefWidth="400.0" promptText="Project Description" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date" />
+                                    <DatePicker fx:id="projectStartDatePicker" promptText="Start date..." />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date (Optional)" textAlignment="CENTER" />
+                                    <DatePicker fx:id="projectEndDatePicker" prefHeight="13.0" prefWidth="176.0" promptText="End date" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Leader (Optional)" textAlignment="CENTER" />
+                                    <ChoiceBox fx:id="projectLeaderPicker" prefWidth="150.0" />
+                                    <Button mnemonicParsing="false" onAction="#createProject" styleClass="inputButtons" text="Create project" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="40.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="CreateActivity">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="339.0" layoutY="18.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="-6.0" prefHeight="594.0" prefWidth="550.0" spacing="20.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Create Activity" textAlignment="CENTER" />
+                                    <Text fx:id="activityCreateErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Activity" textAlignment="CENTER" />
+                                    <TextField fx:id="createActivityName" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Activity name" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="activity Desctiption" textAlignment="CENTER" />
+                                    <TextArea fx:id="createActivityDescription" maxWidth="400.0" prefHeight="102.0" prefWidth="400.0" promptText="Activity description" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date" />
+                                    <DatePicker fx:id="createActivityStartDate" promptText="Start date..." />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date (Optional)" textAlignment="CENTER" />
+                                    <DatePicker fx:id="createActivityEndDate" prefHeight="13.0" prefWidth="176.0" promptText="End date" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alotted time" textAlignment="CENTER" />
+                                    <TextField fx:id="createActivityHours" maxWidth="176.0" prefHeight="23.0" prefWidth="176.0" promptText="Time in hours..." />
+                                    <Button mnemonicParsing="false" onAction="#createActivity" styleClass="inputButtons" text="Create activity" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="40.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="EditProject">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="339.0" layoutY="18.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="-6.0" prefHeight="594.0" prefWidth="550.0" spacing="20.0">
+                                 <children>
+                                    <Text fx:id="editProjectHeader" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Editing Project" textAlignment="CENTER" wrappingWidth="288.78546142578125" />
+                                    <Text fx:id="projectEditErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                                    <Text fx:id="editProjectArchivedNote" fill="#0055aa" strokeType="OUTSIDE" strokeWidth="0.0" text="This project is archived. Only the end date can be changed." textAlignment="CENTER" visible="false" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New project Name" textAlignment="CENTER" />
+                                    <TextField fx:id="editProjectName" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Project Name" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Desctiption" textAlignment="CENTER" />
+                                    <TextArea fx:id="editProjectDescription" maxWidth="400.0" prefHeight="102.0" prefWidth="400.0" promptText="Project Description" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date" />
+                                    <DatePicker fx:id="editProjectStartDate" promptText="Start date..." />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date (Optional)" textAlignment="CENTER" />
+                                    <DatePicker fx:id="editProjectEndDate" prefHeight="13.0" prefWidth="176.0" promptText="End date" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Leader (Optional)" textAlignment="CENTER" />
+                                    <ChoiceBox fx:id="editProjectProjectLeader" prefWidth="150.0" />
+                                    <Button mnemonicParsing="false" onAction="#editProject" styleClass="inputButtons" text="Edit project" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="40.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="EditActivity">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="339.0" layoutY="18.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="-6.0" prefHeight="594.0" prefWidth="550.0" spacing="20.0">
+                                 <children>
+                                    <Text fx:id="editActivityHeader" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Edditing Activity" textAlignment="CENTER" />
+                                    <Label fx:id="editActivityProjectName" text="ProjectName" />
+                                    <Text fx:id="activityEditErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New activity name" textAlignment="CENTER" />
+                                    <TextField fx:id="editActivityName" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Activity name" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Activity desctiption" textAlignment="CENTER" />
+                                    <TextArea fx:id="editActivityDescription" maxWidth="400.0" prefHeight="102.0" prefWidth="400.0" promptText="Activity description" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date" />
+                                    <DatePicker fx:id="editActivityStartDate" promptText="Start date..." />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date (Optional)" textAlignment="CENTER" />
+                                    <DatePicker fx:id="editActivityEndDate" prefHeight="13.0" prefWidth="176.0" promptText="End date" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alotted time" textAlignment="CENTER" />
+                                    <TextField fx:id="editActivityHours" maxWidth="176.0" prefHeight="23.0" prefWidth="176.0" promptText="Time in hours..." />
+                                    <Button mnemonicParsing="false" onAction="#editActivity" styleClass="inputButtons" text="Edit activity" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="40.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="HireEmployee">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="339.0" layoutY="18.0" prefHeight="604.0" prefWidth="574.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="-6.0" prefHeight="594.0" prefWidth="550.0" spacing="20.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Hire Employee" textAlignment="CENTER" />
+                                    <Text fx:id="hireEmployeeErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" textAlignment="CENTER" />
+                                    <TextField fx:id="hireEmployeeName" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Employee name (ex. John Doe)" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Initials" textAlignment="CENTER" />
+                                    <TextField fx:id="hireEmployeeInitials" maxWidth="200.0" onAction="#hireEmployee" prefHeight="23.0" prefWidth="180.0" promptText="Initials (ex. jodo)" />
+                                    <Button mnemonicParsing="false" onAction="#hireEmployee" styleClass="inputButtons" text="Hire employee" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="40.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Completed Projects">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="tab">
+                     <children>
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="622.0" prefWidth="1178.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1178.0">
+                                 <children>
+                                    <FlowPane fx:id="completedProjectsFlowPane" hgap="50.0" layoutY="44.0" maxWidth="1178.0" prefWidth="1178.0" rowValignment="TOP" vgap="50.0">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </FlowPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                        <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Completed Projects" />
+                        <Pane fx:id="archivedProjectDescPane" layoutX="500.0" layoutY="60.0" prefHeight="220.0" prefWidth="560.0" style="-fx-background-color: white; -fx-border-color: #cccccc; -fx-border-radius: 8; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 2);" visible="false">
+                           <children>
+                              <Text fx:id="archivedProjectDescName" layoutX="15.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project Name" />
+                              <TextArea fx:id="archivedProjectDescText" editable="false" focusTraversable="false" layoutX="15.0" layoutY="40.0" prefHeight="150.0" prefWidth="530.0" styleClass="lesserText" wrapText="true" />
+                              <Button layoutX="522.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeArchivedProjectDesc" prefHeight="23.0" prefWidth="23.0" styleClass="closeButton" text="✕" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="51.0" styleClass="sideMenu">
+         <children>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#menuSwitchToProjects" styleClass="menuButton" text="Projects" textAlignment="CENTER" textFill="#e384ca" textOverrun="CLIP">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
+                     <image>
+                        <Image url="@img/projects.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#menuSwitchToTimeLog" styleClass="menuButton" text="Time Log" textAlignment="CENTER" textFill="#e384ca" textOverrun="CLIP">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
+                     <image>
+                        <Image url="@img/calender.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#menuSwitchToEmployees" styleClass="menuButton" text="Employees" textAlignment="CENTER" textFill="#e384ca" textOverrun="CLIP">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
+                     <image>
+                        <Image url="@img/Employees.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#menuSwitchToCompletedProjects" styleClass="menuButton" text="Archive" textAlignment="CENTER" textFill="#e384ca" textOverrun="CLIP">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
+                     <image>
+                        <Image url="@img/home.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER_RIGHT" layoutX="102.0" prefHeight="71.0" prefWidth="1178.0" styleClass="sideMenu">
+         <children>
+            <Button fx:id="ProfileIcon" alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="97.0" maxWidth="60.0" mnemonicParsing="false" onAction="#menuSwitchToLogin" prefHeight="97.0" prefWidth="60.0" styleClass="TopMenuButton" text="Name" textAlignment="CENTER" textFill="#e384ca" wrapText="true">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
+                     <image>
+                        <Image url="@img/profile.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets top="1.0" />
+               </padding>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

@@ -1,5 +1,4 @@
-package dtu.app;
-
+package steps;
 import java.time.LocalDate;
 
 public class TimeLog {

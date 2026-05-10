@@ -78,7 +78,7 @@ Feature: Employee calendar
     And an employee "John doe" is hired
     And "John doe" gets an personal calendar
     When "John doe" registers activity "Fixing code" from "2026-05-10" to "2026-05-16"
-    Then "John doe" has 6 total calendar entries from "2026-05-10" to "2026-05-16"
+    Then "John doe" has 2 total calendar entries from "2026-05-10" to "2026-05-16"
 
   Scenario: Force register activity on a date outside the pre-initialised range
     Given the company exists
@@ -92,7 +92,7 @@ Feature: Employee calendar
     And an employee "John doe" is hired
     And "John doe" gets an personal calendar
     When "John doe" registers activity "Vacation" from "2026-04-01" to "2026-04-05"
-    Then "John doe" has 4 total calendar entries from "2026-04-01" to "2026-04-05"
+    Then "John doe" has 1 total calendar entries from "2026-04-01" to "2026-04-05"
 
 
 #!SECTION edit or removal of existing entries

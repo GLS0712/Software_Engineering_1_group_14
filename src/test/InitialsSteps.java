@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 
-import dtu.app.Company;
-import dtu.app.Employee;
+import Company;
+import Employee;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
