@@ -1,9 +1,6 @@
 package dtu.softwareHuset.app;
 
 import java.util.ArrayList;
-import java.util.Date;
-
-import javafx.util.converter.LocalDateStringConverter;
 
 public class Company {
     private ArrayList<Employee> employeeList = new ArrayList<>();
@@ -84,9 +81,9 @@ public class Company {
         }
         return null;
     }
-      public Employee getEmployeeFromInitials(String initials) {
+    public Employee getEmployeeFromInitials(String initials) {
         for (Employee employee : this.employeeList) {
-            if (employee.getInitials().equals(initials)) {
+            if (initials.equals(employee.getInitials())) {
                 return employee;
             }
         }
@@ -95,7 +92,7 @@ public class Company {
 
     public void login(String initials) {
         for (Employee employee : employeeList) {
-            if (employee.getInitials().equals(initials)) {
+            if (initials.equals(employee.getInitials())) {
                 this.loggedIn = employee;
             }
         }
