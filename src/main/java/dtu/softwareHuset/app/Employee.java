@@ -34,5 +34,4 @@ public class Employee {
     public void setInitails(String initials) {
         this.initials = initials;
     }
-
 }
