@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.time.LocalDate;
+
 import dtu.app.Company;
 import dtu.app.Employee;
 import dtu.app.Project;
@@ -87,6 +89,42 @@ public class ProjectSteps {
     public void sets_the_id_for(String employeeName, String projectName) {
         company.getProject(projectName).setId(company);
 
+    }
+
+    @When("{string} creates project with name {string} with end date {string} and project leader {string}")
+    public void creates_project_with_name_with_end_date_and_projectLeader(String name, String projectName, String endDate , String projectleader) {
+        company.createProject(projectName, endDate, employee);
+        project = company.getProject(projectName);
+    }
+
+    @Then("the projects Description is {string}")
+    public void the_projects_Description_is(String expectedDescription) {
+        assertEquals(expectedDescription, project.getDescription());
+    }
+
+    @When("{string} set projects Description to {string}")
+    public void set_projects_Description_to(String employeeName, String description) {
+        project.setDescription(description);
+    }
+
+    @Then("the projects name is {string}")
+    public void the_projects_name_is(String expectedName) {
+        assertEquals(expectedName, project.getName());
+    }
+
+    @When("{string} set projects name to {string}")
+    public void set_projects_name_to(String employeeName, String nameString) {
+       project.setName(nameString);
+    }
+
+    @Then("the projects startDate is {string}")
+    public void the_projects_startDate_is(String expectedDate) {
+        assertEquals(expectedDate, project.getStartDate().toString());
+    }
+
+    @When("{string} set projects startDate to {string}")
+    public void set_projects_startDate_to(String employeeName, String startDate) {
+        project.setStartDate(LocalDate.parse(startDate));
     }
 
 }

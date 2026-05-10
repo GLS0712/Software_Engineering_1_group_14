@@ -44,6 +44,7 @@ public class Company {
     public ArrayList<Project> getProjects(){
         return this.projectList;
     }
+    
     public ArrayList<Employee> getEmployees(){
         return this.employeeList;
     }
