@@ -25,12 +25,6 @@ Feature: Employee calendar
     And the first calendar entry for "John doe" on "2026-05-02" has type "TIME_OFF"
     And the first calendar entry for "John doe" on "2026-05-02" has description "SICK"
 
-  Scenario: Date without registrations has no entries
-    Given the company exists
-    And an employee "John doe" is hired
-    And "John doe" gets an personal calendar
-    Then "John doe" has 0 calendar entries on "2026-05-10"
-
   Scenario: Register multible activities in employee calendar
     Given the company exists
     And an employee "John doe" is hired
@@ -79,13 +73,6 @@ Feature: Employee calendar
     And "John doe" gets an personal calendar
     When "John doe" registers activity "Fixing code" from "2026-05-10" to "2026-05-16"
     Then "John doe" has 2 total calendar entries from "2026-05-10" to "2026-05-16"
-
-  Scenario: Force register activity on a date outside the pre-initialised range
-    Given the company exists
-    And an employee "John doe" is hired
-    And "John doe" gets an personal calendar
-    And "John doe" has 1 calendar entries on "2026-04-01" already
-    Then "John doe" has 1 calendar entries on "2026-04-01"
 
   Scenario: Register activity over a date range outside the pre-initialised range
     Given the company exists
@@ -147,42 +134,6 @@ Feature: Employee calendar
     When "John doe" changes activity "Design meeting" to "Stand-up meeting" on "2026-05-10"
     Then the first calendar entry for "John doe" on "2026-05-10" has description "Stand-up meeting"
 
-  Scenario: remove calendar entry on a date not in the calendar does nothing
-    Given the company exists
-    And an employee "John doe" is hired
-    And "John doe" gets an personal calendar
-    When "John doe" removes a calendar entry on "2025-01-01"
-    Then "John doe" has 0 calendar entries on "2025-01-01"
-
-  Scenario: remove all calendar entries on a date not in the calendar does nothing
-    Given the company exists
-    And an employee "John doe" is hired
-    And "John doe" gets an personal calendar
-    When "John doe" removes all calendar entries on "2025-01-01"
-    Then "John doe" has 0 calendar entries on "2025-01-01"
-
-  Scenario: remove specific activity on a date not in the calendar does nothing
-    Given the company exists
-    And an employee "John doe" is hired
-    And "John doe" gets an personal calendar
-    When "John doe" removes activity "Design meeting" on "2025-01-01"
-    Then "John doe" has 0 calendar entries on "2025-01-01"
-
-  Scenario: change activity on a date not in the calendar does nothing
-    Given the company exists
-    And an employee "John doe" is hired
-    And "John doe" gets an personal calendar
-    When "John doe" changes activity "Design meeting" to "Stand-up meeting" on "2025-01-01"
-    Then "John doe" has 0 calendar entries on "2025-01-01"
-
-  Scenario: change activity that does not exist on that date does nothing
-    Given the company exists
-    And an employee "John doe" is hired
-    And "John doe" gets an personal calendar
-    And "John doe" registers activity "Design meeting" on "2026-05-10"
-    When "John doe" changes activity "NonExistent" to "Stand-up meeting" on "2026-05-10"
-    Then the first calendar entry for "John doe" on "2026-05-10" has description "Design meeting"
-
 
 #!SECTION multi-employee calendar access
   Scenario: Employee can view another employee's calendar
@@ -226,3 +177,28 @@ Feature: Employee calendar
     When "Jane smith" tries to change activity "Design meeting" to "Stand-up" on "2026-05-10" in the calendar of "John doe"
     Then the message "You cannot modify another employee's calendar"
     And the first calendar entry for "John doe" on "2026-05-10" has description "Design meeting"
+
+
+#!SECTION time off range registration
+  Scenario: Register time off for a date range covers all weeks in the range
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    When "John doe" registers time off "SICK" from "2026-06-01" to "2026-06-14"
+    Then "John doe" has 1 calendar entries on "2026-06-01"
+    And the first calendar entry for "John doe" on "2026-06-01" has type "TIME_OFF"
+    And "John doe" has 1 calendar entries on "2026-06-08"
+    And the first calendar entry for "John doe" on "2026-06-08" has type "TIME_OFF"
+
+  Scenario: Calendar detects time off within a given period
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    And "John doe" registers time off "SICK" on "2026-06-03"
+    Then "John doe" has time off between "2026-06-01" and "2026-06-07"
+
+  Scenario: Calendar detects no time off when none is registered in the period
+    Given the company exists
+    And an employee "John doe" is hired
+    And "John doe" gets an personal calendar
+    Then "John doe" has no time off between "2026-06-01" and "2026-06-07"

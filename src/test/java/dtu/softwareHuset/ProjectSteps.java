@@ -127,4 +127,19 @@ public class ProjectSteps {
         project.setStartDate(LocalDate.parse(startDate));
     }
 
+    @When("{string} sets the project end date to {string}")
+    public void sets_the_project_end_date_to(String employeeName, String endDate) {
+        project.setEndDate(endDate);
+    }
+
+    @Then("the projects end date is {string}")
+    public void the_projects_end_date_is(String expectedEndDate) {
+        assertEquals(expectedEndDate, project.getEndDate());
+    }
+
+    @When("the project leader is removed")
+    public void the_project_leader_is_removed() {
+        project.setProjectLeader(null);
+    }
+
 }

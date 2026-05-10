@@ -141,7 +141,7 @@ public class ActivitySteps {
         Employee emloyee = employeeMap.getOrDefault(name, employee);
         try {
             project.addEmployeeToActivity(emloyee, emloyee, activityName);
-        } catch (IllegalArgumentException | IllegalAccessError e) {
+        } catch (IllegalArgumentException | IllegalAccessError | IllegalStateException e) {
             errorMessageHandler.setErrorMessage(e.getMessage());
         }
     }
@@ -152,7 +152,7 @@ public class ActivitySteps {
         Employee target = employeeMap.getOrDefault(targetName, employee);
         try {
             project.addEmployeeToActivity(actor, target, activityName);
-        } catch (IllegalArgumentException | IllegalAccessError e) {
+        } catch (IllegalArgumentException | IllegalAccessError | IllegalStateException e) {
             errorMessageHandler.setErrorMessage(e.getMessage());
         }
     }
@@ -207,5 +207,63 @@ public class ActivitySteps {
         Activity act = project.getActivityFromName(activityName);
         assertNotNull(act);
         assertEquals(LocalDate.parse(expectedEndDate), act.getEndDate());
+    }
+
+    @Given("{string} has time off on {string}")
+    public void has_time_off_on(String name, String date) {
+        Employee emp = employeeMap.getOrDefault(name, employee);
+        emp.getCalendar().registerTimeOff(LocalDate.parse(date), "SICK");
+    }
+
+    @When("{string} is removed from activity {string}")
+    public void is_removed_from_activity(String name, String activityName) {
+        Employee emp = employeeMap.getOrDefault(name, employee);
+        project.getActivityFromName(activityName).removeEmployee(emp);
+    }
+
+    @Then("{string} has {int} calendar entries in period from {string} to {string}")
+    public void has_calendar_entries_in_period(String name, int count, String startDate, String endDate) {
+        Employee emp = employeeMap.getOrDefault(name, employee);
+        List<Employee_Calendar.CalendarEntry> entries = emp.getCalendar().getEntries(LocalDate.parse(startDate), LocalDate.parse(endDate));
+        assertEquals(count, entries.size());
+    }
+
+    @When("{string} sets allotted time for activity {string} to {string}")
+    public void sets_allotted_time_for_activity_to(String employeeName, String activityName, String time) {
+        project.getActivityFromName(activityName).setAlottedTime(time);
+    }
+
+    @Then("the activity {string} has allotted time {string}")
+    public void the_activity_has_allotted_time(String activityName, String expectedTime) {
+        assertEquals(expectedTime, project.getActivityFromName(activityName).getAlottedTime());
+    }
+
+    @When("{string} is force-added to activity {string}")
+    public void is_force_added_to_activity(String name, String activityName) {
+        Employee emp = employeeMap.getOrDefault(name, employee);
+        try {
+            project.getActivityFromName(activityName).forceAddEmployee(emp);
+        } catch (IllegalStateException e) {
+            errorMessageHandler.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @When("the activity {string} is renamed to {string}")
+    public void the_activity_is_renamed_to(String oldName, String newName) {
+        Activity act = project.getActivityFromName(oldName);
+        LocalDate oldStart = act.getStartDate();
+        LocalDate oldEnd = act.getEndDate();
+        act.setName(newName);
+        act.updateEmployeeCalendars(oldStart, oldEnd, oldName);
+    }
+
+    @When("{string} sets the description of activity {string} to {string}")
+    public void sets_the_description_of_activity_to(String employeeName, String activityName, String description) {
+        project.getActivityFromName(activityName).setDescription(description);
+    }
+
+    @Then("the activity {string} has description {string}")
+    public void the_activity_has_description(String activityName, String expectedDescription) {
+        assertEquals(expectedDescription, project.getActivityFromName(activityName).getDescription());
     }
 }
