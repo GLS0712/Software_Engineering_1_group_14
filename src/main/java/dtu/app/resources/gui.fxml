@@ -289,7 +289,8 @@
                         </HBox>
                         <Text fx:id="projectShowId" layoutX="14.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Project Id" wrappingWidth="76.19999999999999" />
                         <Text fx:id="projectViewErrorText" fill="#b40d0d" layoutX="14.0" layoutY="80.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
-                        <TitledPane animated="false" collapsible="false" layoutX="15.0" layoutY="90.0" prefHeight="514.0" prefWidth="556.0" text="Activities">
+                        <TextArea fx:id="projectShowDescription" editable="false" focusTraversable="false" layoutX="15.0" layoutY="90.0" prefHeight="50.0" prefWidth="530.0" styleClass="lesserText" wrapText="true" />
+                        <TitledPane animated="false" collapsible="false" layoutX="15.0" layoutY="147.0" prefHeight="457.0" prefWidth="556.0" text="Activities">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -299,7 +300,7 @@
                                              <children>
                                                 <VBox fx:id="projectShowActivitiesBounds" prefWidth="548.0">
                                                    <children>
-                                                      <Button cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#switchToCreateActivity" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
+                                                      <Button fx:id="addActivityButton" cacheShape="false" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#switchToCreateActivity" prefHeight="60.0" prefWidth="530.0" style="-fx-background-radius: 15;" textAlignment="CENTER" textOverrun="CLIP">
                                                          <padding>
                                                             <Insets left="-1.0" />
                                                          </padding>
@@ -330,13 +331,26 @@
                            </font>
                         </Label>
                         <Line endX="-164.7333984375" endY="547.86669921875" layoutX="753.0" layoutY="61.0" startX="-164.7333984375" startY="-28.133296966552734" styleClass="seperator" />
+                        <Pane fx:id="projectStatsPane" layoutX="595.0" layoutY="9.0" prefHeight="604.0" prefWidth="574.0" visible="false">
+                           <children>
+                              <VBox layoutX="19.0" layoutY="20.0" spacing="18.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project Statistics" />
+                                    <Text fx:id="statsActivitiesInProgress" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Activities in progress: 0" />
+                                    <Text fx:id="statsActivitiesCompleted" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Activities completed: 0" />
+                                    <Text fx:id="statsTotalEmployees" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Total employees: 0" />
+                                    <Text fx:id="statsTotalAllottedTime" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Total allotted time: 0 hours" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </Pane>
                         <Pane fx:id="activityDetails" layoutX="595.0" layoutY="9.0" prefHeight="604.0" prefWidth="574.0">
                            <children>
-                              <TitledPane animated="false" collapsible="false" layoutX="19.0" layoutY="135.0" prefHeight="462.0" prefWidth="547.0" text="Employees">
+                              <TitledPane animated="false" collapsible="false" layoutX="19.0" layoutY="195.0" prefHeight="402.0" prefWidth="547.0" text="Employees">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ScrollPane hbarPolicy="NEVER" prefHeight="429.0" prefWidth="546.0">
+                                          <ScrollPane hbarPolicy="NEVER" prefHeight="369.0" prefWidth="546.0">
                                             <content>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="691.0" prefWidth="542.0">
                                                    <children>
@@ -389,7 +403,8 @@
                               <HBox prefHeight="38.0" prefWidth="445.0" spacing="10.0">
                                  <children>
                                     <Text fx:id="activityDetailName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Activity name" wrappingWidth="184.388671875" />
-                                    <Button minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditActivity" prefHeight="23.0" prefWidth="48.0" styleClass="inputButtons" text="Edit" />
+                                    <Button fx:id="editActivityButton" minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditActivity" prefHeight="23.0" prefWidth="48.0" styleClass="inputButtons" text="Edit" />
+                                    <Button fx:id="closeActivityDetailsButton" mnemonicParsing="false" onAction="#closeActivityDetails" prefHeight="23.0" prefWidth="23.0" styleClass="closeButton" text="✕" />
                                  </children>
                                  <padding>
                                     <Insets left="10.0" />
@@ -406,13 +421,13 @@
                                     <Tooltip />
                                  </tooltip>
                               </Label>
-                              <Text fx:id="activityDetailDesctiption" layoutX="20.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Description" wrappingWidth="410.0" />
-                              <TextField fx:id="activityDetailsEmployeeInitalsField" layoutX="19.0" layoutY="107.0" onAction="#addEmployeeToActivity" prefHeight="23.0" prefWidth="383.0" promptText="Employee initals..." />
-                              <Button layoutX="445.0" layoutY="108.0" mnemonicParsing="false" onAction="#addEmployeeToActivity" prefHeight="23.0" prefWidth="105.0" text="Add employee" />
+                              <TextArea fx:id="activityDetailDesctiption" editable="false" focusTraversable="false" layoutX="20.0" layoutY="50.0" prefHeight="90.0" prefWidth="355.0" styleClass="lesserText" text="Description" wrapText="true" />
+                              <TextField fx:id="activityDetailsEmployeeInitalsField" layoutX="19.0" layoutY="147.0" onAction="#addEmployeeToActivity" prefHeight="23.0" prefWidth="383.0" promptText="Employee initals..." />
+                              <Button fx:id="addEmployeeButton" layoutX="445.0" layoutY="148.0" mnemonicParsing="false" onAction="#addEmployeeToActivity" prefHeight="23.0" prefWidth="105.0" text="Add employee" />
                               <Text fx:id="activityDetailAlottedTime" layoutX="465.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alotted Time:" />
-                              <Text layoutX="382.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Activity ID" wrappingWidth="76.19999999999999" />
-                              <Text fx:id="employeeAddActivityErrorText" fill="#b40d0d" layoutX="19.0" layoutY="104.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
-                              <Button fx:id="confirmAddEmployeeButton" layoutX="19.0" layoutY="132.0" mnemonicParsing="false" onAction="#confirmAddEmployeeToActivity" prefHeight="23.0" prefWidth="200.0" styleClass="inputButtons" text="Add anyway" visible="false" />
+                              <Text fx:id="activityDetailId" layoutX="382.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Activity ID" wrappingWidth="76.19999999999999" />
+                              <Text fx:id="employeeAddActivityErrorText" fill="#b40d0d" layoutX="19.0" layoutY="144.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                              <Button fx:id="confirmAddEmployeeButton" layoutX="19.0" layoutY="172.0" mnemonicParsing="false" onAction="#confirmAddEmployeeToActivity" prefHeight="23.0" prefWidth="200.0" styleClass="inputButtons" text="Add anyway" visible="false" />
                            </children>
                         </Pane>
                         <Text fx:id="projectShowPojectLeader" layoutX="12.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project Leader: " />
@@ -493,6 +508,7 @@
                                  <children>
                                     <Text fx:id="editProjectHeader" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Editing Project" textAlignment="CENTER" wrappingWidth="288.78546142578125" />
                                     <Text fx:id="projectEditErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                                    <Text fx:id="editProjectArchivedNote" fill="#0055aa" strokeType="OUTSIDE" strokeWidth="0.0" text="This project is archived. Only the end date can be changed." textAlignment="CENTER" visible="false" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New project Name" textAlignment="CENTER" />
                                     <TextField fx:id="editProjectName" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Project Name" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Desctiption" textAlignment="CENTER" />
@@ -574,6 +590,38 @@
                   </AnchorPane>
               </content>
             </Tab>
+            <Tab text="Completed Projects">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="tab">
+                     <children>
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="622.0" prefWidth="1178.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1178.0">
+                                 <children>
+                                    <FlowPane fx:id="completedProjectsFlowPane" hgap="50.0" layoutY="44.0" maxWidth="1178.0" prefWidth="1178.0" rowValignment="TOP" vgap="50.0">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </FlowPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                        <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Completed Projects" />
+                        <Pane fx:id="archivedProjectDescPane" layoutX="500.0" layoutY="60.0" prefHeight="220.0" prefWidth="560.0" style="-fx-background-color: white; -fx-border-color: #cccccc; -fx-border-radius: 8; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 2);" visible="false">
+                           <children>
+                              <Text fx:id="archivedProjectDescName" layoutX="15.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project Name" />
+                              <TextArea fx:id="archivedProjectDescText" editable="false" focusTraversable="false" layoutX="15.0" layoutY="40.0" prefHeight="150.0" prefWidth="530.0" styleClass="lesserText" wrapText="true" />
+                              <Button layoutX="522.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeArchivedProjectDesc" prefHeight="23.0" prefWidth="23.0" styleClass="closeButton" text="✕" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
          </tabs>
       </TabPane>
       <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="51.0" styleClass="sideMenu">
@@ -601,6 +649,15 @@
                   <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
                      <image>
                         <Image url="@img/Employees.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BOTTOM_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#menuSwitchToCompletedProjects" styleClass="menuButton" text="Archive" textAlignment="CENTER" textFill="#e384ca" textOverrun="CLIP">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" styleClass="menuButtonicon">
+                     <image>
+                        <Image url="@img/home.png" />
                      </image>
                   </ImageView>
                </graphic>
