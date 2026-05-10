@@ -1,4 +1,4 @@
-package dtu.app;
+package dtu.softwareHuset.app;
 
 public class Employee {
     private String initials;

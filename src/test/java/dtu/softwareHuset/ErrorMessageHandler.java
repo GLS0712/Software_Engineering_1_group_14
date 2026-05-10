@@ -1,4 +1,4 @@
-package dtu.acceptance_tests;
+package dtu.softwareHuset;
 
 public class ErrorMessageHandler {
     private String errorMessage = "";

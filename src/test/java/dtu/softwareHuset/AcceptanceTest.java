@@ -1,4 +1,4 @@
-package dtu.acceptance_tests;
+package dtu.softwareHuset;
 
 import org.junit.runner.RunWith;
 
@@ -12,7 +12,7 @@ import io.cucumber.junit.CucumberOptions.SnippetType;
 	plugin = { "summary", "html:target/cucumber/wikipedia.html"}, 
 	monochrome=true, 
 	snippets = SnippetType.CAMELCASE, 
-	glue = { "dtu.acceptance_tests"})
+	glue = { "dtu.softwareHuset"})
 
 public class AcceptanceTest {
 }

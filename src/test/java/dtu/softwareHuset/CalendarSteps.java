@@ -1,4 +1,4 @@
-package dtu.acceptance_tests;
+package dtu.softwareHuset;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -9,9 +9,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import Company;
-import Employee;
-import Employee_Calendar;
+import dtu.softwareHuset.app.Company;
+import dtu.softwareHuset.app.Employee;
+import dtu.softwareHuset.app.Employee_Calendar;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

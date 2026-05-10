@@ -1,11 +1,11 @@
-package dtu.acceptance_tests;
+package dtu.softwareHuset;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import Company;
-import Employee;
+import dtu.softwareHuset.app.Company;
+import dtu.softwareHuset.app.Employee;
 
 public class WhiteBoxTest1 {
     Company company = new Company();

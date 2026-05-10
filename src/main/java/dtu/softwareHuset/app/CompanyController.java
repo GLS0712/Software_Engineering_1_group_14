@@ -1,4 +1,4 @@
-package dtu.app;
+package dtu.softwareHuset.app;
 
 import java.time.LocalDate;
 
