@@ -569,9 +569,6 @@
                                     <TextField fx:id="editActivityHours" maxWidth="176.0" prefHeight="23.0" prefWidth="176.0" promptText="Time in hours..." />
                                     <Button mnemonicParsing="false" onAction="#editActivity" styleClass="inputButtons" text="Edit activity" />
                                  </children>
-                                 <padding>
-                                    <Insets top="40.0" />
-                                 </padding>
                               </VBox>
                            </children>
                         </Pane>
