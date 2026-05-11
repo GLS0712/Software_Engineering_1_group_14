@@ -1,6 +1,5 @@
 package dtu.softwareHuset.app;
 
-import java.util.ArrayList;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
@@ -107,7 +106,7 @@ public class Company {
         }
         return null;
     }
-    
+
     // Author: GLS0712
     public Employee getEmployeeFromInitials(String initials) {
         for (Employee employee : this.employeeList) {
@@ -205,9 +204,10 @@ public class Company {
     }
 
     // Author: GubbeMK
-    public void updateLogEntry(String entryId, Employee employee, Project project, Activity activity, LocalDate date, double hours) throws IOException {
+    public void updateLogEntry(String entryId, Employee employee, Project project, Activity activity, LocalDate date,
+            double hours) throws IOException {
         TimeLog updatedEntry = new TimeLog(employee, project, activity, date, hours);
-        
+
         timeLogRepo.updateEntry(entryId, updatedEntry);
     }
 
@@ -240,6 +240,8 @@ public class Company {
         if (date.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Cannot log time on a future date");
         }
+        // Postcondition: date is valid for logging
+        assert date != null && !date.isAfter(LocalDate.now()) : "Postcondition violated";
     }
 
     // Author: GubbeMK
