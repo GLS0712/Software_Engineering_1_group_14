@@ -35,7 +35,7 @@ public class LogTimeSteps {
 
     @Given("employee {string} is assigned to activity {string} in project {string}")
     public void employeeIsAssignedToActivityInProject(String employeeName, String activityName, String projectName) {
-        employee = new Employee(employeeName);
+        employee = new Employee(employeeName, employeeName);
         company.hireEmployee(employee);
         company.createProject(projectName);
         project = company.getProject(projectName);
@@ -82,14 +82,14 @@ public class LogTimeSteps {
 
     @Given("employee {string} is not assigned to {string}")
     public void employeeIsNotAssignedTo(String employeeName, String activityName) {
-        employee = new Employee(employeeName);
+        employee = new Employee(employeeName, employeeName);
         company.hireEmployee(employee);
     }
 
     @Given("{string} has logged {double} hours on {string} in {string}")
     public void hasLoggedHoursOnIn(String employeeName, double hours, String activityName, String projectName)
             throws IOException {
-        employee = new Employee(employeeName);
+        employee = new Employee(employeeName, employeeName);
         company.hireEmployee(employee);
         company.createProject(projectName);
         project = company.getProject(projectName);

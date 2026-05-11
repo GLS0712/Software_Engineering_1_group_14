@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
-import javafx.util.converter.LocalDateStringConverter;
-
 public class Company {
     private ArrayList<Employee> employeeList = new ArrayList<>();
     private ArrayList<Project> projectList = new ArrayList<>();
