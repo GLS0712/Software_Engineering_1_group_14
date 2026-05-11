@@ -344,6 +344,7 @@ public class CompanyController {
 
     // Stores references to the model and view so the controller can communicate
     // with both
+    // Author: Daniel Hedegaard
     public void setModelAndView(Company model, CompanyViewer view) {
         this.theModel = model;
         this.theView = view;
@@ -352,6 +353,7 @@ public class CompanyController {
 
     // Called automatically by JavaFX after the FXML is loaded — sets up input
     // constraints on fields
+    // Author: Daniel Hedegaard
     public void initialize() {
         // Restrict the allotted hours field to digits only so invalid input is blocked
         // at the source
@@ -377,6 +379,7 @@ public class CompanyController {
 
     // Navigates to the Employees tab and refreshes the employee list
     @FXML
+    // Author: Daniel Hedegaard
     void menuSwitchToEmployees(ActionEvent event) {
         // if (theModel.getLoggedIn().getInitials() == "huba") {
         // hireEmployeeButton.setVisible(true);
@@ -395,6 +398,7 @@ public class CompanyController {
 
     // Navigates to the Hire Employee form and clears any previous error message
     @FXML
+    // Author: Daniel Hedegaard
     void menuSwitchToHireEmployee(ActionEvent event) {
         hireEmployeeErrorText.setVisible(false);
         theView.menuSwitchToHireEmployee(this.pages);
@@ -402,12 +406,14 @@ public class CompanyController {
 
     // Navigates back to the Login tab
     @FXML
+    // Author: Daniel Hedegaard
     void menuSwitchToLogin(ActionEvent event) {
         theView.menuSwitchToLogin(this.pages);
     }
 
     // Refreshes the project list and navigates to the Projects tab
     @FXML
+    // Author: Daniel Hedegaard
     void menuSwitchToProjects(ActionEvent event) {
         theView.showProjects(projectFlowPane);
         theView.menuSwitchToProjects(this.pages);
@@ -416,6 +422,7 @@ public class CompanyController {
     // Resets the description overlay, refreshes the archive list, and navigates to
     // the Archive tab
     @FXML
+    // Author: GedeGustav
     void menuSwitchToCompletedProjects(ActionEvent event) {
         archivedProjectDescPane.setVisible(false);
         theView.showCompletedProjects(completedProjectsFlowPane);
@@ -424,6 +431,7 @@ public class CompanyController {
 
     // Shows the description overlay panel for a non-leader viewing an archived
     // project
+    // Author: GedeGustav
     public void showArchivedProjectDescription(String name, String description) {
         archivedProjectDescName.setText(name);
         archivedProjectDescText.setText(description != null ? description : "");
@@ -432,12 +440,14 @@ public class CompanyController {
 
     // Hides the archived project description overlay panel
     @FXML
+    // Author: GedeGustav
     void closeArchivedProjectDesc(ActionEvent event) {
         archivedProjectDescPane.setVisible(false);
     }
 
     // Navigates to the Time Log tab
     @FXML
+    // Author: Daniel Hedegaard
     void menuSwitchToTimeLog(ActionEvent event) {
         editingEntryId = null; // clear any in-progress edit
         refreshTimeLogTable();
@@ -451,6 +461,7 @@ public class CompanyController {
     // Clears the Create Project form and navigates to it, pre-populating the leader
     // picker with all employees
     @FXML
+    // Author: Daniel Hedegaard
     void switchToCreateProject(ActionEvent event) {
         projectLeaderPicker.getItems().clear();
         for (Employee employee : theModel.getEmployees()) {
@@ -469,6 +480,7 @@ public class CompanyController {
     // Clears the Create Activity form and navigates to it — blocked if viewing an
     // archived project
     @FXML
+    // Author: Daniel Hedegaard
     void switchToCreateActivity(ActionEvent event) {
         if (viewingArchivedProject)
             return;
@@ -484,6 +496,7 @@ public class CompanyController {
     // Attempts to log in using the entered initials, then navigates to the Projects
     // tab on success
     @FXML
+    // Author: Daniel Hedegaard
     void employeeLogin(ActionEvent event) {
         try {
             theModel.login(loginField.getText());
@@ -500,6 +513,7 @@ public class CompanyController {
     // Generates a unique ID by counting all activities across all projects at time
     // of creation.
     @FXML
+    // Author: Daniel Hedegaard
     void createActivity(ActionEvent event) {
         if (createActivityName.getText().isEmpty() || createActivityDescription.getText().isEmpty()
                 || createActivityStartDate.getValue() == null) {
@@ -550,6 +564,7 @@ public class CompanyController {
     // Also updates all assigned employee calendars to reflect the new dates and
     // name.
     @FXML
+    // Author: Daniel Hedegaard
     void editActivity(ActionEvent event) {
         if (editActivityName.getText() == null || editActivityDescription.getText() == null
                 || editActivityStartDate.getValue() == null || editActivityHours.getText() == null) {
@@ -598,6 +613,7 @@ public class CompanyController {
     // Validates the Create Project form and creates the project in the model, then
     // returns to the Projects tab
     @FXML
+    // Author: Daniel Hedegaard
     void createProject(ActionEvent event) {
         if (projectNameField.getText() == null || projectStartDatePicker.getValue() == null
                 || projectDescriptionField.getText() == null) {
@@ -630,6 +646,7 @@ public class CompanyController {
 
     // Validates the Edit Project form and saves changes to the existing project
     @FXML
+    // Author: Daniel Hedegaard
     void editProject(ActionEvent event) {
         if (editProjectName.getText() == null || editProjectStartDate.getValue() == null
                 || editProjectDescription.getText() == null) {
@@ -666,6 +683,7 @@ public class CompanyController {
     // (leaders only),
     // and the activity list, then navigates to the Activity tab
     @FXML
+    // Author: Daniel Hedegaard
     void goToProject(ActionEvent event, String projectName) {
         Project project = theModel.getProject(projectName);
         viewingArchivedProject = isProjectArchived(project);
@@ -745,6 +763,7 @@ public class CompanyController {
     // Blocked if the project is archived or the logged-in user is not the project
     // leader.
     @FXML
+    // Author: Daniel Hedegaard
     void gotToEditActivity(ActionEvent event) {
         if (viewingArchivedProject)
             return;
@@ -771,6 +790,7 @@ public class CompanyController {
     // Archived projects can only have their end date changed; all other fields are
     // disabled.
     @FXML
+    // Author: Daniel Hedegaard
     void gotToEditProject(ActionEvent event) {
         Project project = theModel.getProject(projectShowName.getText());
         if (project.getProjectLeader() != null &&
@@ -812,6 +832,7 @@ public class CompanyController {
     // project view.
     // Hides edit and add-employee controls when viewing an archived project.
     @FXML
+    // Author: Daniel Hedegaard
     void showActivityDetails(ActionEvent event, String activityName) {
         Activity activity = theModel.getProject(projectShowName.getText()).getActivityFromName(activityName);
         activityDetailName.setText(activity.getName());
@@ -874,6 +895,7 @@ public class CompanyController {
     // Hides the activity detail panel and restores the stats pane if the user is
     // the project leader
     @FXML
+    // Author: GedeGustav
     void closeActivityDetails(ActionEvent event) {
         activityDetails.setVisible(false);
         Project project = theModel.getProject(projectShowName.getText());
@@ -885,6 +907,7 @@ public class CompanyController {
     // Removes the given employee from the currently viewed activity.
     // Blocked for archived projects and non-leaders.
     @FXML
+    // Author: Daniel Hedegaard
     void removeEmployee(ActionEvent event, Employee employee) {
         if (viewingArchivedProject)
             return;
@@ -905,6 +928,7 @@ public class CompanyController {
     // for the current week.
     // The sick/time-off panel is only shown when viewing your own profile.
     @FXML
+    // Author: Daniel Hedegaard
     void goToEmployee(ActionEvent event, Employee employee) {
         currentShownEmployee = employee;
         employeeShowName.setText(employee.getName());
@@ -934,6 +958,7 @@ public class CompanyController {
     // Refreshes the employee calendar display when the user picks a different date
     // from the date picker
     @FXML
+    // Author: GedeGustav
     void refreshEmployeeCalendar(ActionEvent event) {
         if (currentShownEmployee == null || employeeShowDatePicker.getValue() == null)
             return;
@@ -948,6 +973,7 @@ public class CompanyController {
     // shown
     // with an "Add anyway" button rather than silently rejecting the request.
     @FXML
+    // Author: Daniel Hedegaard
     void addEmployeeToActivity(ActionEvent event) {
         if (viewingArchivedProject)
             return;
@@ -1002,6 +1028,7 @@ public class CompanyController {
     // Force-adds the previously warned employee to the activity, bypassing the
     // availability limit check
     @FXML
+    // Author: GedeGustav
     void confirmAddEmployeeToActivity(ActionEvent event) {
         if (viewingArchivedProject)
             return;
@@ -1036,6 +1063,7 @@ public class CompanyController {
     // Shows the employee detail sidebar for the selected employee in the Employees
     // list tab
     @FXML
+    // Author: Daniel Hedegaard
     void showEmployeeDetails(ActionEvent event, Employee employee) {
         employeDetailsName.setText(employee.getName());
         employeeDetailsInitials.setText(employee.getInitials());
@@ -1044,6 +1072,7 @@ public class CompanyController {
 
     // Shows the currently logged-in employee's own details in the sidebar
     @FXML
+    // Author: Daniel Hedegaard
     void showSelf(ActionEvent event) {
         employeDetailsName.setText(theModel.getLoggedIn().getName());
         employeeDetailsInitials.setText(theModel.getLoggedIn().getInitials());
@@ -1053,12 +1082,14 @@ public class CompanyController {
     // Navigates to the full Employee tab for the employee currently shown in the
     // sidebar
     @FXML
+    // Author: Daniel Hedegaard
     void viewAvailability(ActionEvent event) {
         goToEmployee(event, theModel.getEmployeeFromInitials(employeeDetailsInitials.getText()));
     }
 
     // Creates and hires a new employee if the given initials are not already taken
     @FXML
+    // Author: Daniel Hedegaard
     void hireEmployee(ActionEvent event) {
         if (theModel.getEmployeeFromInitials(hireEmployeeInitials.getText()) == null) {
             theModel.hireEmployee(new Employee(hireEmployeeName.getText(), hireEmployeeInitials.getText()));
@@ -1072,6 +1103,7 @@ public class CompanyController {
     // Registers sick leave for the logged-in employee for today after the checkbox
     // is confirmed
     @FXML
+    // Author: GedeGustav
     void reportSickness(ActionEvent event) {
         sicknessErrorText.setVisible(false);
         if (!sickCheckBox.isSelected()) {
@@ -1093,6 +1125,7 @@ public class CompanyController {
     // The end date from the picker is inclusive; one day is added internally so the
     // full end week is covered.
     @FXML
+    // Author: GedeGustav
     void requestTimeOff(ActionEvent event) {
         timeOffErrorText.setVisible(false);
         if (timeOffStartDatePicker.getValue() == null || timeOffEndDatePicker.getValue() == null) {
@@ -1126,6 +1159,7 @@ public class CompanyController {
 
     // Returns true if the project's end date has passed and all its activities are
     // also finished
+    // Author: GedeGustav
     private boolean isProjectArchived(Project project) {
         LocalDate today = LocalDate.now();
         return project.getEndDate() != null && !project.getEndDate().isEmpty()
@@ -1136,6 +1170,7 @@ public class CompanyController {
 
     // Returns a hex color string for the activity's status indicator:
     // red = not yet started, yellow = in progress, green = completed
+    // Author: Daniel Hedegaard
     public String getStatusColorForActivity(Activity activity) {
         if (activity.getStartDate().isAfter(LocalDate.now())) {
             return "#ff0000";
@@ -1147,6 +1182,7 @@ public class CompanyController {
     }
 
     @FXML
+    // Author: GedeGustav
     void deleteProject(ActionEvent event) {
         Project project = theModel.getProject(projectShowName.getText());
         if (project.getProjectLeader() != null &&
@@ -1165,6 +1201,7 @@ public class CompanyController {
     }
 
     @FXML
+    // Author: GedeGustav
     void deleteActivity(ActionEvent event) {
         if (viewingArchivedProject) return;
         Project project = theModel.getProject(projectShowName.getText());
@@ -1187,6 +1224,7 @@ public class CompanyController {
     }
 
     @FXML
+    // Author: GedeGustav
     void deleteSelectedLog(ActionEvent event) {
         timeLogTableErrorText.setVisible(false);
         List<String> selected = timeLogTable.getSelectionModel().getSelectedItem();
@@ -1208,6 +1246,7 @@ public class CompanyController {
     // --------------------------- TIME LOG --------------------------------
     // Returns a hex color string for the project's status indicator:
     // red = not yet started, yellow = in progress, green = completed
+    // Author: GedeGustav
     public String getStatusColorForProject(Project project) {
         if (project.getStartDate() != null && project.getStartDate().isAfter(LocalDate.now())) {
             return "#ff0000";
@@ -1218,6 +1257,7 @@ public class CompanyController {
         }
     }
 
+    // Author: GubbeMK
     private void refreshTimeLogTable() {
         try {
             String myInitials = theModel.getLoggedIn().getInitials();
@@ -1234,6 +1274,7 @@ public class CompanyController {
         }
     }
 
+    // Author: GedeGustav
     private void populateProjectChoiceBox() {
         logProjectChoiceBox.getItems().clear();
         logActivityChoiceBox.getItems().clear();
@@ -1242,6 +1283,7 @@ public class CompanyController {
         }
     }
 
+    // Author: GedeGustav
     private void refreshActivityChoiceBoxForProject(String projectName) {
         logActivityChoiceBox.getItems().clear();
         if (projectName == null) return;
@@ -1253,6 +1295,7 @@ public class CompanyController {
     }
 
     @FXML
+    // Author: GubbeMK
     void logTime(ActionEvent event) throws IOException {
         logTimeErrorText.setVisible(false);
         timeLogTableErrorText.setVisible(false);
@@ -1318,6 +1361,7 @@ public class CompanyController {
         }
     }
 
+    // Author: GubbeMK
     private void resetForm() {
         logHoursSpinner.getValueFactory().setValue(1.0);
         logProjectChoiceBox.setValue(null);
@@ -1325,6 +1369,7 @@ public class CompanyController {
     }
 
     @FXML
+    // Author: GubbeMK
     void editSelectedLog(ActionEvent event) {
         timeLogTableErrorText.setVisible(false);
 

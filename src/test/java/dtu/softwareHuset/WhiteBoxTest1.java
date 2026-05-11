@@ -11,10 +11,12 @@ public class WhiteBoxTest1 {
     Company company = new Company();
 
     @Test (expected = IllegalAccessError.class)
+    // Author: Daniel Hedegaard
     public void testInputDataSetA(){
         this.company.setInitailsForEmployee(new Employee("John Doe"), "jodo");
     }
     @Test (expected = IllegalAccessError.class)
+    // Author: Daniel Hedegaard
     public void testInputDataSetB(){
         Employee employee1 = new Employee("Hubert Baumeister");
         this.company.hireEmployee(employee1);
@@ -25,6 +27,7 @@ public class WhiteBoxTest1 {
     }
 
     @Test
+    // Author: Daniel Hedegaard
     public void testInputDataSetC(){
         Employee employee2 = new Employee("John Doe");
         this.company.hireEmployee(employee2);

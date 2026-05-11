@@ -17,6 +17,7 @@ public class Employee_Calendar {
     // Week-based calendar: key is ISO year-week string "YYYY-Www", e.g. "2026-W19"
     private Map<String, List<CalendarEntry>> calendar = new HashMap<>();
 
+    // Author: GedeGustav
     private String toWeekKey(LocalDate date) {
         int year = date.get(WeekFields.ISO.weekBasedYear());
         int week = date.get(WeekFields.ISO.weekOfWeekBasedYear());
@@ -24,6 +25,7 @@ public class Employee_Calendar {
     }
 
     // Returns the set of distinct ISO week keys covered by [startDate, endDate)
+    // Author: GedeGustav
     private Set<String> distinctWeeks(LocalDate startDate, LocalDate endDate) {
         Set<String> weeks = new LinkedHashSet<>();
         int days = (int) startDate.until(endDate, ChronoUnit.DAYS);
@@ -35,6 +37,7 @@ public class Employee_Calendar {
 
     // Pre-populates 13 weeks so getEntries() always returns an empty list (not null)
     // for weeks within that window, even before any activity is registered
+    // Author: GedeGustav
     public Employee_Calendar(String Employee) {
         this.id = Employee;
         LocalDate today = LocalDate.now();
@@ -45,6 +48,7 @@ public class Employee_Calendar {
 
     // Enforces a soft cap of 10 activities per week; throws so the caller can
     // prompt the user for confirmation before calling forceRegisterActivity
+    // Author: GedeGustav
     public void registerActivity(LocalDate date, String activity) {
         if (getEntries(date).size() > 9) {
             throw new IllegalArgumentException("are you sure this activity should be added, schedule is full");
@@ -55,12 +59,14 @@ public class Employee_Calendar {
     }
 
     // Bypasses the 10-activity limit — use only when user has explicitly confirmed
+    // Author: GedeGustav
     public void forceRegisterActivity(LocalDate date, String activity) {
         calendar.computeIfAbsent(toWeekKey(date), k -> new ArrayList<>())
                 .add(new CalendarEntry(CalendarEntryType.ACTIVITY, activity));
     }
 
     // Range version of forceRegisterActivity — bypasses the cap for all weeks in the period
+    // Author: GedeGustav
     public void forceRegisterActivity(LocalDate startDate, LocalDate endDate, String activity) {
         for (String key : distinctWeeks(startDate, endDate)) {
             calendar.computeIfAbsent(key, k -> new ArrayList<>())
@@ -69,6 +75,7 @@ public class Employee_Calendar {
     }
 
     // Registers one entry per distinct week covered by [startDate, endDate)
+    // Author: GedeGustav
     public void registerActivity(LocalDate startDate, LocalDate endDate, String activity) {
         for (String key : distinctWeeks(startDate, endDate)) {
             calendar.computeIfAbsent(key, k -> new ArrayList<>())
@@ -77,12 +84,14 @@ public class Employee_Calendar {
     }
 
     // Register sickness or time off in the week containing date
+    // Author: GedeGustav
     public void registerTimeOff(LocalDate date, String type) {
         calendar.computeIfAbsent(toWeekKey(date), k -> new ArrayList<>())
                 .add(new CalendarEntry(CalendarEntryType.TIME_OFF, type));
     }
 
     // Register time off for all weeks in [startDate, endDate) — endDate is exclusive
+    // Author: GedeGustav
     public void registerTimeOff(LocalDate startDate, LocalDate endDate, String type) {
         for (String key : distinctWeeks(startDate, endDate)) {
             calendar.computeIfAbsent(key, k -> new ArrayList<>())
@@ -91,6 +100,7 @@ public class Employee_Calendar {
     }
 
     // Returns true if any week in [startDate, endDate) has a TIME_OFF entry
+    // Author: GedeGustav
     public boolean hasTimeOffInPeriod(LocalDate startDate, LocalDate endDate) {
         for (String key : distinctWeeks(startDate, endDate)) {
             for (CalendarEntry entry : calendar.getOrDefault(key, Collections.emptyList())) {
@@ -103,6 +113,7 @@ public class Employee_Calendar {
     }
 
     // Returns false if any week in [startDate, endDate) is already at the 10-activity cap
+    // Author: GedeGustav
     public boolean isAvailableForPeriod(LocalDate startDate, LocalDate endDate) {
         for (String key : distinctWeeks(startDate, endDate)) {
             if (calendar.getOrDefault(key, Collections.emptyList()).size() >= 10) {
@@ -113,11 +124,13 @@ public class Employee_Calendar {
     }
 
     // Get all entries for the week containing date
+    // Author: GedeGustav
     public List<CalendarEntry> getEntries(LocalDate date) {
         return calendar.getOrDefault(toWeekKey(date), Collections.emptyList());
     }
 
     // Get all entries across all distinct weeks in [startDate, endDate)
+    // Author: GedeGustav
     public List<CalendarEntry> getEntries(LocalDate startDate, LocalDate endDate) {
         List<CalendarEntry> entries = new ArrayList<>();
         for (String key : distinctWeeks(startDate, endDate)) {
@@ -127,6 +140,7 @@ public class Employee_Calendar {
     }
 
     // Removes the most-recently-added entry in the week containing date (LIFO)
+    // Author: GedeGustav
     public void removeActivity(String date) {
         List<CalendarEntry> entries = calendar.get(toWeekKey(LocalDate.parse(date)));
         if (entries != null) {
@@ -134,6 +148,7 @@ public class Employee_Calendar {
         }
     }
 
+    // Author: GedeGustav
     public void removeAllActivities(String date) {
         List<CalendarEntry> entries = calendar.get(toWeekKey(LocalDate.parse(date)));
         if (entries != null) {
@@ -141,6 +156,7 @@ public class Employee_Calendar {
         }
     }
 
+    // Author: GedeGustav
     public void removeActivity(LocalDate date, String activity) {
         List<CalendarEntry> entries = calendar.get(toWeekKey(date));
         if (entries != null) {
@@ -148,6 +164,7 @@ public class Employee_Calendar {
         }
     }
 
+    // Author: GedeGustav
     public void removeActivity(LocalDate startDate, LocalDate endDate, String activity) {
         for (String key : distinctWeeks(startDate, endDate)) {
             List<CalendarEntry> entries = calendar.get(key);
@@ -158,6 +175,7 @@ public class Employee_Calendar {
     }
 
     // Only replaces the first matching entry in that week; silently does nothing if not found
+    // Author: GedeGustav
     public void changeActivity(LocalDate date, String oldActivity, String newActivity) {
         List<CalendarEntry> entries = calendar.get(toWeekKey(date));
         if (entries != null) {
@@ -170,6 +188,7 @@ public class Employee_Calendar {
         }
     }
 
+    // Author: GedeGustav
     public void removeAllActivities(LocalDate startDate, LocalDate endDate) {
         for (String key : distinctWeeks(startDate, endDate)) {
             List<CalendarEntry> entries = calendar.get(key);
@@ -184,15 +203,18 @@ public class Employee_Calendar {
         private final CalendarEntryType type;
         private final String description;
 
+        // Author: GedeGustav
         public CalendarEntry(CalendarEntryType type, String description) {
             this.type = type;
             this.description = description;
         }
 
+        // Author: GedeGustav
         public CalendarEntryType getType() {
             return type;
         }
 
+        // Author: GedeGustav
         public String getDescription() {
             return description;
         }

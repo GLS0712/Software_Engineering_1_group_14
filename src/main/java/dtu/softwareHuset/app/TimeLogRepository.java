@@ -31,6 +31,7 @@ public class TimeLogRepository {
     // Reads all non-header, non-blank rows from the CSV and returns them as a list
     // of string lists. Each inner list maps 1-to-1 with the CSV columns above.
     // Returns an empty list when the file does not exist yet.
+    // Author: GubbeMK
     public List<List<String>> load() throws IOException {
         List<List<String>> logs = new ArrayList<>();
         if (!file.exists()) return logs;
@@ -53,6 +54,7 @@ public class TimeLogRepository {
     // If the activity already has a stub row (empty employeeId), that row is filled
     // in-place so no duplicate rows accumulate for the first log on an activity.
     // A new row is only appended when the activity already has at least one real entry.
+    // Author: GubbeMK
     public void registerEntry(TimeLog entry) throws IOException {
         List<List<String>> existing = load();
         file.getParentFile().mkdirs();
@@ -92,6 +94,7 @@ public class TimeLogRepository {
 
     // Sorts all rows by projectId then activityId and writes them to the CSV,
     // always prefixing with the standard header row.
+    // Author: GubbeMK
     public void writeAll(List<List<String>> logs) throws IOException {
         // Sort so the file stays grouped by project and then by activity within each project
         logs.sort((a, b) -> {
@@ -116,6 +119,7 @@ public class TimeLogRepository {
     }
 
     // Prints all loaded rows to stdout — used for quick debugging.
+    // Author: GubbeMK
     public void preview() throws IOException {
         List<List<String>> logs = load();
 
@@ -127,6 +131,7 @@ public class TimeLogRepository {
 
     // Prints every entry logged by the given employee today, along with the total
     // hours. Used for quick console inspection.
+    // Author: GubbeMK
     public void hoursLoggedToday(Employee employee) throws IOException {
         List<List<String>> logs = new ArrayList<>();
         double totalHours = 0;
@@ -157,6 +162,7 @@ public class TimeLogRepository {
     }
 
     // Returns the total hours logged by the given employee in the current calendar week.
+    // Author: GubbeMK
     public double hoursLoggedWeek(Employee employee) throws IOException {
         List<List<String>> logs = new ArrayList<>();
         double totalHours = 0;
@@ -191,6 +197,7 @@ public class TimeLogRepository {
     }
 
     // Returns the total hours logged by the given employee in the current calendar month.
+    // Author: GubbeMK
     public double hoursLoggedMonth(Employee employee) throws IOException {
         List<List<String>> logs = new ArrayList<>();
         double totalHours = 0;
@@ -227,6 +234,7 @@ public class TimeLogRepository {
     // When activity is null, only project-level columns are filled (used when a new
     // project is created). When activity is non-null, the first activity added to a
     // project fills the existing project-only stub instead of creating a new row.
+    // Author: GedeGustav
     public void registerStubEntry(Project project, Activity activity) throws IOException {
         List<List<String>> existing = load();
         file.getParentFile().mkdirs();
@@ -294,6 +302,7 @@ public class TimeLogRepository {
 
     // Replaces the row at the given zero-based index with newValues.
     // Used for direct positional edits where the caller already knows the row index.
+    // Author: GubbeMK
     public void editEntry(int lineIndex, List<String> newValues) throws IOException {
         List<List<String>> logs = load();
         logs.set(lineIndex, newValues);
@@ -302,6 +311,7 @@ public class TimeLogRepository {
 
     // Finds the row whose entryId matches the given id and replaces it with the
     // data from newEntry, keeping the same entryId in column 0.
+    // Author: GubbeMK
     public void updateEntry(String entryId, TimeLog newEntry) throws IOException {
         List<List<String>> logs = load();
         String row = entryId + COMMA_DELIMITER + newEntry.toString();
@@ -318,6 +328,7 @@ public class TimeLogRepository {
     }
 
     // Returns the row at the given zero-based index from the loaded log list.
+    // Author: GubbeMK
     public List<String> getEntry(int logNumber) throws IOException {
         List<List<String>> logs = load();
         return logs.get(logNumber);
@@ -325,6 +336,7 @@ public class TimeLogRepository {
 
     // Removes the row with the given entryId and decrements the id of every row
     // with a higher id by 1, keeping the sequence gap-free.
+    // Author: GedeGustav
     public void deleteEntry(String entryId) throws IOException {
         List<List<String>> logs = load();
         logs.removeIf(row -> !row.isEmpty() && row.get(0).equals(entryId));
@@ -357,6 +369,7 @@ public class TimeLogRepository {
     }
 
     // Removes all rows belonging to the given project. Called when a project is deleted.
+    // Author: GedeGustav
     public void deleteEntriesForProject(String projectId) throws IOException {
         List<List<String>> logs = load();
         logs.removeIf(row -> row.size() > 4 && row.get(4).equals(projectId));
@@ -364,6 +377,7 @@ public class TimeLogRepository {
     }
 
     // Removes all rows belonging to the given activity. Called when an activity is deleted.
+    // Author: GedeGustav
     public void deleteEntriesForActivity(String activityId) throws IOException {
         List<List<String>> logs = load();
         logs.removeIf(row -> row.size() > 7 && row.get(7).equals(activityId));
@@ -374,6 +388,7 @@ public class TimeLogRepository {
     // Projects and activities that already exist in the provided lists are skipped
     // so that the method is safe to call multiple times without creating duplicates.
     // Employee assignment to activities is also restored from the employees column.
+    // Author: GedeGustav
     public void loadProjectsFromLogs(List<Project> projectList, List<Employee> employeeList) throws IOException {
         List<List<String>> logs = load();
         for (List<String> log : logs) {
@@ -448,6 +463,7 @@ public class TimeLogRepository {
     // Pushes the current in-memory state of all projects and activities back into
     // the CSV. Only rows that can be matched to a known project and activity are
     // updated; unmatched rows (e.g. orphaned stubs) are left unchanged.
+    // Author: GedeGustav
     public void syncLogs(List<Project> projects) throws IOException {
         List<List<String>> logs = load();
         for (int i = 0; i < logs.size(); i++) {

@@ -32,6 +32,7 @@ public class TimeLog {
     Double hours;
 
     // Constructs a log entry for the given employee, project, activity, date and hours.
+    // Author: GubbeMK
     public TimeLog(Employee employee, Project project, Activity activity, LocalDate date, Double hours) {
         this.employee = employee;
         this.project = project;
@@ -44,6 +45,7 @@ public class TimeLog {
     // Column 0 (entryId) is prepended by TimeLogRepository when writing to the file.
     // Null fields are written as empty strings to keep the column count stable.
     @Override
+    // Author: GubbeMK
     public String toString() {
         // Employees assigned to the activity are stored as dash-separated initials (col 16)
         String employees = activity.getEmployees().stream()

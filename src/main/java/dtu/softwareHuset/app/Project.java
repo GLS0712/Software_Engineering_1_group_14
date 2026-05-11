@@ -18,6 +18,7 @@ public class Project {
     private ArrayList<Activity> activityList;
 
     // Constructor for a project with no end date
+    // Author: GedeGustav
     public Project(String name) {
         this.name = name;
         this.startDate = LocalDate.now();
@@ -26,6 +27,7 @@ public class Project {
     }
 
     // Constructor for a project with a known end date
+    // Author: GedeGustav
     public Project(String name, String endDate) {
         this.name = name;
         this.endDate = endDate;
@@ -36,6 +38,7 @@ public class Project {
 
     // Constructor for a project with both an end date and an assigned project
     // leader
+    // Author: GedeGustav
     public Project(String name, String endDate, Employee projectLeader) {
         this.name = name;
         this.endDate = endDate;
@@ -45,25 +48,30 @@ public class Project {
         this.activityList = new ArrayList<>();
     }
 
+    // Author: GedeGustav
     public String getName() {
         return this.name;
     }
 
+    // Author: GedeGustav
     public String getId() {
         return this.id;
     }
 
     // Generates an ID in the format "Pyy###" (e.g. "P25003") based on the current
     // year and number of projects
+    // Author: GedeGustav
     public void setId(Company company) {
         DateFormat df = new SimpleDateFormat("yy");
         id = "P" + df.format(Calendar.getInstance().getTime()) + String.format("%03d", company.getProjects().size());
     }
 
+    // Author: GedeGustav
     public void setId(String id) {
         this.id = id;
     }
 
+    // Author: GedeGustav
     public Activity getActivityById(String id) {
         for (Activity activity : activityList) {
             if (id.equals(activity.getId())) {
@@ -73,38 +81,47 @@ public class Project {
         return null;
     }
 
+    // Author: Daniel Hedegaard
     public void setName(String name) {
         this.name = name;
     }
 
+    // Author: GedeGustav
     public String getDescription() {
         return this.description;
     }
 
+    // Author: GedeGustav
     public LocalDate getStartDate() {
         return this.startDate;
     }
 
+    // Author: GedeGustav
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
+    // Author: GedeGustav
     public String getEndDate() {
         return this.endDate;
     }
 
+    // Author: GedeGustav
     public Employee getProjectLeader() {
         return this.projectLeader;
     }
 
+    // Author: Daniel Hedegaard
     public ArrayList<Activity> getActivities() {
         return this.activityList;
     }
 
+    // Author: GedeGustav
     public void assignEmployee(Employee employee) {
         employeeList.add(employee);
     }
 
+    // Author: GedeGustav
     public void setDescription(String description) {
         this.description = description;
     }
@@ -113,6 +130,7 @@ public class Project {
     // project if one is set.
     // Only the project leader (or anyone if there is no leader) can create
     // activities.
+    // Author: GedeGustav
     public void createActivity(Employee employee, String name, String description) throws IllegalAccessError {
         if (projectLeader == null || this.projectLeader.getName().equals(employee.getName())) {
             Activity activity = new Activity(name, description);
@@ -126,6 +144,7 @@ public class Project {
         }
     }
 
+    // Author: GedeGustav
     public Activity getActivityFromName(String name) {
         for (Activity activity : activityList) {
             if (activity.getName().equals(name)) {
@@ -138,6 +157,7 @@ public class Project {
 
     // Creates an activity with explicit start and end dates.
     // The end date is capped to the project's end date if it would exceed it.
+    // Author: GedeGustav
     public void createActivity(Employee employee, String name, String description, LocalDate startDate,
             LocalDate endDate) throws IllegalAccessError {
         if (projectLeader == null || this.projectLeader.getName().equals(employee.getName())) {
@@ -151,6 +171,7 @@ public class Project {
     // Changes an activity's end date, capping it to the project's end date if
     // necessary.
     // Only the project leader may make this change when a leader is assigned.
+    // Author: GedeGustav
     public void changeActivityEndDate(Employee employee, String activityName, LocalDate newEndDate)
             throws IllegalAccessError {
         if (projectLeader != null && !this.projectLeader.getName().equals(employee.getName())) {
@@ -160,6 +181,7 @@ public class Project {
     }
 
     // Ensures an activity's end date never goes past the project's own end date
+    // Author: GedeGustav
     private LocalDate capToProjectEndDate(LocalDate date) {
         if (this.endDate != null && !this.endDate.isEmpty()) {
             LocalDate projectEnd = LocalDate.parse(this.endDate);
@@ -173,6 +195,7 @@ public class Project {
     // Adds an employee to an activity after checking availability day by day.
     // Throws if any day in the activity's period already has 10 entries on the
     // employee's calendar.
+    // Author: GedeGustav
     public void addEmployeeToActivity(Employee requester, Employee employeeToAdd, String activityName) {
         if (projectLeader != null && !projectLeader.getName().equals(requester.getName())) {
             throw new IllegalAccessError("you are not projectLeader");
@@ -191,12 +214,14 @@ public class Project {
         activity.addEmployee(employeeToAdd);
     }
 
+    // Author: GedeGustav
     public void setProjectLeader(Employee employee) {
         this.projectLeader = employee;
     }
 
     // Updates the project's end date and caps any activity end dates that now
     // exceed it
+    // Author: GedeGustav
     public void setEndDate(String newEndDate) {
         this.endDate = newEndDate;
         if (newEndDate == null || newEndDate.isEmpty()) return;
