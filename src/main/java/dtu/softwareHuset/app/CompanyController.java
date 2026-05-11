@@ -361,12 +361,15 @@ public class CompanyController {
                 new TextFormatter<>(change -> change.getControlNewText().matches("\\d*") ? change : null));
 
         // Set up the time-log table columns
-        // Each row is a List<String>: [entryId, employee, project, activity, date,
-        // hours]
-        logDateColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().get(3)));
-        logProjectColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().get(6)));
-        logActivityColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().get(8)));
-        logHoursColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().get(2)));
+        // Each row is a List<String>: [entryId, employeeId, projectId, activityName, date, hours]
+        logDateColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().get(4)));
+        logProjectColumn.setCellValueFactory(cell -> {
+            String projectId = cell.getValue().size() > 2 ? cell.getValue().get(2) : "";
+            Project p = theModel.getProjectById(projectId);
+            return new SimpleStringProperty(p != null ? p.getName() : projectId);
+        });
+        logActivityColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().get(3)));
+        logHoursColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().get(5)));
 
         // Hours spinner: 0.5 to 24.0, in 0.5 increments, default 1.0
         logHoursSpinner.setValueFactory(
@@ -722,12 +725,12 @@ public class CompanyController {
             try {
                 String projectId = project.getId();
                 totalLoggedTime = theModel.loadAllLogs().stream()
-                        .filter(log -> log.size() > 4
-                                && log.get(4).equals(projectId)
+                        .filter(log -> log.size() > 5
+                                && log.get(2).equals(projectId)
                                 && !log.get(1).isEmpty()
-                                && !log.get(2).isEmpty())
+                                && !log.get(5).isEmpty())
                         .mapToDouble(log -> {
-                            try { return Double.parseDouble(log.get(2)); }
+                            try { return Double.parseDouble(log.get(5)); }
                             catch (NumberFormatException e) { return 0; }
                         })
                         .sum();
@@ -1262,9 +1265,9 @@ public class CompanyController {
         try {
             String myInitials = theModel.getLoggedIn().getInitials();
             List<List<String>> myLogs = theModel.loadAllLogs().stream()
-                    .filter(log -> log.size() > 2
+                    .filter(log -> log.size() > 5
                             && log.get(1).equals(myInitials)
-                            && !log.get(2).isEmpty())
+                            && !log.get(5).isEmpty())
                     .collect(Collectors.toList());
             timeLogTable.setItems(FXCollections.observableArrayList(myLogs));
         } catch (Exception e) {

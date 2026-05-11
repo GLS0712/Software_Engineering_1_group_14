@@ -11,6 +11,7 @@ public class Company {
     private ArrayList<Employee> employeeList = new ArrayList<>();
     private ArrayList<Project> projectList = new ArrayList<>();
     private TimeLogRepository timeLogRepo = new TimeLogRepository();
+    private projectSaveshandler projectSavesRepo = new projectSaveshandler();
     private Employee loggedIn = null;
 
     // Author: GubbeMK
@@ -166,33 +167,35 @@ public class Company {
 
     // Author: GedeGustav
     public void loadProjectsFromLogs() throws IOException {
-        timeLogRepo.loadProjectsFromLogs(projectList, employeeList);
+        projectSavesRepo.loadProjects(projectList, employeeList);
     }
 
     // Author: GedeGustav
     public void syncLogs() throws IOException {
-        timeLogRepo.syncLogs(projectList);
+        projectSavesRepo.sync(projectList);
     }
 
     // Author: GedeGustav
     public void writeProjectStub(Project project) throws IOException {
-        timeLogRepo.registerStubEntry(project, null);
+        projectSavesRepo.writeEntry(project, null);
     }
 
     // Author: GedeGustav
     public void writeActivityStub(Project project, Activity activity) throws IOException {
-        timeLogRepo.registerStubEntry(project, activity);
+        projectSavesRepo.writeEntry(project, activity);
     }
 
     // Author: GedeGustav
     public void deleteProject(Project project) throws IOException {
+        projectSavesRepo.deleteProject(project.getId());
         timeLogRepo.deleteEntriesForProject(project.getId());
         projectList.remove(project);
     }
 
     // Author: GedeGustav
     public void deleteActivity(Project project, Activity activity) throws IOException {
-        timeLogRepo.deleteEntriesForActivity(activity.getId());
+        projectSavesRepo.deleteActivity(activity.getId());
+        timeLogRepo.deleteEntriesForActivity(activity.getName());
         project.getActivities().remove(activity);
     }
 
