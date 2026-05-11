@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -244,5 +245,20 @@ public class CalendarSteps {
         } else {
             calendarOf(ownerName).changeActivity(LocalDate.parse(date), oldActivity, newActivity);
         }
+    }
+
+    @When("{string} registers time off {string} from {string} to {string}")
+    public void registers_time_off_from_to(String employeeName, String type, String startDate, String endDate) {
+        calendarOf(employeeName).registerTimeOff(LocalDate.parse(startDate), LocalDate.parse(endDate), type);
+    }
+
+    @Then("{string} has time off between {string} and {string}")
+    public void has_time_off_between(String employeeName, String startDate, String endDate) {
+        assertTrue(calendarOf(employeeName).hasTimeOffInPeriod(LocalDate.parse(startDate), LocalDate.parse(endDate)));
+    }
+
+    @Then("{string} has no time off between {string} and {string}")
+    public void has_no_time_off_between(String employeeName, String startDate, String endDate) {
+        assertFalse(calendarOf(employeeName).hasTimeOffInPeriod(LocalDate.parse(startDate), LocalDate.parse(endDate)));
     }
 }

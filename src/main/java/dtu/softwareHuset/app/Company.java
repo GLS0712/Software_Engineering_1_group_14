@@ -1,5 +1,6 @@
 package dtu.softwareHuset.app;
 
+import java.util.ArrayList;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
@@ -83,10 +84,10 @@ public class Company {
         }
         return null;
     }
-
+    
     public Employee getEmployeeFromInitials(String initials) {
         for (Employee employee : this.employeeList) {
-            if (employee.getInitials().equals(initials)) {
+            if (initials.equals(employee.getInitials())) {
                 return employee;
             }
         }
@@ -95,7 +96,7 @@ public class Company {
 
     public void login(String initials) {
         for (Employee employee : employeeList) {
-            if (employee.getInitials().equals(initials)) {
+            if (initials.equals(employee.getInitials())) {
                 this.loggedIn = employee;
             }
         }

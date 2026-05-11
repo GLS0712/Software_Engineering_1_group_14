@@ -59,4 +59,5 @@ public class EmployeeSteps {
     public void initials_is_seached_for(String initals) {
         foundEmployee = company.getEmployeeFromInitials(initals);
     }
+
 }
