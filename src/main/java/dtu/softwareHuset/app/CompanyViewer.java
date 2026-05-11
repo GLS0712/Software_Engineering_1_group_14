@@ -146,7 +146,7 @@ public class CompanyViewer extends Application {
     }
 
     // Navigate to the Archive (Completed Projects) tab (tab index 11)
-    // Author: GedeGustav
+    // Author: GLS0712
     public void menuSwitchToCompletedProjects(TabPane pages) {
         if (theModel.getLoggedIn() != null) {
             pages.getSelectionModel().select(11);
@@ -156,7 +156,7 @@ public class CompanyViewer extends Application {
     // Populates the archive FlowPane with completed/archived project cards.
     // A project is considered archived when its end date has passed and all activities are also done.
     // The project leader gets full access; non-leaders can only view the description via an overlay.
-    // Author: GedeGustav
+    // Author: GLS0712
     public void showCompletedProjects(FlowPane bounds) {
         bounds.getChildren().clear();
         LocalDate today = LocalDate.now();
@@ -321,7 +321,7 @@ public class CompanyViewer extends Application {
 
     // Populates the employee list inside the activity detail panel.
     // If viewing an archived project, the remove button is hidden to prevent modifications.
-    // Author: GedeGustav
+    // Author: GLS0712
     public void showActivityDetails(Pane activityDetails, Activity activity, VBox bounds, boolean archived) {
         bounds.getChildren().clear();
         for (Employee employee : activity.getEmployees()) {
@@ -400,7 +400,7 @@ public class CompanyViewer extends Application {
 
     // Shows the week's calendar entries for the given employee and date in the Employee tab.
     // Displays a placeholder message when the employee has no activities that week.
-    // Author: GedeGustav
+    // Author: GLS0712
     public void showEmployeeCalendar(VBox bounds, Employee employee, LocalDate date) {
         bounds.getChildren().clear();
         List<Employee_Calendar.CalendarEntry> entries = employee.getCalendar().getEntries(date);

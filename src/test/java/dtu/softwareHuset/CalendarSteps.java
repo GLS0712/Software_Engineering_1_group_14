@@ -29,7 +29,7 @@ public class CalendarSteps {
     private Employee_Calendar pendingCalendar;
 
     // company and errorMessageHandler are injected by Cucumber's PicoContainer
-    // Author: GedeGustav
+    // Author: GLS0712
     public CalendarSteps(Company company, ErrorMessageHandler errorMessageHandler) {
         this.company = company;
         this.errorMessageHandler = errorMessageHandler;

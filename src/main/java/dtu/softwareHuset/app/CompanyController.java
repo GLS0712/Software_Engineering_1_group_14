@@ -429,7 +429,7 @@ public class CompanyController {
     // Resets the description overlay, refreshes the archive list, and navigates to
     // the Archive tab
     @FXML
-    // Author: GedeGustav
+    // Author: GLS0712
     void menuSwitchToCompletedProjects(ActionEvent event) {
         archivedProjectDescPane.setVisible(false);
         theView.showCompletedProjects(completedProjectsFlowPane);
@@ -438,7 +438,7 @@ public class CompanyController {
 
     // Shows the description overlay panel for a non-leader viewing an archived
     // project
-    // Author: GedeGustav
+    // Author: GLS0712
     public void showArchivedProjectDescription(String name, String description) {
         archivedProjectDescName.setText(name);
         archivedProjectDescText.setText(description != null ? description : "");
@@ -447,7 +447,7 @@ public class CompanyController {
 
     // Hides the archived project description overlay panel
     @FXML
-    // Author: GedeGustav
+    // Author: GLS0712
     void closeArchivedProjectDesc(ActionEvent event) {
         archivedProjectDescPane.setVisible(false);
     }
@@ -929,7 +929,7 @@ public class CompanyController {
     // Hides the activity detail panel and restores the stats pane if the user is
     // the project leader
     @FXML
-    // Author: GedeGustav
+    // Author: GLS0712
     void closeActivityDetails(ActionEvent event) {
         activityDetails.setVisible(false);
         Project project = theModel.getProject(projectShowName.getText());
@@ -995,7 +995,7 @@ public class CompanyController {
     // Refreshes the employee calendar display when the user picks a different date
     // from the date picker
     @FXML
-    // Author: GedeGustav
+    // Author: GLS0712
     void refreshEmployeeCalendar(ActionEvent event) {
         if (currentShownEmployee == null || employeeShowDatePicker.getValue() == null)
             return;
@@ -1068,7 +1068,7 @@ public class CompanyController {
     // Force-adds the previously warned employee to the activity, bypassing the
     // availability limit check
     @FXML
-    // Author: GedeGustav
+    // Author: GLS0712
     void confirmAddEmployeeToActivity(ActionEvent event) {
         if (viewingArchivedProject)
             return;
@@ -1146,7 +1146,7 @@ public class CompanyController {
     // Registers sick leave for the logged-in employee for today after the checkbox
     // is confirmed
     @FXML
-    // Author: GedeGustav
+    // Author: GLS0712
     void reportSickness(ActionEvent event) {
         sicknessErrorText.setVisible(false);
         if (!sickCheckBox.isSelected()) {
@@ -1168,7 +1168,7 @@ public class CompanyController {
     // The end date from the picker is inclusive; one day is added internally so the
     // full end week is covered.
     @FXML
-    // Author: GedeGustav
+    // Author: GLS0712
     void requestTimeOff(ActionEvent event) {
         timeOffErrorText.setVisible(false);
         if (timeOffStartDatePicker.getValue() == null || timeOffEndDatePicker.getValue() == null) {
@@ -1202,7 +1202,7 @@ public class CompanyController {
 
     // Returns true if the project's end date has passed and all its activities are
     // also finished
-    // Author: GedeGustav
+    // Author: GLS0712
     private boolean isProjectArchived(Project project) {
         LocalDate today = LocalDate.now();
         return project.getEndDate() != null && !project.getEndDate().isEmpty()
@@ -1225,7 +1225,7 @@ public class CompanyController {
     }
 
     @FXML
-    // Author: GedeGustav
+    // Author: GLS0712
     void deleteProject(ActionEvent event) {
         Project project = theModel.getProject(projectShowName.getText());
         if (project.getProjectLeader() != null &&
@@ -1244,7 +1244,7 @@ public class CompanyController {
     }
 
     @FXML
-    // Author: GedeGustav
+    // Author: GLS0712
     void deleteActivity(ActionEvent event) {
         if (viewingArchivedProject)
             return;
@@ -1268,7 +1268,7 @@ public class CompanyController {
     }
 
     @FXML
-    // Author: GedeGustav
+    // Author: GLS0712
     void deleteSelectedLog(ActionEvent event) {
         timeLogTableErrorText.setVisible(false);
         List<String> selected = timeLogTable.getSelectionModel().getSelectedItem();
@@ -1290,7 +1290,7 @@ public class CompanyController {
     // --------------------------- TIME LOG --------------------------------
     // Returns a hex color string for the project's status indicator:
     // red = not yet started, yellow = in progress, green = completed
-    // Author: GedeGustav
+    // Author: GLS0712
     public String getStatusColorForProject(Project project) {
         if (project.getStartDate() != null && project.getStartDate().isAfter(LocalDate.now())) {
             return "#ff0000";
@@ -1318,7 +1318,7 @@ public class CompanyController {
         }
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     private void populateProjectChoiceBox() {
         logProjectChoiceBox.getItems().clear();
         logActivityChoiceBox.getItems().clear();
@@ -1327,7 +1327,7 @@ public class CompanyController {
         }
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     private void refreshActivityChoiceBoxForProject(String projectName) {
         logActivityChoiceBox.getItems().clear();
         if (projectName == null)

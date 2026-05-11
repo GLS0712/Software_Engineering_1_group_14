@@ -29,34 +29,34 @@ public class ActivitySteps {
     Map<String, Employee> employeeMap = new HashMap<>();
     ErrorMessageHandler errorMessageHandler;
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public ActivitySteps(Company company, ErrorMessageHandler errorMessageHandler) {
         this.company = company;
         this.errorMessageHandler = errorMessageHandler;
     }
 
     @Given("there is a project")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void thereIsAProject() {
         company.createProject("name");
         project = company.getProject("name");
     }
 
     @Then("there exists an activity with {string} and {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void thereExistsAnActivityWithAnd(String string, String string2) {
         assertNotNull(project.getActivityFromName(string));
         assertEquals(string2, project.getActivityFromName(string).getDescription());
     }
 
     @Given("there is no projectleader")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void there_is_no_projectleader() {
         project.setProjectLeader(null);
     }
 
     @Given("an employee {string} is assigned to project")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void an_employee_is_assigned_to_project(String s) {
         employee = new Employee(s);
         employeeMap.put(s, employee);
@@ -64,7 +64,7 @@ public class ActivitySteps {
     }
 
     @When("{string} creates activity with {string} and {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void John_doe_creates_activity_with_and(String s, String s2, String s3) {
         try {
             project.createActivity(employee, s2, s3);
@@ -74,55 +74,55 @@ public class ActivitySteps {
     }
 
     @Given("the projectLeader is {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void the_projectLeader_is_John_doe(String s) {
         project.setProjectLeader(employee);
     }
 
     @Then("the error message is {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void the_error_message_is(String s) {
         assertEquals(s, errorMessageHandler.getErrorMessage());
     }
 
     @Given("the projectLeader is not {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void the_projectLeader_is_not(String s) {
         project.setProjectLeader(new Employee("bingus"));
     }
 
     @Then("the activity {string} is found")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void the_activity_is_found(String s) {
         assertEquals(s, activity.getName());
     }
 
     @When("an employee {string} searches for the activity {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void an_employee_searches_for_the_activity(String s, String s2) {
         activity = project.getActivityFromName(s2);
     }
 
     @Given("there is an activity with name {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void there_is_an_activity_with_name(String s) {
         project.createActivity(employee, s, "Who cares");
     }
 
     @Then("the activity {string} is Not found")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void the_activity_is_Not_found(String s) {
         assertNull(activity);
     }
 
     @Given("there is not an activity with name {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void there_is_not_an_activity_with_name(String s) {
         project.createActivity(employee, "ahhh", "Ben");
     }
 
     @Given("{string} has a personal calendar")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void has_a_personal_calendar(String name) {
         Employee emloyee = employeeMap.getOrDefault(name, employee);
         emloyee.setCalendar(new Employee_Calendar(name));
@@ -130,14 +130,14 @@ public class ActivitySteps {
 
     // Uses the project leader as creator when one exists, so two-employee scenarios work correctly
     @Given("there is an activity {string} from {string} to {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void there_is_an_activity_from_to(String activityName, String startDate, String endDate) {
         Employee creator = project.getProjectLeader() != null ? project.getProjectLeader() : employee;
         project.createActivity(creator, activityName, "description", LocalDate.parse(startDate), LocalDate.parse(endDate));
     }
 
     @Given("{string} has a full schedule on {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void has_a_full_schedule_on(String name, String date) {
         Employee_Calendar cal = employeeMap.getOrDefault(name, employee).getCalendar();
         for (int i = 0; i < 10; i++) {
@@ -146,7 +146,7 @@ public class ActivitySteps {
     }
 
     @Given("{string} has {int} existing entries on {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void has_existing_entries_on(String name, int count, String date) {
         Employee_Calendar cal = employeeMap.getOrDefault(name, employee).getCalendar();
         for (int i = 0; i < count; i++) {
@@ -155,7 +155,7 @@ public class ActivitySteps {
     }
 
     @When("{string} is added to activity {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void is_added_to_activity(String name, String activityName) {
         Employee emloyee = employeeMap.getOrDefault(name, employee);
         try {
@@ -166,7 +166,7 @@ public class ActivitySteps {
     }
 
     @When("{string} adds {string} to activity {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void adds_employee_to_activity(String actorName, String targetName, String activityName) {
         Employee actor = employeeMap.getOrDefault(actorName, employee);
         Employee target = employeeMap.getOrDefault(targetName, employee);
@@ -178,7 +178,7 @@ public class ActivitySteps {
     }
 
     @Then("{string} is assigned to activity {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void is_assigned_to_activity(String name, String activityName) {
         Employee emloyee = employeeMap.getOrDefault(name, employee);
         List<Employee> employees = project.getActivityFromName(activityName).getEmployees();
@@ -186,7 +186,7 @@ public class ActivitySteps {
     }
 
     @Then("{string} is not assigned to activity {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void is_not_assigned_to_activity(String name, String activityName) {
         Employee emloyee = employeeMap.getOrDefault(name, employee);
         List<Employee> employees = project.getActivityFromName(activityName).getEmployees();
@@ -194,14 +194,14 @@ public class ActivitySteps {
     }
 
     @Given("there is a project with end date {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void there_is_a_project_with_end_date(String endDate) {
         company.createProject("name", endDate);
         project = company.getProject("name");
     }
 
     @When("{string} changes the end date of activity {string} to {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void changes_the_end_date_of_activity_to(String employeeName, String activityName, String newEndDate) {
         Employee emp = employeeMap.getOrDefault(employeeName, employee);
         try {
@@ -212,7 +212,7 @@ public class ActivitySteps {
     }
 
     @When("{string} creates activity {string} from {string} to {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void creates_activity_from_to(String employeeName, String activityName, String startDate, String endDate) {
         Employee emp = employeeMap.getOrDefault(employeeName, employee);
         try {
@@ -223,13 +223,13 @@ public class ActivitySteps {
     }
 
     @When("the project end date is reduced to {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void the_project_end_date_is_reduced_to(String newEndDate) {
         project.setEndDate(newEndDate);
     }
 
     @Then("the activity {string} has end date {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void the_activity_has_end_date(String activityName, String expectedEndDate) {
         Activity act = project.getActivityFromName(activityName);
         assertNotNull(act);
@@ -237,21 +237,21 @@ public class ActivitySteps {
     }
 
     @Given("{string} has time off on {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void has_time_off_on(String name, String date) {
         Employee emp = employeeMap.getOrDefault(name, employee);
         emp.getCalendar().registerTimeOff(LocalDate.parse(date), "SICK");
     }
 
     @When("{string} is removed from activity {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void is_removed_from_activity(String name, String activityName) {
         Employee emp = employeeMap.getOrDefault(name, employee);
         project.getActivityFromName(activityName).removeEmployee(emp);
     }
 
     @Then("{string} has {int} calendar entries in period from {string} to {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void has_calendar_entries_in_period(String name, int count, String startDate, String endDate) {
         Employee emp = employeeMap.getOrDefault(name, employee);
         List<Employee_Calendar.CalendarEntry> entries = emp.getCalendar().getEntries(LocalDate.parse(startDate), LocalDate.parse(endDate));
@@ -259,19 +259,19 @@ public class ActivitySteps {
     }
 
     @When("{string} sets allotted time for activity {string} to {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void sets_allotted_time_for_activity_to(String employeeName, String activityName, String time) {
         project.getActivityFromName(activityName).setAlottedTime(time);
     }
 
     @Then("the activity {string} has allotted time {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void the_activity_has_allotted_time(String activityName, String expectedTime) {
         assertEquals(expectedTime, project.getActivityFromName(activityName).getAlottedTime());
     }
 
     @When("{string} is force-added to activity {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void is_force_added_to_activity(String name, String activityName) {
         Employee emp = employeeMap.getOrDefault(name, employee);
         try {
@@ -282,7 +282,7 @@ public class ActivitySteps {
     }
 
     @When("the activity {string} is renamed to {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void the_activity_is_renamed_to(String oldName, String newName) {
         Activity act = project.getActivityFromName(oldName);
         LocalDate oldStart = act.getStartDate();
@@ -292,13 +292,13 @@ public class ActivitySteps {
     }
 
     @When("{string} sets the description of activity {string} to {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void sets_the_description_of_activity_to(String employeeName, String activityName, String description) {
         project.getActivityFromName(activityName).setDescription(description);
     }
 
     @Then("the activity {string} has description {string}")
-    // Author: GedeGustav
+    // Author: GLS0712
     public void the_activity_has_description(String activityName, String expectedDescription) {
         assertEquals(expectedDescription, project.getActivityFromName(activityName).getDescription());
     }

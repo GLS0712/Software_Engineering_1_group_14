@@ -210,7 +210,7 @@ public class TimeLogRepository {
 
     // Removes the row with the given entryId and decrements the id of every row
     // with a higher id by 1, keeping the sequence gap-free.
-    // Author: GedeGustav
+    // Author: GLS0712
     public void deleteEntry(String entryId) throws IOException {
         List<List<String>> logs = load();
         logs.removeIf(row -> !row.isEmpty() && row.get(0).equals(entryId));
@@ -243,7 +243,7 @@ public class TimeLogRepository {
     }
 
     // Removes all rows belonging to the given project. Called when a project is deleted.
-    // Author: GedeGustav
+    // Author: GLS0712
     public void deleteEntriesForProject(String projectId) throws IOException {
         List<List<String>> logs = load();
         logs.removeIf(row -> row.size() > 2 && row.get(2).equals(projectId));
@@ -251,7 +251,7 @@ public class TimeLogRepository {
     }
 
     // Removes all rows for the given activity (matched by name). Called when an activity is deleted.
-    // Author: GedeGustav
+    // Author: GLS0712
     public void deleteEntriesForActivity(String activityName) throws IOException {
         List<List<String>> logs = load();
         logs.removeIf(row -> row.size() > 3 && row.get(3).equals(activityName));

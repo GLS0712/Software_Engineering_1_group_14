@@ -22,27 +22,27 @@ public class Company {
         this.employeeList.add(new Employee("Adrian Kristensen", "adkr"));
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void hireEmployee(Employee employee) {
         employeeList.add(employee);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void createProject(String name) {
         projectList.add(new Project(name));
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void createProject(String name, String time) {
         projectList.add(new Project(name, time));
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void createProject(String name, String time, Employee employee) {
         projectList.add(new Project(name, time, employee));
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public Project getProject(String name) {
         for (Project project : projectList) {
             if (project.getName().equals(name)) {
@@ -52,7 +52,7 @@ public class Company {
         return null;
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public Project getProjectById(String id) {
         for (Project project : projectList) {
             if (id.equals(project.getId())) {
@@ -108,7 +108,7 @@ public class Company {
         return null;
     }
     
-    // Author: GedeGustav
+    // Author: GLS0712
     public Employee getEmployeeFromInitials(String initials) {
         for (Employee employee : this.employeeList) {
             if (initials.equals(employee.getInitials())) {
@@ -165,41 +165,41 @@ public class Company {
         return timeLogRepo.getEntry(logNumber);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void loadProjectsFromLogs() throws IOException {
         projectSavesRepo.loadProjects(projectList, employeeList);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void syncLogs() throws IOException {
         projectSavesRepo.sync(projectList);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void writeProjectStub(Project project) throws IOException {
         projectSavesRepo.writeEntry(project, null);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void writeActivityStub(Project project, Activity activity) throws IOException {
         projectSavesRepo.writeEntry(project, activity);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void deleteProject(Project project) throws IOException {
         projectSavesRepo.deleteProject(project.getId());
         timeLogRepo.deleteEntriesForProject(project.getId());
         projectList.remove(project);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void deleteActivity(Project project, Activity activity) throws IOException {
         projectSavesRepo.deleteActivity(activity.getId());
         timeLogRepo.deleteEntriesForActivity(activity.getName());
         project.getActivities().remove(activity);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void deleteLogEntry(String entryId) throws IOException {
         timeLogRepo.deleteEntry(entryId);
     }

@@ -3,12 +3,12 @@ package dtu.softwareHuset;
 public class ErrorMessageHandler {
     private String errorMessage = "";
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public String getErrorMessage() {
         return errorMessage;
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }

@@ -26,7 +26,7 @@ public class projectSaveshandler {
     private static final String HEADER = "projectId,projectLeader,projectName,activityId,activityName,projectStartDate,projectEndDate,activityStartDate,activityEndDate,Alloted time,projectDescription,activityDescription,employees";
 
     // Reads all non-header, non-blank rows from the CSV.
-    // Author: GedeGustav
+    // Author: GLS0712
     public List<List<String>> load() throws IOException {
         List<List<String>> rows = new ArrayList<>();
         if (!file.exists()) return rows;
@@ -46,7 +46,7 @@ public class projectSaveshandler {
     }
 
     // Sorts rows by projectId then activityId and writes them with the standard header.
-    // Author: GedeGustav
+    // Author: GLS0712
     public void writeAll(List<List<String>> rows) throws IOException {
         rows.sort((a, b) -> {
             String pid1 = !a.isEmpty() ? a.get(0) : "";
@@ -71,7 +71,7 @@ public class projectSaveshandler {
     // Saves a project and optional activity to the CSV.
     // When activity is null, writes a project-only row.
     // When adding the first activity to a project, reuses the existing project-only row.
-    // Author: GedeGustav
+    // Author: GLS0712
     public void writeEntry(Project project, Activity activity) throws IOException {
         List<List<String>> existing = load();
         file.getParentFile().mkdirs();
@@ -132,7 +132,7 @@ public class projectSaveshandler {
     // Reconstructs in-memory Project and Activity objects from the CSV.
     // Projects and activities that already exist in the provided lists are skipped
     // to avoid duplicates on repeated calls.
-    // Author: GedeGustav
+    // Author: GLS0712
     public void loadProjects(List<Project> projectList, List<Employee> employeeList) throws IOException {
         List<List<String>> rows = load();
         for (List<String> row : rows) {
@@ -199,7 +199,7 @@ public class projectSaveshandler {
 
     // Pushes the current in-memory state of all projects and activities back into the CSV.
     // Only rows matched to a known project and activity are updated; unmatched rows are left unchanged.
-    // Author: GedeGustav
+    // Author: GLS0712
     public void sync(List<Project> projects) throws IOException {
         List<List<String>> rows = load();
         for (int i = 0; i < rows.size(); i++) {
@@ -236,7 +236,7 @@ public class projectSaveshandler {
     }
 
     // Removes all rows belonging to the given project.
-    // Author: GedeGustav
+    // Author: GLS0712
     public void deleteProject(String projectId) throws IOException {
         List<List<String>> rows = load();
         rows.removeIf(row -> !row.isEmpty() && row.get(0).equals(projectId));
@@ -244,7 +244,7 @@ public class projectSaveshandler {
     }
 
     // Removes all rows belonging to the given activity.
-    // Author: GedeGustav
+    // Author: GLS0712
     public void deleteActivity(String activityId) throws IOException {
         List<List<String>> rows = load();
         rows.removeIf(row -> row.size() > 3 && row.get(3).equals(activityId));
