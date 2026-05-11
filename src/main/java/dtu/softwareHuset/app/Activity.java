@@ -43,6 +43,10 @@ public class Activity {
         id = "A" + df.format(Calendar.getInstance().getTime()) + String.format("%03d", activityCount);
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return this.name;
     }

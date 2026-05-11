@@ -27,6 +27,11 @@ public class CompanyViewer extends Application {
     public void start(Stage primaryStage) {
         try {
             theModel = new Company();
+            try {
+                theModel.loadProjectsFromLogs();
+            } catch (Exception e) {
+                // No log file yet — nothing to restore
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/gui.fxml"));
             AnchorPane root = loader.load();
 

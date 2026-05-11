@@ -1,13 +1,2 @@
-entryId,employeeId,projectId,activityName,date,hours
-1,huba,26001,Activity_1,1111-11-11,2.0
-2,huba,26001,Activity_1,1111-11-11,2.0
-3,huba,26001,Activity_1,1111-11-11,1.5
-4,adkr,26002,Test_1,2026-05-10,1.0
-5,adkr,26002,Test_2,2026-05-09,2.0
-6,adkr,26003,Test_1,2026-05-10,1.0
-7,adkr,26003,Test_2,2026-05-09,2.0
-8,adkr,26004,Test_1,2026-05-10,1.0
-9,adkr,26004,Test_2,2026-05-09,2.0
-10,adkr,test,test1,2026-05-10,1.0
-11,adkr,test,test2,2026-05-09,2.0
-12,adkr,test1111,test2,2026-05-10,2.0
+entryId,employeeId,employeeLoggedTime,loggedTimeDate,projectId,projectLeader,projectName,activityId,activityName,projectStartDate,projectEndDate,activityStartDate,activityEndDate,Alloted time,projectDescription,activityDescription,employees
+1,huba,1.0,2026-05-11,P26001,huba,test1,A26001,activity test 1,2026-05-09,2026-05-10,2026-05-11,2026-05-10,2,idk,idk,

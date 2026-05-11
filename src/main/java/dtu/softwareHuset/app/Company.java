@@ -45,6 +45,15 @@ public class Company {
         return null;
     }
 
+    public Project getProjectById(String id) {
+        for (Project project : projectList) {
+            if (id.equals(project.getId())) {
+                return project;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Project> getProjects() {
         return this.projectList;
     }
@@ -135,6 +144,36 @@ public class Company {
 
     public List<String> getLog(int logNumber) throws IOException {
         return timeLogRepo.getEntry(logNumber);
+    }
+
+    public void loadProjectsFromLogs() throws IOException {
+        timeLogRepo.loadProjectsFromLogs(projectList, employeeList);
+    }
+
+    public void syncLogs() throws IOException {
+        timeLogRepo.syncLogs(projectList);
+    }
+
+    public void writeProjectStub(Project project) throws IOException {
+        timeLogRepo.registerStubEntry(project, null);
+    }
+
+    public void writeActivityStub(Project project, Activity activity) throws IOException {
+        timeLogRepo.registerStubEntry(project, activity);
+    }
+
+    public void deleteProject(Project project) throws IOException {
+        timeLogRepo.deleteEntriesForProject(project.getId());
+        projectList.remove(project);
+    }
+
+    public void deleteActivity(Project project, Activity activity) throws IOException {
+        timeLogRepo.deleteEntriesForActivity(activity.getId());
+        project.getActivities().remove(activity);
+    }
+
+    public void deleteLogEntry(String entryId) throws IOException {
+        timeLogRepo.deleteEntry(entryId);
     }
 
     public void updateLogEntry(String entryId, Employee employee, Project project, Activity activity, LocalDate date, double hours) throws IOException {

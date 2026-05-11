@@ -60,6 +60,19 @@ public class Project {
         id = "P" + df.format(Calendar.getInstance().getTime()) + String.format("%03d", company.getProjects().size());
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Activity getActivityById(String id) {
+        for (Activity activity : activityList) {
+            if (id.equals(activity.getId())) {
+                return activity;
+            }
+        }
+        return null;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -186,6 +199,7 @@ public class Project {
     // exceed it
     public void setEndDate(String newEndDate) {
         this.endDate = newEndDate;
+        if (newEndDate == null || newEndDate.isEmpty()) return;
         LocalDate newEnd = LocalDate.parse(newEndDate);
         for (Activity activity : activityList) {
             if (activity.getEndDate() != null && activity.getEndDate().isAfter(newEnd)) {
