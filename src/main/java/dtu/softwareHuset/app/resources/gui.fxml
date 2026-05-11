@@ -87,7 +87,7 @@
                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
                             <DatePicker fx:id="logDatePicker" promptText="Date..." />
                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hours" textAlignment="CENTER" />
-                            <Spinner fx:id="logHoursSpinner" prefWidth="100.0" editable="true" />
+                            <Spinner fx:id="logHoursSpinner" editable="true" prefWidth="100.0" />
                             <Button mnemonicParsing="false" onAction="#logTime" styleClass="inputButtons" text="Log time" />
                           </children>
                           <padding>
@@ -293,7 +293,7 @@
                         <HBox prefHeight="47.0" prefWidth="469.0" spacing="10.0">
                            <children>
                               <Text fx:id="projectShowName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project name" />
-                              <Button minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditProject" styleClass="inputButtons" text="Edit" />
+                              <Button fx:id="editProjectButton" minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditProject" styleClass="inputButtons" text="Edit" />
                               <Button fx:id="deleteProjectButton" minWidth="60.0" mnemonicParsing="false" onAction="#deleteProject" styleClass="inputButtons" text="Delete" />
                            </children>
                            <padding>
@@ -419,7 +419,7 @@
                                     <Text fx:id="activityDetailName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Activity name" wrappingWidth="184.388671875" />
                                     <Button fx:id="editActivityButton" minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditActivity" prefHeight="23.0" prefWidth="48.0" styleClass="inputButtons" text="Edit" />
                                     <Button fx:id="deleteActivityButton" minWidth="60.0" mnemonicParsing="false" onAction="#deleteActivity" prefHeight="23.0" prefWidth="60.0" styleClass="inputButtons" text="Delete" />
-                                    <Button fx:id="closeActivityDetailsButton" mnemonicParsing="false" onAction="#closeActivityDetails" prefHeight="23.0" prefWidth="23.0" styleClass="closeButton" text="✕" />
+                                    <Button fx:id="closeActivityDetailsButton" mnemonicParsing="false" onAction="#closeActivityDetails" prefHeight="23.0" prefWidth="38.0" styleClass="closeButton" text="✕" />
                                  </children>
                                  <padding>
                                     <Insets left="10.0" />

@@ -266,6 +266,11 @@ public class CompanyViewer extends Application {
     public void showActivities(VBox bounds, String projectName) {
         // Keep index 0 (the "Add Activity" button) and remove all previously loaded activity rows
         bounds.getChildren().remove(1, bounds.getChildren().size());
+        if(theModel.getLoggedIn() == theModel.getProject(projectName).getProjectLeader()){
+            bounds.getChildren().getFirst().setDisable(false);
+        } else {
+            bounds.getChildren().getFirst().setDisable(true);
+        }
         for (Activity activity : theModel.getProject(projectName).getActivities()) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/activityView.fxml"));
