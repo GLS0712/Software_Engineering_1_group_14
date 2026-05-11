@@ -74,116 +74,105 @@ public class TimeLogRepository {
         }
     }
 
-    // Prints all loaded rows to stdout — used for quick debugging.
-    // Author: GubbeMK
-    public void preview() throws IOException {
-        List<List<String>> logs = load();
+    // // Prints every entry logged by the given employee today, along with the total
+    // // hours. Used for quick console inspection.
+    // // Author: GubbeMK
+    // public void hoursLoggedToday(Employee employee) throws IOException {
+    //     List<List<String>> logs = new ArrayList<>();
+    //     double totalHours = 0;
 
-        System.out.println("\nLoaded " + logs.size() + " logs:");
-        for (List<String> log : logs) {
-            System.out.println(log);
-        }
-    }
+    //     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+    //         String line;
+    //         boolean isHeader = true;
+    //         while ((line = br.readLine()) != null) {
+    //             if (isHeader) {
+    //                 isHeader = false;
+    //                 continue;
+    //             }
 
-    // Prints every entry logged by the given employee today, along with the total
-    // hours. Used for quick console inspection.
-    // Author: GubbeMK
-    public void hoursLoggedToday(Employee employee) throws IOException {
-        List<List<String>> logs = new ArrayList<>();
-        double totalHours = 0;
+    //             String[] entries = line.split(COMMA_DELIMITER);
+    //             if (entries[1].equals(employee.getInitials()) && LocalDate.parse(entries[4]).equals(LocalDate.now())) {
+    //                 logs.add(Arrays.asList(entries));
+    //             }
+    //         }
+    //     }
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            boolean isHeader = true;
-            while ((line = br.readLine()) != null) {
-                if (isHeader) {
-                    isHeader = false;
-                    continue;
-                }
+    //     System.out.println("Logs from today: ");
+    //     for (List<String> log : logs) {
+    //         System.out.println("\n" + log);
+    //         totalHours += Double.valueOf(log.get(5));
+    //     }
 
-                String[] entries = line.split(COMMA_DELIMITER);
-                if (entries[1].equals(employee.getInitials()) && LocalDate.parse(entries[4]).equals(LocalDate.now())) {
-                    logs.add(Arrays.asList(entries));
-                }
-            }
-        }
+    //     System.out.println("Total hours worked today: " + totalHours);
+    // }
 
-        System.out.println("Logs from today: ");
-        for (List<String> log : logs) {
-            System.out.println("\n" + log);
-            totalHours += Double.valueOf(log.get(5));
-        }
+    // // Returns the total hours logged by the given employee in the current calendar week.
+    // // Author: GubbeMK
+    // public double hoursLoggedWeek(Employee employee) throws IOException {
+    //     List<List<String>> logs = new ArrayList<>();
+    //     double totalHours = 0;
 
-        System.out.println("Total hours worked today: " + totalHours);
-    }
+    //     // Resolve the current week number using the JVM's default locale
+    //     LocalDate date = LocalDate.now();
+    //     TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+    //     int weekNumber = date.get(woy);
 
-    // Returns the total hours logged by the given employee in the current calendar week.
-    // Author: GubbeMK
-    public double hoursLoggedWeek(Employee employee) throws IOException {
-        List<List<String>> logs = new ArrayList<>();
-        double totalHours = 0;
+    //     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+    //         String line;
+    //         boolean isHeader = true;
+    //         while ((line = br.readLine()) != null) {
+    //             if (isHeader) {
+    //                 isHeader = false;
+    //                 continue;
+    //             }
 
-        // Resolve the current week number using the JVM's default locale
-        LocalDate date = LocalDate.now();
-        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-        int weekNumber = date.get(woy);
+    //             String[] entries = line.split(COMMA_DELIMITER);
+    //             if (entries[1].equals(employee.getInitials()) && LocalDate.parse(entries[4]).get(woy) == weekNumber) {
+    //                 logs.add(Arrays.asList(entries));
+    //             }
+    //         }
+    //     }
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            boolean isHeader = true;
-            while ((line = br.readLine()) != null) {
-                if (isHeader) {
-                    isHeader = false;
-                    continue;
-                }
+    //     System.out.println("Logs from this week: ");
+    //     for (List<String> log : logs) {
+    //         totalHours += Double.valueOf(log.get(5));
+    //     }
 
-                String[] entries = line.split(COMMA_DELIMITER);
-                if (entries[1].equals(employee.getInitials()) && LocalDate.parse(entries[4]).get(woy) == weekNumber) {
-                    logs.add(Arrays.asList(entries));
-                }
-            }
-        }
+    //     return totalHours;
+    // }
 
-        System.out.println("Logs from this week: ");
-        for (List<String> log : logs) {
-            totalHours += Double.valueOf(log.get(5));
-        }
+    // // Returns the total hours logged by the given employee in the current calendar month.
+    // // Author: GubbeMK
+    // public double hoursLoggedMonth(Employee employee) throws IOException {
+    //     List<List<String>> logs = new ArrayList<>();
+    //     double totalHours = 0;
 
-        return totalHours;
-    }
+    //     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+    //         String line;
+    //         boolean isHeader = true;
+    //         while ((line = br.readLine()) != null) {
+    //             if (isHeader) {
+    //                 isHeader = false;
+    //                 continue;
+    //             }
 
-    // Returns the total hours logged by the given employee in the current calendar month.
-    // Author: GubbeMK
-    public double hoursLoggedMonth(Employee employee) throws IOException {
-        List<List<String>> logs = new ArrayList<>();
-        double totalHours = 0;
+    //             String[] entries = line.split(COMMA_DELIMITER);
+    //             LocalDate entryDate = LocalDate.parse(entries[4]);
+    //             LocalDate today = LocalDate.now();
+    //             // Match both the year and the month to stay within the current calendar month
+    //             if (entries[1].equals(employee.getInitials()) && entryDate.getYear() == today.getYear()
+    //                     && entryDate.getMonth() == today.getMonth()) {
+    //                 logs.add(Arrays.asList(entries));
+    //             }
+    //         }
+    //     }
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            boolean isHeader = true;
-            while ((line = br.readLine()) != null) {
-                if (isHeader) {
-                    isHeader = false;
-                    continue;
-                }
+    //     for (List<String> log : logs) {
+    //         totalHours += Double.valueOf(log.get(5));
+    //     }
 
-                String[] entries = line.split(COMMA_DELIMITER);
-                LocalDate entryDate = LocalDate.parse(entries[4]);
-                LocalDate today = LocalDate.now();
-                // Match both the year and the month to stay within the current calendar month
-                if (entries[1].equals(employee.getInitials()) && entryDate.getYear() == today.getYear()
-                        && entryDate.getMonth() == today.getMonth()) {
-                    logs.add(Arrays.asList(entries));
-                }
-            }
-        }
-
-        for (List<String> log : logs) {
-            totalHours += Double.valueOf(log.get(5));
-        }
-
-        return totalHours;
-    }
+    //     return totalHours;
+    // }
 
     // Replaces the row at the given zero-based index with newValues.
     // Used for direct positional edits where the caller already knows the row index.
