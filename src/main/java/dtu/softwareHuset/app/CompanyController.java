@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,7 +15,10 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -23,11 +28,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 
 public class CompanyController {
     private Company theModel;
@@ -218,6 +218,9 @@ public class CompanyController {
     private Button deleteActivityButton;
 
     @FXML
+    private Button editProjectButton;
+
+    @FXML
     private Button hireEmployeeButton;
 
     @FXML
@@ -361,7 +364,8 @@ public class CompanyController {
                 new TextFormatter<>(change -> change.getControlNewText().matches("\\d*") ? change : null));
 
         // Set up the time-log table columns
-        // Each row is a List<String>: [entryId, employeeId, projectId, activityName, date, hours]
+        // Each row is a List<String>: [entryId, employeeId, projectId, activityName,
+        // date, hours]
         logDateColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().get(4)));
         logProjectColumn.setCellValueFactory(cell -> {
             String projectId = cell.getValue().size() > 2 ? cell.getValue().get(2) : "";
@@ -519,7 +523,7 @@ public class CompanyController {
     // Author: Daniel Hedegaard
     void createActivity(ActionEvent event) {
         if (createActivityName.getText().isEmpty() || createActivityDescription.getText().isEmpty()
-                || createActivityStartDate.getValue() == null) {
+                || createActivityStartDate.getValue() == null || createActivityHours.getText() == null){
             activityCreateErrorText.setText("Please fill out all non optional fields");
             activityCreateErrorText.setVisible(true);
         } else if (createActivityEndDate.getValue() != null
@@ -552,7 +556,10 @@ public class CompanyController {
                     if (createActivityEndDate.getValue() != null) {
                         activity.setEndDate(createActivityEndDate.getValue());
                     }
-                    try { theModel.writeActivityStub(proj, activity); } catch (Exception ignored) {}
+                    try {
+                        theModel.writeActivityStub(proj, activity);
+                    } catch (Exception ignored) {
+                    }
                     this.goToProject(event, projectShowName.getText());
                 } catch (Exception e) {
                     activityCreateErrorText
@@ -578,7 +585,8 @@ public class CompanyController {
             LocalDate effectiveEndDate = editActivityEndDate.getValue() != null
                     ? editActivityEndDate.getValue()
                     : (proj.getEndDate() != null && !proj.getEndDate().isEmpty()
-                            ? LocalDate.parse(proj.getEndDate()) : null);
+                            ? LocalDate.parse(proj.getEndDate())
+                            : null);
             if (effectiveEndDate != null && effectiveEndDate.isBefore(editActivityStartDate.getValue())) {
                 activityEditErrorText.setText("End date cannot be before start date");
                 activityEditErrorText.setVisible(true);
@@ -607,7 +615,10 @@ public class CompanyController {
 
                 this.goToProject(event, projectShowName.getText());
                 showActivityDetails(event, editActivityName.getText());
-                try { theModel.syncLogs(); } catch (Exception ignored) {}
+                try {
+                    theModel.syncLogs();
+                } catch (Exception ignored) {
+                }
             }
         }
 
@@ -642,7 +653,10 @@ public class CompanyController {
                 project.setEndDate(projectEndDatePicker.getValue().toString());
             }
 
-            try { theModel.writeProjectStub(project); } catch (Exception ignored) {}
+            try {
+                theModel.writeProjectStub(project);
+            } catch (Exception ignored) {
+            }
             this.menuSwitchToProjects(event);
         }
     }
@@ -677,7 +691,10 @@ public class CompanyController {
             }
 
             this.goToProject(event, editProjectName.getText());
-            try { theModel.syncLogs(); } catch (Exception ignored) {}
+            try {
+                theModel.syncLogs();
+            } catch (Exception ignored) {
+            }
 
         }
     }
@@ -690,6 +707,7 @@ public class CompanyController {
     void goToProject(ActionEvent event, String projectName) {
         Project project = theModel.getProject(projectName);
         viewingArchivedProject = isProjectArchived(project);
+
         // Hide the "Add Activity" button for archived projects — no modifications
         // allowed
         addActivityButton.setVisible(!viewingArchivedProject);
@@ -702,6 +720,10 @@ public class CompanyController {
         boolean isLeader = project.getProjectLeader() == null
                 || project.getProjectLeader().equals(theModel.getLoggedIn());
         if (isLeader) {
+            editActivityButton.setVisible(isLeader);
+            editProjectButton.setVisible(isLeader);
+            deleteActivityButton.setVisible(isLeader);
+            deleteProjectButton.setVisible(isLeader);
             LocalDate today = LocalDate.now();
             long completed = project.getActivities().stream()
                     .filter(a -> a.getEndDate() != null && !a.getEndDate().isAfter(today))
@@ -730,11 +752,15 @@ public class CompanyController {
                                 && !log.get(1).isEmpty()
                                 && !log.get(5).isEmpty())
                         .mapToDouble(log -> {
-                            try { return Double.parseDouble(log.get(5)); }
-                            catch (NumberFormatException e) { return 0; }
+                            try {
+                                return Double.parseDouble(log.get(5));
+                            } catch (NumberFormatException e) {
+                                return 0;
+                            }
                         })
                         .sum();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
             statsActivitiesInProgress.setText("Activities in progress: " + inProgress);
             statsActivitiesCompleted.setText("Activities completed: " + completed);
             statsTotalEmployees.setText("Total employees: " + totalEmployees);
@@ -742,7 +768,12 @@ public class CompanyController {
             statsTotalLoggedTime.setText("Total logged time: " + totalLoggedTime + " hours");
             projectStatsPane.setVisible(true);
         } else {
-            projectStatsPane.setVisible(false);
+            projectStatsPane.setVisible(isLeader);
+            editActivityButton.setVisible(isLeader);
+            editProjectButton.setVisible(isLeader);
+            deleteActivityButton.setVisible(isLeader);
+            deleteProjectButton.setVisible(isLeader);
+
         }
         projectShowId.setText(project.getId());
         projectShowStartDate
@@ -879,10 +910,10 @@ public class CompanyController {
         employeeAddActivityErrorText.setVisible(false);
         activityDetailsEmployeeInitalsField.setText(null);
         // Hide all write controls for archived projects
-        editActivityButton.setVisible(!viewingArchivedProject);
-        editActivityButton.setManaged(!viewingArchivedProject);
-        deleteActivityButton.setVisible(!viewingArchivedProject);
-        deleteActivityButton.setManaged(!viewingArchivedProject);
+        // editActivityButton.setVisible(!viewingArchivedProject);
+        // editActivityButton.setManaged(!viewingArchivedProject);
+        // deleteActivityButton.setVisible(!viewingArchivedProject);
+        // deleteActivityButton.setManaged(!viewingArchivedProject);
         addEmployeeButton.setVisible(!viewingArchivedProject);
         addEmployeeButton.setManaged(!viewingArchivedProject);
         activityDetailsEmployeeInitalsField.setVisible(!viewingArchivedProject);
@@ -924,7 +955,10 @@ public class CompanyController {
         Activity activity = project.getActivityFromName(activityDetailName.getText());
         activity.removeEmployee(employee);
         showActivityDetails(event, activity.getName());
-        try { theModel.syncLogs(); } catch (Exception ignored) {}
+        try {
+            theModel.syncLogs();
+        } catch (Exception ignored) {
+        }
     }
 
     // Loads the Employee detail tab for the given employee, showing their calendar
@@ -1002,7 +1036,10 @@ public class CompanyController {
                     activityDetailsEmployeeInitalsField.setText(null);
                     confirmAddEmployeeButton.setVisible(false);
                     showActivityDetails(event, activity.getName());
-                    try { theModel.syncLogs(); } catch (Exception ignored) {}
+                    try {
+                        theModel.syncLogs();
+                    } catch (Exception ignored) {
+                    }
                 } catch (IllegalStateException e) {
                     // Hard block — employee has a direct conflict that cannot be overridden
                     employeeAddActivityErrorText.setText(e.getMessage());
@@ -1060,7 +1097,10 @@ public class CompanyController {
         confirmAddEmployeeButton.setVisible(false);
         employeeAddActivityErrorText.setVisible(false);
         showActivityDetails(event, activity.getName());
-        try { theModel.syncLogs(); } catch (Exception ignored) {}
+        try {
+            theModel.syncLogs();
+        } catch (Exception ignored) {
+        }
     }
 
     // Shows the employee detail sidebar for the selected employee in the Employees
@@ -1206,7 +1246,8 @@ public class CompanyController {
     @FXML
     // Author: GedeGustav
     void deleteActivity(ActionEvent event) {
-        if (viewingArchivedProject) return;
+        if (viewingArchivedProject)
+            return;
         Project project = theModel.getProject(projectShowName.getText());
         if (project.getProjectLeader() != null &&
                 !project.getProjectLeader().getName().equals(theModel.getLoggedIn().getName())) {
@@ -1289,9 +1330,11 @@ public class CompanyController {
     // Author: GedeGustav
     private void refreshActivityChoiceBoxForProject(String projectName) {
         logActivityChoiceBox.getItems().clear();
-        if (projectName == null) return;
+        if (projectName == null)
+            return;
         Project project = theModel.getProject(projectName);
-        if (project == null) return;
+        if (project == null)
+            return;
         for (Activity activity : project.getActivities()) {
             logActivityChoiceBox.getItems().add(activity.getName());
         }
@@ -1389,7 +1432,7 @@ public class CompanyController {
         String dateStr = selected.get(3);
         String hoursStr = selected.get(2);
 
-        logProjectChoiceBox.setValue(projectName);   // triggers listener → populates activities
+        logProjectChoiceBox.setValue(projectName); // triggers listener → populates activities
         logActivityChoiceBox.setValue(activityName);
         logDatePicker.setValue(LocalDate.parse(dateStr));
         logHoursSpinner.getValueFactory().setValue(Double.parseDouble(hoursStr));
