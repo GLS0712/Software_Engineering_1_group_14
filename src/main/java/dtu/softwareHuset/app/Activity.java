@@ -19,7 +19,7 @@ public class Activity {
     private static final LocalDate INDEFINITE = LocalDate.of(2099, 12, 31);
 
     // Constructor used when creating an activity without explicit dates — start defaults to today
-    // Author: GedeGustav
+    // Author: GLS0712
     public Activity(String name, String description) {
         this.name = name;
         this.description = description;
@@ -27,7 +27,7 @@ public class Activity {
     }
 
     // Constructor used when both start and end dates are known upfront
-    // Author: GedeGustav
+    // Author: GLS0712
     public Activity(String name, String description, LocalDate startDate, LocalDate endDate) {
         this.name = name;
         this.description = description;
@@ -35,24 +35,24 @@ public class Activity {
         this.endDate = endDate;
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public String getId() {
         return this.id;
     }
 
     // Generates an ID in the format "Ayy###" (e.g. "A25001") based on the current year and activity count
-    // Author: GedeGustav
+    // Author: GLS0712
     public void setId(int activityCount) {
         DateFormat df = new SimpleDateFormat("yy");
         id = "A" + df.format(Calendar.getInstance().getTime()) + String.format("%03d", activityCount);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void setId(String id) {
         this.id = id;
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public String getName() {
         return this.name;
     }
@@ -60,23 +60,23 @@ public class Activity {
     public String getAlottedTime(){
         return this.AlottedTime;
     }
-    // Author: GedeGustav
+    // Author: GLS0712
     public String getDescription() {
         return this.description;
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public LocalDate getStartDate() {
         return this.startDate;
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public LocalDate getEndDate() {
         return this.endDate;
     }
 
     // Returns INDEFINITE when no end date is set so calendar range checks still work
-    // Author: GedeGustav
+    // Author: GLS0712
     private LocalDate effectiveEnd() {
         return endDate != null ? endDate : INDEFINITE;
     }
@@ -84,7 +84,7 @@ public class Activity {
     // Adds an employee to the activity after checking two availability constraints:
     // 1. Hard block (IllegalStateException): employee has time off or sick leave in the period — cannot override
     // 2. Soft warning (IllegalArgumentException): employee already has 10 activities on some day — UI can still force-add
-    // Author: GedeGustav
+    // Author: GLS0712
     public void addEmployee(Employee employee) {
         if (startDate != null && employee.getCalendar().hasTimeOffInPeriod(startDate, effectiveEnd())) {
             throw new IllegalStateException("Cannot add employee: they have sick leave or time off during this period");
@@ -101,7 +101,7 @@ public class Activity {
 
     // Force-adds an employee even if their schedule is full, but still blocks on time off/sick leave.
     // Called after the user confirms the soft-warning prompt in the UI.
-    // Author: GedeGustav
+    // Author: GLS0712
     public void forceAddEmployee(Employee employee) {
         if (startDate != null && employee.getCalendar().hasTimeOffInPeriod(startDate, effectiveEnd())) {
             throw new IllegalStateException("Cannot add employee: they have sick leave or time off during this period");
@@ -113,7 +113,7 @@ public class Activity {
     }
 
     // Removes an employee from the activity and cleans up their calendar entry
-    // Author: GedeGustav
+    // Author: GLS0712
     public void removeEmployee(Employee employeeToRemove) {
         Employee employeeToBeRemoved = null;
         for (Employee employeeInActivity : employees) {
@@ -134,7 +134,7 @@ public class Activity {
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
-    // Author: GedeGustav
+    // Author: GLS0712
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
@@ -143,7 +143,7 @@ public class Activity {
         this.AlottedTime = AlottedTime;
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public List<Employee> getEmployees() {
         return employees;
     }
@@ -160,7 +160,7 @@ public class Activity {
 
     // Called after editing an activity's dates or name — removes the old calendar entries for all
     // assigned employees and re-registers them under the new dates/name so calendars stay in sync
-    // Author: GedeGustav
+    // Author: GLS0712
     public void updateEmployeeCalendars(LocalDate oldStartDate, LocalDate oldEndDate, String oldName) {
         for (Employee employee : employees) {
             if (oldStartDate != null) {

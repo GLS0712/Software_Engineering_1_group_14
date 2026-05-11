@@ -5,7 +5,7 @@ public class Employee {
     private String name;
     private Employee_Calendar calendar;
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public Employee(String name) {
         this.name = name;
         this.calendar = new Employee_Calendar(name);
@@ -17,17 +17,17 @@ public class Employee {
         this.calendar = new Employee_Calendar(name);
     }
   
-    // Author: GedeGustav
+    // Author: GLS0712
     public String getName() {
         return this.name;
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public Employee_Calendar getCalendar() {
         return this.calendar;
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void setCalendar(Employee_Calendar calendar) {
         this.calendar = calendar;
     }

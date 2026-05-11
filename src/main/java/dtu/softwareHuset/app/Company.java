@@ -1,6 +1,5 @@
 package dtu.softwareHuset.app;
 
-import java.util.ArrayList;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
@@ -11,6 +10,7 @@ public class Company {
     private ArrayList<Employee> employeeList = new ArrayList<>();
     private ArrayList<Project> projectList = new ArrayList<>();
     private TimeLogRepository timeLogRepo = new TimeLogRepository();
+    private projectSaveshandler projectSavesRepo = new projectSaveshandler();
     private Employee loggedIn = null;
 
     // Author: GubbeMK
@@ -21,27 +21,27 @@ public class Company {
         this.employeeList.add(new Employee("Adrian Kristensen", "adkr"));
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void hireEmployee(Employee employee) {
         employeeList.add(employee);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void createProject(String name) {
         projectList.add(new Project(name));
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void createProject(String name, String time) {
         projectList.add(new Project(name, time));
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void createProject(String name, String time, Employee employee) {
         projectList.add(new Project(name, time, employee));
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public Project getProject(String name) {
         for (Project project : projectList) {
             if (project.getName().equals(name)) {
@@ -51,7 +51,7 @@ public class Company {
         return null;
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public Project getProjectById(String id) {
         for (Project project : projectList) {
             if (id.equals(project.getId())) {
@@ -106,8 +106,8 @@ public class Company {
         }
         return null;
     }
-    
-    // Author: GedeGustav
+
+    // Author: GLS0712
     public Employee getEmployeeFromInitials(String initials) {
         for (Employee employee : this.employeeList) {
             if (initials.equals(employee.getInitials())) {
@@ -164,47 +164,50 @@ public class Company {
         return timeLogRepo.getEntry(logNumber);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void loadProjectsFromLogs() throws IOException {
-        timeLogRepo.loadProjectsFromLogs(projectList, employeeList);
+        projectSavesRepo.loadProjects(projectList, employeeList);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void syncLogs() throws IOException {
-        timeLogRepo.syncLogs(projectList);
+        projectSavesRepo.sync(projectList);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void writeProjectStub(Project project) throws IOException {
-        timeLogRepo.registerStubEntry(project, null);
+        projectSavesRepo.writeEntry(project, null);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void writeActivityStub(Project project, Activity activity) throws IOException {
-        timeLogRepo.registerStubEntry(project, activity);
+        projectSavesRepo.writeEntry(project, activity);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void deleteProject(Project project) throws IOException {
+        projectSavesRepo.deleteProject(project.getId());
         timeLogRepo.deleteEntriesForProject(project.getId());
         projectList.remove(project);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void deleteActivity(Project project, Activity activity) throws IOException {
-        timeLogRepo.deleteEntriesForActivity(activity.getId());
+        projectSavesRepo.deleteActivity(activity.getId());
+        timeLogRepo.deleteEntriesForActivity(activity.getName());
         project.getActivities().remove(activity);
     }
 
-    // Author: GedeGustav
+    // Author: GLS0712
     public void deleteLogEntry(String entryId) throws IOException {
         timeLogRepo.deleteEntry(entryId);
     }
 
     // Author: GubbeMK
-    public void updateLogEntry(String entryId, Employee employee, Project project, Activity activity, LocalDate date, double hours) throws IOException {
+    public void updateLogEntry(String entryId, Employee employee, Project project, Activity activity, LocalDate date,
+            double hours) throws IOException {
         TimeLog updatedEntry = new TimeLog(employee, project, activity, date, hours);
-        
+
         timeLogRepo.updateEntry(entryId, updatedEntry);
     }
 
@@ -237,6 +240,8 @@ public class Company {
         if (date.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Cannot log time on a future date");
         }
+        // Postcondition: date is valid for logging
+        assert date != null && !date.isAfter(LocalDate.now()) : "Postcondition violated";
     }
 
     // Author: GubbeMK
