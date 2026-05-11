@@ -62,16 +62,6 @@ public class TimeLogRepository {
     // always prefixing with the standard header row.
     // Author: GubbeMK
     public void writeAll(List<List<String>> logs) throws IOException {
-        // Sort so the file stays grouped by project and then by activity within each project
-        logs.sort((a, b) -> {
-            String pid1 = a.size() > 2 ? a.get(2) : "";
-            String pid2 = b.size() > 2 ? b.get(2) : "";
-            int cmp = pid1.compareTo(pid2);
-            if (cmp != 0) return cmp;
-            String act1 = a.size() > 3 ? a.get(3) : "";
-            String act2 = b.size() > 3 ? b.get(3) : "";
-            return act1.compareTo(act2);
-        });
         file.getParentFile().mkdirs();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             bw.write(HEADER);
