@@ -29,3 +29,14 @@ Feature: Employee
     Given there is an employee named "John doe" in company with initials "jodo"
     When "John doe" logs in with initals "judo"
     Then the error message is "Employee not recognized"
+
+  Scenario: Hiring a new employee adds them to the company
+    Given the company exists
+    And an employee "Alice Johnson" is hired
+    When "Alice Johnson" is seached for
+    Then "Alice Johnson" is found
+
+  Scenario: Default company employee can log in with preset initials
+    Given the company exists
+    When "Hubert Baumeister" logs in with initals "huba"
+    Then "Hubert Baumeister" is logged in

@@ -20,3 +20,4 @@ target/
 .git/
 
 .claude/worktrees/admiring-leavitt-df6178/
+.vscode/launch.json

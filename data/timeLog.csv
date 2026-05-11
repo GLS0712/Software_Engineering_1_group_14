@@ -1,0 +1,2 @@
+entryId,employeeId,employeeLoggedTime,loggedTimeDate,projectId,projectLeader,projectName,activityId,activityName,projectStartDate,projectEndDate,activityStartDate,activityEndDate,Alloted time,projectDescription,activityDescription,employees
+1,huba,1.0,2026-05-11,P26001,huba,test1,A26001,activity test 1,2026-05-09,2026-05-10,2026-05-11,2026-05-10,2,idk,idk,

@@ -97,4 +97,113 @@ Feature: activity
     Then the activity "Design meeting" has end date "2026-06-10"
 
 
+#!SECTION permissions for activity creation and editing
+  Scenario: Non-project-leader cannot create an activity
+    Given there is a project
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And an employee "Jane smith" is assigned to project
+    When "Jane smith" creates activity "Design meeting" from "2026-06-01" to "2026-06-05"
+    Then the error message is "you are not projectLeader"
+
+  Scenario: Non-project-leader cannot change the end date of an activity
+    Given there is a project
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And an employee "Jane smith" is assigned to project
+    And there is an activity "Design meeting" from "2026-06-01" to "2026-06-05"
+    When "Jane smith" changes the end date of activity "Design meeting" to "2026-06-20"
+    Then the error message is "you are not projectLeader"
+    And the activity "Design meeting" has end date "2026-06-05"
+
+
+#!SECTION time off is a hard block when adding employee to activity
+  Scenario: Cannot add employee to activity when they have sick leave during the activity period
+    Given there is a project
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And an employee "Jane smith" is assigned to project
+    And "Jane smith" has a personal calendar
+    And "Jane smith" has time off on "2026-06-03"
+    And there is an activity "Design meeting" from "2026-06-01" to "2026-06-05"
+    When "John doe" adds "Jane smith" to activity "Design meeting"
+    Then the error message is "Cannot add employee: they have sick leave or time off during this period"
+    And "Jane smith" is not assigned to activity "Design meeting"
+
+
+#!SECTION removing employees from activities
+  Scenario: Remove employee from activity
+    Given there is a project
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And "John doe" has a personal calendar
+    And there is an activity "Design meeting" from "2026-06-01" to "2026-06-05"
+    And "John doe" is added to activity "Design meeting"
+    When "John doe" is removed from activity "Design meeting"
+    Then "John doe" is not assigned to activity "Design meeting"
+
+  Scenario: Removing employee from activity also clears their calendar entry
+    Given there is a project
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And "John doe" has a personal calendar
+    And there is an activity "Design meeting" from "2026-06-01" to "2026-06-05"
+    And "John doe" is added to activity "Design meeting"
+    When "John doe" is removed from activity "Design meeting"
+    Then "John doe" has 0 calendar entries in period from "2026-06-01" to "2026-06-05"
+
+
+#!SECTION activity properties
+  Scenario: Set allotted time for an activity
+    Given there is a project
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And there is an activity "Design meeting" from "2026-06-01" to "2026-06-05"
+    When "John doe" sets allotted time for activity "Design meeting" to "20 hours"
+    Then the activity "Design meeting" has allotted time "20 hours"
+
+  Scenario: Set description for an activity
+    Given there is a project
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And there is an activity "Design meeting" from "2026-06-01" to "2026-06-05"
+    When "John doe" sets the description of activity "Design meeting" to "Plan the sprint"
+    Then the activity "Design meeting" has description "Plan the sprint"
+
+
+#!SECTION force-adding employees after schedule-full confirmation
+  Scenario: Force add employee to activity when their schedule is full
+    Given there is a project
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And "John doe" has a personal calendar
+    And "John doe" has a full schedule on "2026-06-03"
+    And there is an activity "Design meeting" from "2026-06-01" to "2026-06-05"
+    When "John doe" is force-added to activity "Design meeting"
+    Then "John doe" is assigned to activity "Design meeting"
+
+  Scenario: Force add is still blocked when employee has sick leave
+    Given there is a project
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And "John doe" has a personal calendar
+    And "John doe" has time off on "2026-06-03"
+    And there is an activity "Design meeting" from "2026-06-01" to "2026-06-05"
+    When "John doe" is force-added to activity "Design meeting"
+    Then the error message is "Cannot add employee: they have sick leave or time off during this period"
+    And "John doe" is not assigned to activity "Design meeting"
+
+
+#!SECTION editing activity dates or name syncs employee calendars
+  Scenario: Renaming an activity syncs assigned employee calendars
+    Given there is a project
+    And an employee "John doe" is assigned to project
+    And the projectLeader is "John doe"
+    And "John doe" has a personal calendar
+    And there is an activity "Design meeting" from "2026-06-01" to "2026-06-05"
+    And "John doe" is added to activity "Design meeting"
+    When the activity "Design meeting" is renamed to "Sprint planning"
+    Then "John doe" has 1 calendar entries in period from "2026-06-01" to "2026-06-05"
+
+
 
