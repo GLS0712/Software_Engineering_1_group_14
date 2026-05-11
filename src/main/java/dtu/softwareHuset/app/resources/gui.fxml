@@ -519,11 +519,17 @@
                      <children>
                         <Pane layoutX="339.0" layoutY="18.0" prefHeight="604.0" prefWidth="574.0">
                            <children>
-                              <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="-6.0" prefHeight="594.0" prefWidth="550.0" spacing="20.0">
+                              <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="-6.0" prefHeight="594.0" prefWidth="550.0" spacing="15.0">
                                  <children>
                                     <Text fx:id="editProjectHeader" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Editing Project" textAlignment="CENTER" wrappingWidth="288.78546142578125" />
-                                    <Text fx:id="projectEditErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
-                                    <Text fx:id="editProjectArchivedNote" fill="#0055aa" strokeType="OUTSIDE" strokeWidth="0.0" text="This project is archived. Only the end date can be changed." textAlignment="CENTER" visible="false" />
+                                    <Text fx:id="projectEditErrorText" fill="#b40d0d" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin></Text>
+                                    <Text fx:id="editProjectArchivedNote" fill="#0055aa" strokeType="OUTSIDE" strokeWidth="0.0" text="This project is archived. Only the end date can be changed." textAlignment="CENTER" visible="false">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin></Text>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New project Name" textAlignment="CENTER" />
                                     <TextField fx:id="editProjectName" maxWidth="200.0" prefHeight="23.0" prefWidth="200.0" promptText="Project Name" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project Desctiption" textAlignment="CENTER" />
@@ -536,9 +542,6 @@
                                     <ChoiceBox fx:id="editProjectProjectLeader" prefWidth="150.0" />
                                     <Button mnemonicParsing="false" onAction="#editProject" styleClass="inputButtons" text="Edit project" />
                                  </children>
-                                 <padding>
-                                    <Insets top="40.0" />
-                                 </padding>
                               </VBox>
                            </children>
                         </Pane>
