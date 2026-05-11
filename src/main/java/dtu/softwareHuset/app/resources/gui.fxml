@@ -68,6 +68,7 @@
                     <HBox layoutX="29.0" layoutY="545.0" prefWidth="500.0" spacing="10.0">
                        <children>
                           <Button mnemonicParsing="false" onAction="#editSelectedLog" styleClass="inputButtons" text="Edit selected" />
+                          <Button mnemonicParsing="false" onAction="#deleteSelectedLog" styleClass="inputButtons" text="Delete selected" />
                        </children>
                     </HBox>
                     
@@ -79,6 +80,8 @@
                           <children>
                             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Log Time" textAlignment="CENTER" />
                             <Text fx:id="logTimeErrorText" fill="#b40d0d" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="errortext" visible="false" />
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project" textAlignment="CENTER" />
+                            <ChoiceBox fx:id="logProjectChoiceBox" prefWidth="200.0" />
                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Activity" textAlignment="CENTER" />
                             <ChoiceBox fx:id="logActivityChoiceBox" prefWidth="200.0" />
                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
@@ -291,6 +294,7 @@
                            <children>
                               <Text fx:id="projectShowName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Project name" />
                               <Button minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditProject" styleClass="inputButtons" text="Edit" />
+                              <Button fx:id="deleteProjectButton" minWidth="60.0" mnemonicParsing="false" onAction="#deleteProject" styleClass="inputButtons" text="Delete" />
                            </children>
                            <padding>
                               <Insets left="10.0" top="10.0" />
@@ -349,6 +353,7 @@
                                     <Text fx:id="statsActivitiesCompleted" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Activities completed: 0" />
                                     <Text fx:id="statsTotalEmployees" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Total employees: 0" />
                                     <Text fx:id="statsTotalAllottedTime" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Total allotted time: 0 hours" />
+                                    <Text fx:id="statsTotalLoggedTime" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lesserText" text="Total logged time: 0 hours" />
                                  </children>
                               </VBox>
                            </children>
@@ -413,6 +418,7 @@
                                  <children>
                                     <Text fx:id="activityDetailName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="headers" text="Activity name" wrappingWidth="184.388671875" />
                                     <Button fx:id="editActivityButton" minWidth="48.0" mnemonicParsing="false" onAction="#gotToEditActivity" prefHeight="23.0" prefWidth="48.0" styleClass="inputButtons" text="Edit" />
+                                    <Button fx:id="deleteActivityButton" minWidth="60.0" mnemonicParsing="false" onAction="#deleteActivity" prefHeight="23.0" prefWidth="60.0" styleClass="inputButtons" text="Delete" />
                                     <Button fx:id="closeActivityDetailsButton" mnemonicParsing="false" onAction="#closeActivityDetails" prefHeight="23.0" prefWidth="23.0" styleClass="closeButton" text="✕" />
                                  </children>
                                  <padding>

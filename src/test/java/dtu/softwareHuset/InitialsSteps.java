@@ -15,23 +15,27 @@ public class InitialsSteps {
     Employee employee;
     ErrorMessageHandler errorMessageHandler;
 
+    // Author: Daniel Hedegaard
     public InitialsSteps(Company company, ErrorMessageHandler errorMessageHandler) {
         this.company = company;
         this.errorMessageHandler = errorMessageHandler;
     }
 
     @Given("there is an employee named {string} in company")
+    // Author: Daniel Hedegaard
     public void thereIsAnEmployeeNamedInCompany(String string) {
         this.employee = new Employee(string);
         company.hireEmployee(employee);
     }
 
     @Given("{string} does not have any intials")
+    // Author: Daniel Hedegaard
     public void doesNotHaveAnyIntials(String string) {
         assertNull(employee.getInitials());
     }
 
     @When("{string} sets initials as {string}")
+    // Author: Daniel Hedegaard
     public void sets_initials_as(String s, String s2) {
         try {
             company.setInitailsForEmployee(employee, "jodo");
@@ -42,11 +46,13 @@ public class InitialsSteps {
     }
 
     @Then("his initials are {string}")
+    // Author: Daniel Hedegaard
     public void hisInitialsAre(String string) {
         assertEquals(string, company.getEmployeeFromName(employee.getName()).getInitials());
     }
 
     @Given("there is an employee named {string} in company with initials {string}")
+    // Author: Daniel Hedegaard
     public void there_is_an_employee_named_in_company_with_initials(String s, String s2) {
         this.employee = new Employee(s);
         company.hireEmployee(employee);
@@ -54,6 +60,7 @@ public class InitialsSteps {
     }
 
     @Given("there is an employee named {string} not in company")
+    // Author: Daniel Hedegaard
     public void there_is_an_employee_named_not_in_company(String s) {
         this.employee = new Employee(s);
     }

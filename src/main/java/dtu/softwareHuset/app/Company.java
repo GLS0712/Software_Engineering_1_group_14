@@ -11,6 +11,7 @@ public class Company {
     private TimeLogRepository timeLogRepo = new TimeLogRepository();
     private Employee loggedIn = null;
 
+    // Author: GubbeMK
     public Company() {
         this.employeeList.add(new Employee("Hubert Baumeister", "huba"));
         this.employeeList.add(new Employee("Daniel Hedegaard", "dahe"));
@@ -18,22 +19,27 @@ public class Company {
         this.employeeList.add(new Employee("Adrian Kristensen", "adkr"));
     }
 
+    // Author: GedeGustav
     public void hireEmployee(Employee employee) {
         employeeList.add(employee);
     }
 
+    // Author: GedeGustav
     public void createProject(String name) {
         projectList.add(new Project(name));
     }
 
+    // Author: GedeGustav
     public void createProject(String name, String time) {
         projectList.add(new Project(name, time));
     }
 
+    // Author: GedeGustav
     public void createProject(String name, String time, Employee employee) {
         projectList.add(new Project(name, time, employee));
     }
 
+    // Author: GedeGustav
     public Project getProject(String name) {
         for (Project project : projectList) {
             if (project.getName().equals(name)) {
@@ -43,14 +49,27 @@ public class Company {
         return null;
     }
 
+    // Author: GedeGustav
+    public Project getProjectById(String id) {
+        for (Project project : projectList) {
+            if (id.equals(project.getId())) {
+                return project;
+            }
+        }
+        return null;
+    }
+
+    // Author: GubbeMK
     public ArrayList<Project> getProjects() {
         return this.projectList;
     }
 
+    // Author: GubbeMK
     public ArrayList<Employee> getEmployees() {
         return this.employeeList;
     }
 
+    // Author: Daniel Hedegaard
     public void setInitailsForEmployee(Employee employeeToSet, String initials) {
 
         assert employeeToSet != null && initials != null && initials != "";
@@ -76,6 +95,7 @@ public class Company {
         assert employeeToSet.getInitials() == initials;
     }
 
+    // Author: Daniel Hedegaard
     public Employee getEmployeeFromName(String name) {
         for (Employee employee : employeeList) {
             if (employee.getName().equals(name)) {
@@ -85,6 +105,7 @@ public class Company {
         return null;
     }
     
+    // Author: GedeGustav
     public Employee getEmployeeFromInitials(String initials) {
         for (Employee employee : this.employeeList) {
             if (initials.equals(employee.getInitials())) {
@@ -94,6 +115,7 @@ public class Company {
         return null;
     }
 
+    // Author: Daniel Hedegaard
     public void login(String initials) {
         for (Employee employee : employeeList) {
             if (initials.equals(employee.getInitials())) {
@@ -105,10 +127,12 @@ public class Company {
         }
     }
 
+    // Author: Daniel Hedegaard
     public Employee getLoggedIn() {
         return loggedIn;
     }
 
+    // Author: GubbeMK
     public void registerLog(Employee employee, Project project, Activity activity, LocalDate date, double hours)
             throws IOException {
 
@@ -122,43 +146,88 @@ public class Company {
         timeLogRepo.registerEntry(timeLogEntry);
     }
 
+    // Author: GubbeMK
     public void changeLog(int logNumber, List<String> log) throws IOException {
 
         timeLogRepo.editEntry(logNumber, log);
     }
 
+    // Author: GubbeMK
     public List<List<String>> loadAllLogs() throws IOException {
         return timeLogRepo.load();
     }
 
+    // Author: GubbeMK
     public List<String> getLog(int logNumber) throws IOException {
         return timeLogRepo.getEntry(logNumber);
     }
 
+    // Author: GedeGustav
+    public void loadProjectsFromLogs() throws IOException {
+        timeLogRepo.loadProjectsFromLogs(projectList, employeeList);
+    }
+
+    // Author: GedeGustav
+    public void syncLogs() throws IOException {
+        timeLogRepo.syncLogs(projectList);
+    }
+
+    // Author: GedeGustav
+    public void writeProjectStub(Project project) throws IOException {
+        timeLogRepo.registerStubEntry(project, null);
+    }
+
+    // Author: GedeGustav
+    public void writeActivityStub(Project project, Activity activity) throws IOException {
+        timeLogRepo.registerStubEntry(project, activity);
+    }
+
+    // Author: GedeGustav
+    public void deleteProject(Project project) throws IOException {
+        timeLogRepo.deleteEntriesForProject(project.getId());
+        projectList.remove(project);
+    }
+
+    // Author: GedeGustav
+    public void deleteActivity(Project project, Activity activity) throws IOException {
+        timeLogRepo.deleteEntriesForActivity(activity.getId());
+        project.getActivities().remove(activity);
+    }
+
+    // Author: GedeGustav
+    public void deleteLogEntry(String entryId) throws IOException {
+        timeLogRepo.deleteEntry(entryId);
+    }
+
+    // Author: GubbeMK
     public void updateLogEntry(String entryId, Employee employee, Project project, Activity activity, LocalDate date, double hours) throws IOException {
         TimeLog updatedEntry = new TimeLog(employee, project, activity, date, hours);
         
         timeLogRepo.updateEntry(entryId, updatedEntry);
     }
 
+    // Author: GubbeMK
     public void validEmployeeInput(Employee employee) {
         if (getEmployeeFromName(employee.getName()) == null) {
             throw new IllegalArgumentException("Employee not found");
         }
     }
 
+    // Author: GubbeMK
     public void validProjectInput(Project project) {
         if (getProject(project.getName()) == null) {
             throw new IllegalArgumentException("Project not found");
         }
     }
 
+    // Author: GubbeMK
     public void validActivityInput(Activity activity, Project project) {
         if (project.getActivityFromName(activity.getName()) == null) {
             throw new IllegalArgumentException("Activity not found");
         }
     }
 
+    // Author: GubbeMK
     public void validDateInput(LocalDate date) {
         if (date == null) {
             throw new IllegalArgumentException("Date cannot be null");
@@ -168,6 +237,7 @@ public class Company {
         }
     }
 
+    // Author: GubbeMK
     public void validHourInput(double hours) {
         if (hours <= 0) {
             throw new IllegalArgumentException("Hours must be positive");
